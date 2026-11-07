@@ -1,0 +1,77 @@
+{
+ "pipeline": "medical",
+ "infer": [
+  {
+   "id": "c1",
+   "title": "All six keys in bullet format",
+   "description": "The output has exactly six bullet lines. Each line starts with a bullet marker (-, *, or \u2022), then one of these keys (case-insensitive) and a colon: 'chief complaint', 'history of present illness', 'physical examination', 'symptoms', 'new medications', 'follow-up instructions'. Each key appears exactly once, and every value is non-empty (or 'N/A').",
+   "eval_type": "code",
+   "source": "llm"
+  },
+  {
+   "id": "c2",
+   "title": "Word count near 150",
+   "description": "The total word count of the output, counted by splitting on whitespace, is between 100 and 200 words.",
+   "eval_type": "code",
+   "source": "llm"
+  },
+  {
+   "id": "c3",
+   "title": "No personally identifiable information",
+   "description": "The output does not contain the patient's or doctor's name, the patient's age, gender terms or gendered pronouns (he/she/his/her/Mr./Ms.), ID or record numbers, dates of birth, addresses, or phone numbers. It refers to the person only as 'the patient' or in neutral terms.",
+   "eval_type": "llm",
+   "source": "llm"
+  },
+  {
+   "id": "c4",
+   "title": "Faithful to the transcript",
+   "description": "Every symptom, exam finding, diagnosis, medication, dosage, and instruction in the output is stated in or directly supported by the source note or dialogue. Nothing is invented or contradicted.",
+   "eval_type": "llm",
+   "source": "llm"
+  },
+  {
+   "id": "c5",
+   "title": "Correct N/A and dosage handling",
+   "description": "The medications and follow-up fields say 'N/A' only when the transcript truly gives no such information, and are filled in when it does. If the transcript mentions a new or changed medication with a dosage, the output includes both the drug name and the dosage.",
+   "eval_type": "llm",
+   "source": "llm"
+  }
+ ],
+ "grade_first": [
+  {
+   "id": "c1",
+   "title": "Word count within limit",
+   "description": "The output must have no more than 180 words, counted by splitting on whitespace after removing markdown symbols like '**' and '-' (target is about 150; your failing outputs had 211\u2013254 words).",
+   "eval_type": "code",
+   "source": "llm"
+  },
+  {
+   "id": "c2",
+   "title": "No gender or age PII",
+   "description": "The output must not match any of these case-insensitive regexes: gendered pronouns \\b(he|she|him|her|his|hers|himself|herself)\\b; gender words \\b(male|female|man|woman|boy|girl|mr|mrs|ms)\\b; ages \\d+[- ]year[- ]old or \\bage[sd]?\\s+\\d+.",
+   "eval_type": "code",
+   "source": "llm"
+  },
+  {
+   "id": "c3",
+   "title": "All six keys as bullets in order",
+   "description": "The output must have exactly six bullet lines starting with '- ' (bold like '**key:**' is allowed), one each for 'chief complaint:', 'history of present illness:', 'physical examination:', 'symptoms', 'medications' and 'follow-up' (case-insensitive), in that order, with no other content.",
+   "eval_type": "code",
+   "source": "llm"
+  },
+  {
+   "id": "c4",
+   "title": "Faithful to transcript",
+   "description": "Every finding, symptom, medication, dosage, vital sign and instruction in the output must be stated in or directly implied by the transcript, with nothing made up or contradicted.",
+   "eval_type": "llm",
+   "source": "llm"
+  },
+  {
+   "id": "c5",
+   "title": "Medications and follow-up complete with correct N/A use",
+   "description": "If the transcript mentions new or changed medications or follow-up instructions, the output must list them (with dosages for medications when given); it uses 'N/A' only when the transcript truly has no such information.",
+   "eval_type": "llm",
+   "source": "llm"
+  }
+ ]
+}

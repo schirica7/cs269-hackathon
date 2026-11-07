@@ -1,0 +1,10 @@
+# Raw downloads (~100MB); the derived datasets in data/medical.jsonl and data/products.jsonl are committed
+data/raw/
+# Local UI session state and the empty working dir for headless model calls
+data/sessions/
+data/.llm_cwd/
+# Run logs, Python caches, local secrets
+*.log
+__pycache__/
+.DS_Store
+.env

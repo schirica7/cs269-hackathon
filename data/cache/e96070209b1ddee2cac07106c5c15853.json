@@ -1,0 +1,1 @@
+{"text": "{\"good\":true,\"feedback\":\"Accurate, PII-free, covers all fields in the requested format, and stays within about 150 words.\"}", "structured": {"good": true, "feedback": "Accurate, PII-free, covers all fields in the requested format, and stays within about 150 words."}, "model": "claude-sonnet-5-5", "cost_usd": 0.0134412, "ms": 3114, "cached": false}

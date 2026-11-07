@@ -1,0 +1,1281 @@
+{
+ "pipeline": "medical",
+ "agents": {
+  "haiku/isolated": {
+   "vs_expert": {
+    "coverage": 0.9090909090909091,
+    "ffr": 0.4838709677419355,
+    "alignment": 0.6584362139917694,
+    "n_bad": 22,
+    "n_good": 62,
+    "n_assertions": 1,
+    "accuracy": 0.6190476190476191,
+    "agent_bad_rate": 0.5952380952380952
+   },
+   "evalgen_16_agent": {
+    "sampled": [
+     "D2N073",
+     "D2N005",
+     "D2N009",
+     "D2N007",
+     "D2N023",
+     "D2N010",
+     "D2N040",
+     "D2N015",
+     "D2N035",
+     "D2N016",
+     "D2N048",
+     "D2N017",
+     "D2N051",
+     "D2N018",
+     "D2N063",
+     "D2N019"
+    ],
+    "sample_grades": {
+     "D2N073": 0,
+     "D2N005": 0,
+     "D2N009": 0,
+     "D2N007": 1,
+     "D2N023": 0,
+     "D2N010": 1,
+     "D2N040": 1,
+     "D2N015": 1,
+     "D2N035": 0,
+     "D2N016": 1,
+     "D2N048": 0,
+     "D2N017": 1,
+     "D2N051": 0,
+     "D2N018": 1,
+     "D2N063": 0,
+     "D2N019": 1
+    },
+    "chosen": [
+     "m1_2",
+     "m2_1",
+     "m3_1"
+    ],
+    "detail": {
+     "m1": {
+      "m1_1": {
+       "coverage": 0.625,
+       "ffr": 0.125,
+       "alignment": 0.7291666666666666,
+       "n_bad": 8,
+       "n_good": 8,
+       "n_assertions": 1
+      },
+      "m1_2": {
+       "coverage": 0.5,
+       "ffr": 0.0,
+       "alignment": 0.6666666666666666,
+       "n_bad": 8,
+       "n_good": 8,
+       "n_assertions": 1
+      },
+      "m1_3": {
+       "coverage": 0.75,
+       "ffr": 0.125,
+       "alignment": 0.8076923076923077,
+       "n_bad": 8,
+       "n_good": 8,
+       "n_assertions": 1
+      },
+      "selected": "m1_2"
+     },
+     "m2": {
+      "m2_1": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 8,
+       "n_good": 8,
+       "n_assertions": 1
+      },
+      "m2_2": {
+       "coverage": 0.0,
+       "ffr": 0.125,
+       "alignment": 0.0,
+       "n_bad": 8,
+       "n_good": 8,
+       "n_assertions": 1
+      },
+      "m2_3": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 8,
+       "n_good": 8,
+       "n_assertions": 1
+      },
+      "selected": "m2_1"
+     },
+     "m3": {
+      "m3_1": {
+       "coverage": 0.375,
+       "ffr": 0.0,
+       "alignment": 0.5454545454545454,
+       "n_bad": 8,
+       "n_good": 8,
+       "n_assertions": 1
+      },
+      "m3_2": {
+       "coverage": 0.375,
+       "ffr": 0.0,
+       "alignment": 0.5454545454545454,
+       "n_bad": 8,
+       "n_good": 8,
+       "n_assertions": 1
+      },
+      "m3_3": {
+       "coverage": 0.375,
+       "ffr": 0.0,
+       "alignment": 0.5454545454545454,
+       "n_bad": 8,
+       "n_good": 8,
+       "n_assertions": 1
+      },
+      "selected": "m3_1"
+     }
+    },
+    "coverage": 0.5,
+    "ffr": 0.14516129032258066,
+    "alignment": 0.6309523809523809,
+    "n_bad": 22,
+    "n_good": 62,
+    "n_assertions": 3
+   },
+   "evalgen_all_agent": {
+    "chosen": [
+     "m1_1",
+     "m2_1",
+     "m3_2"
+    ],
+    "coverage": 0.9545454545454546,
+    "ffr": 0.06451612903225806,
+    "alignment": 0.9449185415050427,
+    "n_bad": 22,
+    "n_good": 62,
+    "n_assertions": 3
+   },
+   "false_passes": [
+    "D2N041",
+    "D2N040"
+   ],
+   "false_fails": [
+    {
+     "id": "D2N012",
+     "feedback": "The response runs about 200 words, well over the requested ~150. It also lists albuterol under \"new medications prescribed or changed\" even though it is only continued, and it puts PFT and A1c results under physical examination."
+    },
+    {
+     "id": "D2N027",
+     "feedback": "The response runs about 190-200 words against the requested ~150, despite the prompt explicitly asking for summarization to stay near the limit. It also departs from the `key: value.` format by bolding the keys and omitting the trailing periods. Content is otherwise accurate and PII-free."
+    },
+    {
+     "id": "D2N024",
+     "feedback": "The response includes a specific surgery date (\"10-10-2020\") that counts as an identifier under the no-PII rule, and it adds a year the transcript never states. It also lists mederma scar gel as a new medication, though the patient was already using it and the doctor only said to continue, so the field should be N/A or marked as continued."
+    },
+    {
+     "id": "D2N008",
+     "feedback": "The response runs about 195 words, roughly 30% over the requested ~150, mainly from the long history-of-present-illness and symptoms bullets. Trim those to meet the length target."
+    },
+    {
+     "id": "D2N055",
+     "feedback": "The response runs about 200 words against the requested ~150, mainly because the HPI bullet is about 85 words, and it uses bold markdown instead of the plain `key: value.` bullet format. The content is otherwise accurate and PII-free."
+    },
+    {
+     "id": "D2N053",
+     "feedback": "Extraction is mostly accurate and PII-free, but it lists \"continue T-Gel shampoo\" under new or changed medications even though it is unchanged, and the response runs about 170 words against the ~150 target, partly from repeating the \"no joint pain, fever, or weight loss\" detail in two fields."
+    },
+    {
+     "id": "D2N080",
+     "feedback": "The response runs about 185 words, well over the requested ~150, and the prompt's instruction to summarize values to fit was not applied (the HPI alone is ~60 words). It also lists continued, unchanged lisinopril under \"new medications prescribed or changed\" and states physical therapy as \"planned\" when the doctor only said \"we might do some physical therapy.\""
+    },
+    {
+     "id": "D2N030",
+     "feedback": "The response runs about 180 words, well over the requested ~150, and adds details not in the transcript, such as \"mild\" tenderness and a skin exam that \"looked fine.\""
+    },
+    {
+     "id": "D2N044",
+     "feedback": "The response runs about 200 words, well over the requested ~150, and the medications bullet adds extra text after \"N/A\" when the prompt says the value should simply be N/A if no new or changed medication is given."
+    },
+    {
+     "id": "D2N049",
+     "feedback": "The response runs about 195 words, well over the requested ~150, and the HPI bullet is not condensed as the prompt allowed. It also departs from the required `key: value.` format by bolding the keys and omitting the trailing periods. Content is otherwise accurate, with no PII and no unnecessary N/A values."
+    },
+    {
+     "id": "D2N087",
+     "feedback": "The follow-up bullet lists a basic metabolic panel as ordered, but the transcript never says that; the doctor only mentions kidney function. The response is also about 200 words against a ~150-word target, and it lists unchanged medications under \"new or changed.\""
+    },
+    {
+     "id": "D2N011",
+     "feedback": "The response runs about 190-200 words, well over the requested ~150, and the physical exam bullet includes ECG and echo results, which are not part of the physical exam. The content is otherwise accurate and free of PII."
+    },
+    {
+     "id": "D2N059",
+     "feedback": "The content is accurate and PII-free, but the response is about 185 words, well over the requested \"around 150\" (the HPI bullet alone is ~70 words), and the bullets omit the trailing period from the specified `key: xx.` format."
+    },
+    {
+     "id": "D2N003",
+     "feedback": "Content is accurate and PII-free, but the response runs about 200 words against the requested ~150 (the HPI alone is about 60), and the bullets omit the trailing period shown in the `chief complaint: xx.` format."
+    },
+    {
+     "id": "D2N045",
+     "feedback": "The response runs about 190 words, well over the requested ~150, and it lists Tylenol and ibuprofen under \"new medications prescribed or changed\" even though the doctor said to \"stay on\" them, so they are continued rather than new."
+    },
+    {
+     "id": "D2N005",
+     "feedback": "The history of present illness misstates the mechanism: it says the rear-end impact caused the finger to hit the ceiling, but the transcript says the patient hit the ceiling by overenthusiastically flipping off the other driver. Otherwise the format, PII handling, word count, and other fields are acceptable."
+    },
+    {
+     "id": "D2N058",
+     "feedback": "The response runs roughly 200+ words against the requested ~150, and it doesn't summarize values to meet the limit as the prompt allowed. It also wraps keys in bold, which departs from the specified `key: value.` bullet format."
+    },
+    {
+     "id": "D2N064",
+     "feedback": "The response runs about 200 words, well over the requested ~150, and it lists continued NSAIDs under \"new medications prescribed or changed\" when the doctor only told the patient to keep taking them, so that field should be N/A."
+    },
+    {
+     "id": "D2N026",
+     "feedback": "The response fabricates details not in the transcript: gabapentin \"twice daily\" (only \"continue gabapentin\" with unconfirmed dose), \"continue home exercises\" (never mentioned), and a \"left C7-T1 epidural\" (no level or side was specified for the epidural). In a medical extraction task these invented specifics are a serious accuracy failure, even though the PII and format requirements are met."
+    },
+    {
+     "id": "D2N001",
+     "feedback": "The content is accurate and PII-free, but the response is about 185 words, well over the requested \"around 150 words,\" and the prompt's length limit was not met."
+    }
+   ]
+  },
+  "haiku/criteria": {
+   "vs_expert": {
+    "coverage": 0.9090909090909091,
+    "ffr": 0.14516129032258066,
+    "alignment": 0.8811305070656691,
+    "n_bad": 22,
+    "n_good": 62,
+    "n_assertions": 1,
+    "accuracy": 0.8690476190476191,
+    "agent_bad_rate": 0.34523809523809523
+   },
+   "evalgen_16_agent": {
+    "sampled": [
+     "D2N073",
+     "D2N005",
+     "D2N009",
+     "D2N007",
+     "D2N023",
+     "D2N010",
+     "D2N040",
+     "D2N015",
+     "D2N035",
+     "D2N016",
+     "D2N048",
+     "D2N017",
+     "D2N051",
+     "D2N018",
+     "D2N063",
+     "D2N019"
+    ],
+    "sample_grades": {
+     "D2N073": 0,
+     "D2N005": 0,
+     "D2N009": 0,
+     "D2N007": 1,
+     "D2N023": 0,
+     "D2N010": 1,
+     "D2N040": 0,
+     "D2N015": 1,
+     "D2N035": 0,
+     "D2N016": 1,
+     "D2N048": 0,
+     "D2N017": 1,
+     "D2N051": 0,
+     "D2N018": 1,
+     "D2N063": 0,
+     "D2N019": 1
+    },
+    "chosen": [
+     "m1_3",
+     "m2_2",
+     "m3_1"
+    ],
+    "detail": {
+     "m1": {
+      "m1_1": {
+       "coverage": 0.6666666666666666,
+       "ffr": 0.0,
+       "alignment": 0.8,
+       "n_bad": 9,
+       "n_good": 7,
+       "n_assertions": 1
+      },
+      "m1_2": {
+       "coverage": 0.4444444444444444,
+       "ffr": 0.0,
+       "alignment": 0.6153846153846153,
+       "n_bad": 9,
+       "n_good": 7,
+       "n_assertions": 1
+      },
+      "m1_3": {
+       "coverage": 0.7777777777777778,
+       "ffr": 0.0,
+       "alignment": 0.8750000000000001,
+       "n_bad": 9,
+       "n_good": 7,
+       "n_assertions": 1
+      },
+      "selected": "m1_3"
+     },
+     "m2": {
+      "m2_1": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 9,
+       "n_good": 7,
+       "n_assertions": 1
+      },
+      "m2_2": {
+       "coverage": 0.1111111111111111,
+       "ffr": 0.0,
+       "alignment": 0.19999999999999998,
+       "n_bad": 9,
+       "n_good": 7,
+       "n_assertions": 1
+      },
+      "m2_3": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 9,
+       "n_good": 7,
+       "n_assertions": 1
+      },
+      "selected": "m2_2"
+     },
+     "m3": {
+      "m3_1": {
+       "coverage": 0.3333333333333333,
+       "ffr": 0.0,
+       "alignment": 0.5,
+       "n_bad": 9,
+       "n_good": 7,
+       "n_assertions": 1
+      },
+      "m3_2": {
+       "coverage": 0.3333333333333333,
+       "ffr": 0.0,
+       "alignment": 0.5,
+       "n_bad": 9,
+       "n_good": 7,
+       "n_assertions": 1
+      },
+      "m3_3": {
+       "coverage": 0.3333333333333333,
+       "ffr": 0.0,
+       "alignment": 0.5,
+       "n_bad": 9,
+       "n_good": 7,
+       "n_assertions": 1
+      },
+      "selected": "m3_1"
+     }
+    },
+    "coverage": 1.0,
+    "ffr": 0.5161290322580645,
+    "alignment": 0.6521739130434783,
+    "n_bad": 22,
+    "n_good": 62,
+    "n_assertions": 3
+   },
+   "evalgen_all_agent": {
+    "chosen": [
+     "m1_1",
+     "m2_2",
+     "m3_2"
+    ],
+    "coverage": 1.0,
+    "ffr": 0.06451612903225806,
+    "alignment": 0.9666666666666667,
+    "n_bad": 22,
+    "n_good": 62,
+    "n_assertions": 3
+   },
+   "false_passes": [
+    "D2N060",
+    "D2N041"
+   ],
+   "false_fails": [
+    {
+     "id": "D2N024",
+     "feedback": "The response includes a specific surgery date (\"10-10-2020\") and a visit month (\"March\"), which are dates that count as identifiers under the no-PII requirement. The year 2020 is also not in the transcript, which says only \"10-10 20-20\"."
+    },
+    {
+     "id": "D2N087",
+     "feedback": "Meets the criteria (about 185 words, all six keys, no PII), but the follow-up bullet claims a basic metabolic panel was ordered, which the transcript never states; it cuts off mid-discussion of kidney function, so this is a fabricated clinical detail."
+    },
+    {
+     "id": "D2N005",
+     "feedback": "The response meets the word count, all six keys, and the no-PII requirement, but the history of present illness misstates the mechanism: the transcript says the patient hit the ceiling while flipping off the other driver, not because of the rear-end impact. That factual error in a medical extraction makes it unfit to ship."
+    },
+    {
+     "id": "D2N026",
+     "feedback": "It meets the length, six-key, and no-PII criteria, but it adds details not in the transcript: gabapentin \"twice daily,\" \"continue home exercises,\" and a \"left C7-T1 epidural\" (the level is never given for the epidural). Fabricated dosing and procedure details are unacceptable in a medical extraction."
+    },
+    {
+     "id": "D2N021",
+     "feedback": "The format, six keys, word count (~165), and PII checks pass, but the medication bullet lists \"vitamin D 2000 IU daily,\" a dosage that appears nowhere in the visible transcript, and \"Labs ruled out Cushing's syndrome\" overstates the record, since one salivary cortisol was abnormal. Fabricated or overstated medical details make this unsafe to ship."
+    },
+    {
+     "id": "D2N037",
+     "feedback": "The history bullet says ibuprofen \"partially relieved\" the pain, but the patient only said they take 800 mg three times daily and never reported any relief, so this clinical detail is fabricated. The length (~155 words), six keys, and PII-free wording are otherwise fine."
+    },
+    {
+     "id": "D2N028",
+     "feedback": "The follow-up instructions include content not in the transcript: \"return visit in four weeks,\" \"avoid alcohol,\" \"drink at least 48 ounces of water daily,\" and \"avoid trigger foods\" were never stated by the doctor, so this is fabricated medical information. The word count (~195) and six keys are fine, and there is no PII."
+    },
+    {
+     "id": "D2N046",
+     "feedback": "The response fails two criteria: it includes the patient's ages (menarche at age 13, menopause at age 28), which the prompt explicitly bans as PII, and at roughly 215-225 words it exceeds the ~150-word target and the 100-200 range. All six keys are present."
+    },
+    {
+     "id": "D2N062",
+     "feedback": "The response has a garbled token in the HPI bullet (\"odchest pain\"), which a developer would need to fix before shipping a medical summary. It also runs about 203 words, just over the roughly 100\u2013200 target. All six keys are present and there is no PII."
+    }
+   ]
+  },
+  "sonnet/isolated": {
+   "vs_expert": {
+    "coverage": 1.0,
+    "ffr": 0.41935483870967744,
+    "alignment": 0.7346938775510203,
+    "n_bad": 22,
+    "n_good": 62,
+    "n_assertions": 1,
+    "accuracy": 0.6904761904761905,
+    "agent_bad_rate": 0.5714285714285714
+   },
+   "evalgen_16_agent": {
+    "sampled": [
+     "D2N073",
+     "D2N005",
+     "D2N009",
+     "D2N007",
+     "D2N023",
+     "D2N010",
+     "D2N040",
+     "D2N015",
+     "D2N035",
+     "D2N016",
+     "D2N048",
+     "D2N017",
+     "D2N051",
+     "D2N018",
+     "D2N063",
+     "D2N019"
+    ],
+    "sample_grades": {
+     "D2N073": 0,
+     "D2N005": 0,
+     "D2N009": 0,
+     "D2N007": 1,
+     "D2N023": 0,
+     "D2N010": 1,
+     "D2N040": 0,
+     "D2N015": 1,
+     "D2N035": 0,
+     "D2N016": 1,
+     "D2N048": 0,
+     "D2N017": 1,
+     "D2N051": 0,
+     "D2N018": 1,
+     "D2N063": 0,
+     "D2N019": 1
+    },
+    "chosen": [
+     "m1_3",
+     "m2_2",
+     "m3_1"
+    ],
+    "detail": {
+     "m1": {
+      "m1_1": {
+       "coverage": 0.6666666666666666,
+       "ffr": 0.0,
+       "alignment": 0.8,
+       "n_bad": 9,
+       "n_good": 7,
+       "n_assertions": 1
+      },
+      "m1_2": {
+       "coverage": 0.4444444444444444,
+       "ffr": 0.0,
+       "alignment": 0.6153846153846153,
+       "n_bad": 9,
+       "n_good": 7,
+       "n_assertions": 1
+      },
+      "m1_3": {
+       "coverage": 0.7777777777777778,
+       "ffr": 0.0,
+       "alignment": 0.8750000000000001,
+       "n_bad": 9,
+       "n_good": 7,
+       "n_assertions": 1
+      },
+      "selected": "m1_3"
+     },
+     "m2": {
+      "m2_1": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 9,
+       "n_good": 7,
+       "n_assertions": 1
+      },
+      "m2_2": {
+       "coverage": 0.1111111111111111,
+       "ffr": 0.0,
+       "alignment": 0.19999999999999998,
+       "n_bad": 9,
+       "n_good": 7,
+       "n_assertions": 1
+      },
+      "m2_3": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 9,
+       "n_good": 7,
+       "n_assertions": 1
+      },
+      "selected": "m2_2"
+     },
+     "m3": {
+      "m3_1": {
+       "coverage": 0.3333333333333333,
+       "ffr": 0.0,
+       "alignment": 0.5,
+       "n_bad": 9,
+       "n_good": 7,
+       "n_assertions": 1
+      },
+      "m3_2": {
+       "coverage": 0.3333333333333333,
+       "ffr": 0.0,
+       "alignment": 0.5,
+       "n_bad": 9,
+       "n_good": 7,
+       "n_assertions": 1
+      },
+      "m3_3": {
+       "coverage": 0.3333333333333333,
+       "ffr": 0.0,
+       "alignment": 0.5,
+       "n_bad": 9,
+       "n_good": 7,
+       "n_assertions": 1
+      },
+      "selected": "m3_1"
+     }
+    },
+    "coverage": 1.0,
+    "ffr": 0.5161290322580645,
+    "alignment": 0.6521739130434783,
+    "n_bad": 22,
+    "n_good": 62,
+    "n_assertions": 3
+   },
+   "evalgen_all_agent": {
+    "chosen": [
+     "m1_1",
+     "m2_2",
+     "m3_2"
+    ],
+    "coverage": 1.0,
+    "ffr": 0.06451612903225806,
+    "alignment": 0.9666666666666667,
+    "n_bad": 22,
+    "n_good": 62,
+    "n_assertions": 3
+   },
+   "false_passes": [],
+   "false_fails": [
+    {
+     "id": "D2N012",
+     "feedback": "The response is about 210 words, well over the requested ~150. It also lists continued albuterol as a new or changed medication, and it puts test results in the physical exam."
+    },
+    {
+     "id": "D2N027",
+     "feedback": "The response runs about 200 words against a requested ~150, and the medications field says \"N/A\" but then lists unchanged current medications, so it isn't a clean N/A."
+    },
+    {
+     "id": "D2N008",
+     "feedback": "The response is about 200 words, well over the requested ~150-word limit, because it adds extra detail such as the long list of denied symptoms and the echo results."
+    },
+    {
+     "id": "D2N055",
+     "feedback": "The response runs about 200 words, well over the requested ~150, and it uses bold labels instead of the plain `key: value.` format."
+    },
+    {
+     "id": "D2N030",
+     "feedback": "The response is about 220 words, well over the requested ~150. It also wrongly links stopping the birth control pill to the anxiety (the patient tied it to increased hunger), and it adds an inferred genital skin exam."
+    },
+    {
+     "id": "D2N044",
+     "feedback": "The content is accurate and has no PII, but the response is about 200 words against the requested \"around 150\", and the HPI and symptoms sections repeat each other."
+    },
+    {
+     "id": "D2N049",
+     "feedback": "The response runs about 200 words against the requested ~150, and it repeats details across the chief complaint, HPI and symptoms bullets. It also bolds the keys, which departs from the plain `key: value.` format."
+    },
+    {
+     "id": "D2N087",
+     "feedback": "The response lists a \"basic metabolic panel\" as ordered, but the transcript never says this (the doctor only mentions kidney function was normal two months ago). It also runs about 190 words, well over the roughly 150-word target."
+    },
+    {
+     "id": "D2N059",
+     "feedback": "The content is accurate and has no PII, but the response is about 200 words, well over the requested \"around 150\" limit."
+    },
+    {
+     "id": "D2N038",
+     "feedback": "The physical exam says the abdomen has \"splenomegaly\", but the clinician said \"no hepatosplenomegaly\" and then corrected it to \"no splenomegaly\", so this reverses a negative finding."
+    },
+    {
+     "id": "D2N005",
+     "feedback": "The HPI says the rear-end impact made the finger hit the car ceiling, but the patient said she hit the ceiling while angrily gesturing after the collision, so the injury mechanism is wrong."
+    },
+    {
+     "id": "D2N058",
+     "feedback": "The content is accurate and has no PII, but the response runs about 200 words, well over the requested ~150. The follow-up bullet could have dropped the continued-medication list."
+    },
+    {
+     "id": "D2N057",
+     "feedback": "The response is about 210 words, roughly 40% over the requested ~150, and it should have been summarized more tightly."
+    },
+    {
+     "id": "D2N064",
+     "feedback": "The response runs about 200 words, well over the roughly 150-word limit, and it adds an unsupported \"inversion injury\" mechanism that the transcript never states."
+    },
+    {
+     "id": "D2N026",
+     "feedback": "The response includes details the transcript doesn't support: gabapentin \"twice daily\", a \"left C7-T1 epidural\", and \"continue home exercises\". Also, it doesn't mention that the patient takes Eliquis, even though the doctor believed there were no blood thinners."
+    },
+    {
+     "id": "D2N001",
+     "feedback": "The response is about 190 words, well over the ~150-word limit. It also uses bold markdown instead of the plain `key: value.` format, and the HPI says the patient is \"taking their medications\" when the patient mainly reports forgetting blood pressure medication."
+    },
+    {
+     "id": "D2N082",
+     "feedback": "Metformin was started earlier by the PCP and wasn't prescribed or changed at this visit, so the medications field should be N/A. The response also runs well over the ~150-word target."
+    },
+    {
+     "id": "D2N014",
+     "feedback": "The response runs about 200 words, well over the requested ~150, and it adds detail such as the ECG, echo, biopsy and prior surgeries that should have been condensed."
+    },
+    {
+     "id": "D2N067",
+     "feedback": "The response says the pain is \"7/10 at rest\", but the patient never said that and the pain is mainly with walking. It also runs about 200 words against a 150-word target, and it leaves out the prior right knee surgery and the PCL strain assessment."
+    },
+    {
+     "id": "D2N021",
+     "feedback": "The response invents details not in the transcript (Phexxi, vitamin D 2000 IU, low-carb diet, avoid alcohol, benzoyl peroxide at night, repeat all labs, call within a month), and it wrongly says the patient stopped birth control."
+    }
+   ]
+  },
+  "sonnet/criteria": {
+   "vs_expert": {
+    "coverage": 0.8636363636363636,
+    "ffr": 0.03225806451612903,
+    "alignment": 0.9127301841473178,
+    "n_bad": 22,
+    "n_good": 62,
+    "n_assertions": 1,
+    "accuracy": 0.9404761904761905,
+    "agent_bad_rate": 0.25
+   },
+   "evalgen_16_agent": {
+    "sampled": [
+     "D2N073",
+     "D2N005",
+     "D2N009",
+     "D2N007",
+     "D2N023",
+     "D2N010",
+     "D2N040",
+     "D2N015",
+     "D2N035",
+     "D2N016",
+     "D2N048",
+     "D2N017",
+     "D2N051",
+     "D2N018",
+     "D2N063",
+     "D2N019"
+    ],
+    "sample_grades": {
+     "D2N073": 0,
+     "D2N005": 1,
+     "D2N009": 0,
+     "D2N007": 1,
+     "D2N023": 0,
+     "D2N010": 1,
+     "D2N040": 0,
+     "D2N015": 1,
+     "D2N035": 0,
+     "D2N016": 1,
+     "D2N048": 0,
+     "D2N017": 1,
+     "D2N051": 0,
+     "D2N018": 1,
+     "D2N063": 0,
+     "D2N019": 1
+    },
+    "chosen": [
+     "m1_3",
+     "m2_2",
+     "m3_1"
+    ],
+    "detail": {
+     "m1": {
+      "m1_1": {
+       "coverage": 0.75,
+       "ffr": 0.0,
+       "alignment": 0.8571428571428571,
+       "n_bad": 8,
+       "n_good": 8,
+       "n_assertions": 1
+      },
+      "m1_2": {
+       "coverage": 0.5,
+       "ffr": 0.0,
+       "alignment": 0.6666666666666666,
+       "n_bad": 8,
+       "n_good": 8,
+       "n_assertions": 1
+      },
+      "m1_3": {
+       "coverage": 0.875,
+       "ffr": 0.0,
+       "alignment": 0.9333333333333333,
+       "n_bad": 8,
+       "n_good": 8,
+       "n_assertions": 1
+      },
+      "selected": "m1_3"
+     },
+     "m2": {
+      "m2_1": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 8,
+       "n_good": 8,
+       "n_assertions": 1
+      },
+      "m2_2": {
+       "coverage": 0.125,
+       "ffr": 0.0,
+       "alignment": 0.2222222222222222,
+       "n_bad": 8,
+       "n_good": 8,
+       "n_assertions": 1
+      },
+      "m2_3": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 8,
+       "n_good": 8,
+       "n_assertions": 1
+      },
+      "selected": "m2_2"
+     },
+     "m3": {
+      "m3_1": {
+       "coverage": 0.375,
+       "ffr": 0.0,
+       "alignment": 0.5454545454545454,
+       "n_bad": 8,
+       "n_good": 8,
+       "n_assertions": 1
+      },
+      "m3_2": {
+       "coverage": 0.375,
+       "ffr": 0.0,
+       "alignment": 0.5454545454545454,
+       "n_bad": 8,
+       "n_good": 8,
+       "n_assertions": 1
+      },
+      "m3_3": {
+       "coverage": 0.375,
+       "ffr": 0.0,
+       "alignment": 0.5454545454545454,
+       "n_bad": 8,
+       "n_good": 8,
+       "n_assertions": 1
+      },
+      "selected": "m3_1"
+     }
+    },
+    "coverage": 1.0,
+    "ffr": 0.5161290322580645,
+    "alignment": 0.6521739130434783,
+    "n_bad": 22,
+    "n_good": 62,
+    "n_assertions": 3
+   },
+   "evalgen_all_agent": {
+    "chosen": [
+     "m1_1",
+     "m2_2",
+     "m3_2"
+    ],
+    "coverage": 1.0,
+    "ffr": 0.06451612903225806,
+    "alignment": 0.9666666666666667,
+    "n_bad": 22,
+    "n_good": 62,
+    "n_assertions": 3
+   },
+   "false_passes": [
+    "D2N068",
+    "D2N084",
+    "D2N041"
+   ],
+   "false_fails": [
+    {
+     "id": "D2N021",
+     "feedback": "The response fabricates details that aren't in the transcript: Phexxi, vitamin D 2000 IU daily, benzoyl peroxide at night, a low-carb/no-alcohol diet, repeating all labs, and calling within a month. This breaks the extraction task and is unsafe in a medical record, even though the length, the six keys and the PII rules are met."
+    },
+    {
+     "id": "D2N046",
+     "feedback": "The response is about 200 words, which is well over the requested ~150 and at the very top of the allowed range. The history of present illness is bloated with details like menarche and menopause ages, and it includes \"age 13\" and \"age 28\" references."
+    }
+   ]
+  },
+  "opus/isolated": {
+   "vs_expert": {
+    "coverage": 1.0,
+    "ffr": 0.5645161290322581,
+    "alignment": 0.6067415730337078,
+    "n_bad": 22,
+    "n_good": 62,
+    "n_assertions": 1,
+    "accuracy": 0.5833333333333334,
+    "agent_bad_rate": 0.6785714285714286
+   },
+   "evalgen_16_agent": {
+    "sampled": [
+     "D2N073",
+     "D2N005",
+     "D2N009",
+     "D2N007",
+     "D2N023",
+     "D2N010",
+     "D2N040",
+     "D2N015",
+     "D2N035",
+     "D2N016",
+     "D2N048",
+     "D2N017",
+     "D2N051",
+     "D2N018",
+     "D2N063",
+     "D2N019"
+    ],
+    "sample_grades": {
+     "D2N073": 0,
+     "D2N005": 0,
+     "D2N009": 0,
+     "D2N007": 1,
+     "D2N023": 0,
+     "D2N010": 1,
+     "D2N040": 0,
+     "D2N015": 1,
+     "D2N035": 0,
+     "D2N016": 0,
+     "D2N048": 0,
+     "D2N017": 1,
+     "D2N051": 0,
+     "D2N018": 1,
+     "D2N063": 0,
+     "D2N019": 1
+    },
+    "chosen": [
+     "m1_3",
+     "m2_2",
+     "m3_1"
+    ],
+    "detail": {
+     "m1": {
+      "m1_1": {
+       "coverage": 0.6,
+       "ffr": 0.0,
+       "alignment": 0.7499999999999999,
+       "n_bad": 10,
+       "n_good": 6,
+       "n_assertions": 1
+      },
+      "m1_2": {
+       "coverage": 0.4,
+       "ffr": 0.0,
+       "alignment": 0.5714285714285715,
+       "n_bad": 10,
+       "n_good": 6,
+       "n_assertions": 1
+      },
+      "m1_3": {
+       "coverage": 0.7,
+       "ffr": 0.0,
+       "alignment": 0.8235294117647058,
+       "n_bad": 10,
+       "n_good": 6,
+       "n_assertions": 1
+      },
+      "selected": "m1_3"
+     },
+     "m2": {
+      "m2_1": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 10,
+       "n_good": 6,
+       "n_assertions": 1
+      },
+      "m2_2": {
+       "coverage": 0.1,
+       "ffr": 0.0,
+       "alignment": 0.18181818181818182,
+       "n_bad": 10,
+       "n_good": 6,
+       "n_assertions": 1
+      },
+      "m2_3": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 10,
+       "n_good": 6,
+       "n_assertions": 1
+      },
+      "selected": "m2_2"
+     },
+     "m3": {
+      "m3_1": {
+       "coverage": 0.3,
+       "ffr": 0.0,
+       "alignment": 0.4615384615384615,
+       "n_bad": 10,
+       "n_good": 6,
+       "n_assertions": 1
+      },
+      "m3_2": {
+       "coverage": 0.3,
+       "ffr": 0.0,
+       "alignment": 0.4615384615384615,
+       "n_bad": 10,
+       "n_good": 6,
+       "n_assertions": 1
+      },
+      "m3_3": {
+       "coverage": 0.3,
+       "ffr": 0.0,
+       "alignment": 0.4615384615384615,
+       "n_bad": 10,
+       "n_good": 6,
+       "n_assertions": 1
+      },
+      "selected": "m3_1"
+     }
+    },
+    "coverage": 1.0,
+    "ffr": 0.5161290322580645,
+    "alignment": 0.6521739130434783,
+    "n_bad": 22,
+    "n_good": 62,
+    "n_assertions": 3
+   },
+   "evalgen_all_agent": {
+    "chosen": [
+     "m1_3",
+     "m2_2",
+     "m3_2"
+    ],
+    "coverage": 1.0,
+    "ffr": 0.43548387096774194,
+    "alignment": 0.7216494845360825,
+    "n_bad": 22,
+    "n_good": 62,
+    "n_assertions": 3
+   },
+   "false_passes": [],
+   "false_fails": [
+    {
+     "id": "D2N012",
+     "feedback": "At about 200 words, the response runs well over the requested ~150 (the history of present illness bullet alone is about 70 words), and the bold keys break the plain `chief complaint: xx.` bullet format, even though the extracted content is accurate and free of PII."
+    },
+    {
+     "id": "D2N025",
+     "feedback": "The response is about 178 words, well over the \"around 150\" limit, and it puts the keys in bold markdown (`**chief complaint:**`), which doesn't match the required plain `chief complaint: xx.` bullet format."
+    },
+    {
+     "id": "D2N008",
+     "feedback": "At about 190 words, the response runs roughly 25% over the \"around 150 words\" target, and the long list of denials and extra details could easily have been trimmed; mentioning \"heavy menstrual bleeding\" also implicitly reveals the patient's gender, which the prompt counts as PII."
+    },
+    {
+     "id": "D2N055",
+     "feedback": "At about 195 words, the response runs well over the ~150-word limit, and its bold markdown labels don't match the required plain `chief complaint: xx.` bullet format."
+    },
+    {
+     "id": "D2N030",
+     "feedback": "The response gets key facts wrong: it places the \"little bumps\" in the neck, but they are the breast lumps found with the patient's arm raised. It also links the anxiety to stopping birth control, which the transcript never says, and leaves out Singulair, the cause the patient actually suspected. It runs to about 183 words, well over the ~150 target."
+    },
+    {
+     "id": "D2N044",
+     "feedback": "The response is accurate, free of PII and correctly formatted, but at about 190 words it's well over the ~150-word target, and the history and symptoms bullets repeat each other where they could have been shortened."
+    },
+    {
+     "id": "D2N049",
+     "feedback": "The response is about 197 words, well over the requested ~150, and it repeats itself: the chief complaint restates the HPI, and the symptoms bullet repeats it again; it also uses bold markdown keys instead of the plain `chief complaint: xx.` format."
+    },
+    {
+     "id": "D2N070",
+     "feedback": "The history of present illness leaves out when the pain started and never names the patient's diabetes, hypertension or osteoarthritis, and the bolded keys don't match the requested plain `chief complaint: xx.` format."
+    },
+    {
+     "id": "D2N087",
+     "feedback": "The follow-up item lists a \"basic metabolic panel ordered\", but the transcript never orders one: it cuts off while the doctor says kidney function was checked two months ago. The response is also about 184 words, well over the requested ~150."
+    },
+    {
+     "id": "D2N011",
+     "feedback": "The response is about 198 words, well over the \"around 150 words\" limit, even though the prompt explicitly asked for summarizing (the history of present illness alone is about 85 words); the keys are also bolded instead of using the plain `chief complaint: xx.` format."
+    },
+    {
+     "id": "D2N059",
+     "feedback": "The response runs about 182 words against a ~150-word limit the prompt asked it to stay within, and most of the excess comes from the long history-of-present-illness bullet repeating what's already in the symptoms bullet."
+    },
+    {
+     "id": "D2N003",
+     "feedback": "The response is accurate, contains no PII and is formatted correctly, but at about 190 words it runs well past the requested \"around 150 words\" limit, even though the prompt said to summarize to stay within it."
+    },
+    {
+     "id": "D2N045",
+     "feedback": "At about 190 words, the response goes well past the requested ~150-word limit, and it repeats details between bullets instead of summarizing."
+    },
+    {
+     "id": "D2N038",
+     "feedback": "The exam bullet reports splenomegaly as present when the transcript says \"no hepatosplenomegaly\", and the follow-up calls the family's hepatitis C antibody screening a repeat test for the patient."
+    },
+    {
+     "id": "D2N005",
+     "feedback": "The history of present illness gets the injury mechanism wrong: the collision didn't drive the finger into the ceiling, the patient hit the ceiling while making an angry hand gesture at the other driver. Format, PII removal and the roughly 150-word length are fine."
+    },
+    {
+     "id": "D2N058",
+     "feedback": "At about 193 words the response is roughly 30% over the ~150-word target, and the bold labels (`**chief complaint:**`) don't match the requested `chief complaint: xx.` format; listing every continued medication in follow-up instructions adds length that could have been cut."
+    },
+    {
+     "id": "D2N016",
+     "feedback": "At about 180 words, the response goes over the prompt's ~150-word limit, and it bolds the keys instead of using the plain `chief complaint: xx.` bullet format the prompt specifies."
+    },
+    {
+     "id": "D2N032",
+     "feedback": "The physical exam bullet gets a finding wrong: it says the low back has full range of motion, but the doctor said low back range of motion was decreased in extension (only the neck was full and painless)."
+    },
+    {
+     "id": "D2N057",
+     "feedback": "At roughly 193 words, the response is well over the \"around 150 words\" limit, and the symptoms bullet repeats much of the history of present illness instead of summarizing."
+    },
+    {
+     "id": "D2N056",
+     "feedback": "At about 180 words, the response runs well past the \"around 150\" limit, and the history line says the sibling doesn't wear a mask when the key fact is that the patient doesn't."
+    }
+   ]
+  },
+  "opus/criteria": {
+   "vs_expert": {
+    "coverage": 0.9545454545454546,
+    "ffr": 0.08064516129032258,
+    "alignment": 0.9366197183098591,
+    "n_bad": 22,
+    "n_good": 62,
+    "n_assertions": 1,
+    "accuracy": 0.9285714285714286,
+    "agent_bad_rate": 0.30952380952380953
+   },
+   "evalgen_16_agent": {
+    "sampled": [
+     "D2N073",
+     "D2N005",
+     "D2N009",
+     "D2N007",
+     "D2N023",
+     "D2N010",
+     "D2N040",
+     "D2N015",
+     "D2N035",
+     "D2N016",
+     "D2N048",
+     "D2N017",
+     "D2N051",
+     "D2N018",
+     "D2N063",
+     "D2N019"
+    ],
+    "sample_grades": {
+     "D2N073": 0,
+     "D2N005": 1,
+     "D2N009": 0,
+     "D2N007": 1,
+     "D2N023": 0,
+     "D2N010": 1,
+     "D2N040": 0,
+     "D2N015": 1,
+     "D2N035": 0,
+     "D2N016": 1,
+     "D2N048": 0,
+     "D2N017": 1,
+     "D2N051": 0,
+     "D2N018": 1,
+     "D2N063": 0,
+     "D2N019": 1
+    },
+    "chosen": [
+     "m1_3",
+     "m2_2",
+     "m3_1"
+    ],
+    "detail": {
+     "m1": {
+      "m1_1": {
+       "coverage": 0.75,
+       "ffr": 0.0,
+       "alignment": 0.8571428571428571,
+       "n_bad": 8,
+       "n_good": 8,
+       "n_assertions": 1
+      },
+      "m1_2": {
+       "coverage": 0.5,
+       "ffr": 0.0,
+       "alignment": 0.6666666666666666,
+       "n_bad": 8,
+       "n_good": 8,
+       "n_assertions": 1
+      },
+      "m1_3": {
+       "coverage": 0.875,
+       "ffr": 0.0,
+       "alignment": 0.9333333333333333,
+       "n_bad": 8,
+       "n_good": 8,
+       "n_assertions": 1
+      },
+      "selected": "m1_3"
+     },
+     "m2": {
+      "m2_1": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 8,
+       "n_good": 8,
+       "n_assertions": 1
+      },
+      "m2_2": {
+       "coverage": 0.125,
+       "ffr": 0.0,
+       "alignment": 0.2222222222222222,
+       "n_bad": 8,
+       "n_good": 8,
+       "n_assertions": 1
+      },
+      "m2_3": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 8,
+       "n_good": 8,
+       "n_assertions": 1
+      },
+      "selected": "m2_2"
+     },
+     "m3": {
+      "m3_1": {
+       "coverage": 0.375,
+       "ffr": 0.0,
+       "alignment": 0.5454545454545454,
+       "n_bad": 8,
+       "n_good": 8,
+       "n_assertions": 1
+      },
+      "m3_2": {
+       "coverage": 0.375,
+       "ffr": 0.0,
+       "alignment": 0.5454545454545454,
+       "n_bad": 8,
+       "n_good": 8,
+       "n_assertions": 1
+      },
+      "m3_3": {
+       "coverage": 0.375,
+       "ffr": 0.0,
+       "alignment": 0.5454545454545454,
+       "n_bad": 8,
+       "n_good": 8,
+       "n_assertions": 1
+      },
+      "selected": "m3_1"
+     }
+    },
+    "coverage": 1.0,
+    "ffr": 0.5161290322580645,
+    "alignment": 0.6521739130434783,
+    "n_bad": 22,
+    "n_good": 62,
+    "n_assertions": 3
+   },
+   "evalgen_all_agent": {
+    "chosen": [
+     "m1_1",
+     "m2_2",
+     "m3_2"
+    ],
+    "coverage": 1.0,
+    "ffr": 0.06451612903225806,
+    "alignment": 0.9666666666666667,
+    "n_bad": 22,
+    "n_good": 62,
+    "n_assertions": 3
+   },
+   "false_passes": [
+    "D2N041"
+   ],
+   "false_fails": [
+    {
+     "id": "D2N012",
+     "feedback": "At about 203\u2013209 words the response is over the roughly 100\u2013200 word range, and well over the ~150-word target, because it includes extra details (exercise habits, the unchanged albuterol, the nurse note) instead of summarizing."
+    },
+    {
+     "id": "D2N026",
+     "feedback": "The response meets the three listed criteria (about 144 words, all six keys, no PII), but it adds medical details that aren't in the transcript: gabapentin \"twice daily\" (the dose and frequency were never stated), \"continue home exercises\" (never mentioned) and a \"left C7-T1\" epidural level (not given in the plan), so it isn't safe to ship."
+    },
+    {
+     "id": "D2N028",
+     "feedback": "The follow-up section includes details that aren't in the provided transcript (\"return visit in four weeks\", \"avoid alcohol\", \"drink at least 48 ounces of water daily\"), which is unacceptable for medical record extraction; on top of that, the response is about 199\u2013205 words, at or just over the top of the allowed range, not around 150."
+    },
+    {
+     "id": "D2N046",
+     "feedback": "At about 203\u2013209 words the response is over the 100\u2013200 range, and it repeats details (pain/bleeding three times, no vomiting twice) instead of summarizing toward about 150 words."
+    },
+    {
+     "id": "D2N062",
+     "feedback": "At about 203 words, the response is over the roughly 100\u2013200 word range and well above the requested ~150, and it has errors: the garbled word \"odchest\" and a misreading that the epigastric tenderness \"resolved on re-palpation\" (the second press was the Murphy's sign check)."
+    }
+   ]
+  }
+ }
+}

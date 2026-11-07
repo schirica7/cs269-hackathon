@@ -1,0 +1,1 @@
+{"text": "{\"good\":true,\"feedback\":\"The description is positive, has no links, uses Markdown with subheadings, and is about 200 words.\"}", "structured": {"good": true, "feedback": "The description is positive, has no links, uses Markdown with subheadings, and is about 200 words."}, "model": "claude-sonnet-5-5", "cost_usd": 0.0134287, "ms": 3411, "cached": false}

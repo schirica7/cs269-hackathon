@@ -1,0 +1,1 @@
+{"text": "{\"good\":true,\"feedback\":\"At about 170 words, the response includes all six keys, contains no PII, and matches the transcript.\"}", "structured": {"good": true, "feedback": "At about 170 words, the response includes all six keys, contains no PII, and matches the transcript."}, "model": "claude-opus-5-5", "cost_usd": 0.0706426, "ms": 12488, "cached": false}

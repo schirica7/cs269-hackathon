@@ -1,0 +1,77 @@
+{
+ "pipeline": "product",
+ "infer": [
+  {
+   "id": "c1",
+   "title": "Word count within limit",
+   "description": "With Markdown syntax (#, *, -, etc.) removed, the description has between 150 and 300 words, counting whitespace-separated tokens.",
+   "eval_type": "code",
+   "source": "llm"
+  },
+  {
+   "id": "c2",
+   "title": "Has Markdown subheadings",
+   "description": "The output has at least two Markdown heading lines (lines matching the regex ^#{1,6}\\s+\\S) that split the text into sections.",
+   "eval_type": "code",
+   "source": "llm"
+  },
+  {
+   "id": "c3",
+   "title": "No links",
+   "description": "The output has no URLs or links, meaning nothing matches http://, https://, www., Markdown link syntax [text](url), or bare domains such as example.com.",
+   "eval_type": "code",
+   "source": "llm"
+  },
+  {
+   "id": "c4",
+   "title": "Features and benefits kept distinct",
+   "description": "The description names concrete product features and, separately, explains how those features improve the buyer's life, rather than listing only specs or only vague claims.",
+   "eval_type": "llm",
+   "source": "llm"
+  },
+  {
+   "id": "c5",
+   "title": "No made-up quotes or claims",
+   "description": "Compared with the input document, the output has no invented review quotes or customer testimonials, and no product claims or specs that the product details or reviews don't support.",
+   "eval_type": "llm",
+   "source": "llm"
+  }
+ ],
+ "grade_first": [
+  {
+   "id": "c1",
+   "title": "No meta-commentary",
+   "description": "The output contains only the product description copy itself. Fail if it includes any notes, explanations or caveats addressed to the requester, such as 'Notes for your review' or remarks about omitted reviews, source conflicts, softened claims, assumptions or free items, whether before or after the copy.",
+   "eval_type": "llm",
+   "source": "llm"
+  },
+  {
+   "id": "c2",
+   "title": "No author-voice markers",
+   "description": "Fail if a case-insensitive regex finds a first-person singular pronoun as a whole word (I, I've, I'm, I'd, I'll, me, my), a line starting with 'Note' or 'Notes' (optionally after '*', '_', '#' or '>'), or the phrases 'for your review', 'let me know' or 'I omitted'.",
+   "eval_type": "code",
+   "source": "llm"
+  },
+  {
+   "id": "c3",
+   "title": "Word count within limit",
+   "description": "After Markdown symbols (#, *, -, >) are stripped, the whitespace-split word count of the whole output is between 150 and 300 inclusive.",
+   "eval_type": "code",
+   "source": "llm"
+  },
+  {
+   "id": "c4",
+   "title": "Subheadings present, no links",
+   "description": "The output has at least two Markdown subheading lines (starting with '## ' or '### ') and contains no hyperlinks, meaning no 'http://', 'https://', 'www.' or '[text](url)' patterns.",
+   "eval_type": "code",
+   "source": "llm"
+  },
+  {
+   "id": "c5",
+   "title": "Ends with call to action",
+   "description": "The last paragraph or section of the output is a clear call to action urging the buyer to purchase or try the product, and no other content follows it.",
+   "eval_type": "llm",
+   "source": "llm"
+  }
+ ]
+}

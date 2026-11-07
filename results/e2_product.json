@@ -1,0 +1,1492 @@
+{
+ "pipeline": "product",
+ "agents": {
+  "haiku/isolated": {
+   "vs_expert": {
+    "coverage": 0.75,
+    "ffr": 0.4673913043478261,
+    "alignment": 0.6228813559322033,
+    "n_bad": 8,
+    "n_good": 92,
+    "n_assertions": 1,
+    "accuracy": 0.55,
+    "agent_bad_rate": 0.49
+   },
+   "evalgen_16_agent": {
+    "sampled": [
+     "B001V6SN5G",
+     "B001MP47WE",
+     "B07FMH13N6",
+     "B00776E934",
+     "B00011JN5G",
+     "B01GL4HV64",
+     "B01F99RQQW",
+     "B01M7UMAUG",
+     "B07W95JDDR",
+     "B07PYDRX18",
+     "B08P53H9BV",
+     "B07Q2G8WBV",
+     "B01F4N9MEC",
+     "B08ZBCGXSS",
+     "B01N7GX3XP",
+     "B0BFGRJV4H"
+    ],
+    "sample_grades": {
+     "B001V6SN5G": 0,
+     "B001MP47WE": 1,
+     "B07FMH13N6": 0,
+     "B00776E934": 0,
+     "B00011JN5G": 1,
+     "B01GL4HV64": 1,
+     "B01F99RQQW": 0,
+     "B01M7UMAUG": 1,
+     "B07W95JDDR": 0,
+     "B07PYDRX18": 0,
+     "B08P53H9BV": 1,
+     "B07Q2G8WBV": 0,
+     "B01F4N9MEC": 0,
+     "B08ZBCGXSS": 1,
+     "B01N7GX3XP": 0,
+     "B0BFGRJV4H": 1
+    },
+    "chosen": [
+     "p1_3",
+     "p2_1",
+     "p3_1",
+     "p4_3"
+    ],
+    "detail": {
+     "p1": {
+      "p1_1": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 9,
+       "n_good": 7,
+       "n_assertions": 1
+      },
+      "p1_2": {
+       "coverage": 0.2222222222222222,
+       "ffr": 0.14285714285714285,
+       "alignment": 0.3529411764705882,
+       "n_bad": 9,
+       "n_good": 7,
+       "n_assertions": 1
+      },
+      "p1_3": {
+       "coverage": 0.6666666666666666,
+       "ffr": 0.2857142857142857,
+       "alignment": 0.689655172413793,
+       "n_bad": 9,
+       "n_good": 7,
+       "n_assertions": 1
+      },
+      "selected": "p1_3"
+     },
+     "p2": {
+      "p2_1": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 9,
+       "n_good": 7,
+       "n_assertions": 1
+      },
+      "p2_2": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 9,
+       "n_good": 7,
+       "n_assertions": 1
+      },
+      "p2_3": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 9,
+       "n_good": 7,
+       "n_assertions": 1
+      },
+      "selected": "p2_1"
+     },
+     "p3": {
+      "p3_1": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 9,
+       "n_good": 7,
+       "n_assertions": 1
+      },
+      "p3_2": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 9,
+       "n_good": 7,
+       "n_assertions": 1
+      },
+      "p3_3": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 9,
+       "n_good": 7,
+       "n_assertions": 1
+      },
+      "selected": "p3_1"
+     },
+     "p4": {
+      "p4_1": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 9,
+       "n_good": 7,
+       "n_assertions": 1
+      },
+      "p4_2": {
+       "coverage": 0.3333333333333333,
+       "ffr": 0.2857142857142857,
+       "alignment": 0.4545454545454545,
+       "n_bad": 9,
+       "n_good": 7,
+       "n_assertions": 1
+      },
+      "p4_3": {
+       "coverage": 0.5555555555555556,
+       "ffr": 0.0,
+       "alignment": 0.7142857142857143,
+       "n_bad": 9,
+       "n_good": 7,
+       "n_assertions": 1
+      },
+      "selected": "p4_3"
+     }
+    },
+    "coverage": 0.75,
+    "ffr": 0.9130434782608695,
+    "alignment": 0.15584415584415592,
+    "n_bad": 8,
+    "n_good": 92,
+    "n_assertions": 4
+   },
+   "evalgen_all_agent": {
+    "chosen": [
+     "p1_2",
+     "p2_1",
+     "p3_1",
+     "p4_3"
+    ],
+    "coverage": 0.25,
+    "ffr": 0.31521739130434784,
+    "alignment": 0.36627906976744184,
+    "n_bad": 8,
+    "n_good": 92,
+    "n_assertions": 4
+   },
+   "false_passes": [
+    "B00011JN5G",
+    "B00ANIQPZ8"
+   ],
+   "false_fails": [
+    {
+     "id": "B00UFVS0G0",
+     "feedback": "The \"fraction of the cost of replacing bottles\" claim is invented, since the product data lists no price, and it overpromises savings the prompt forbids; the \"concentrated formulas last longer\" line is also a mild stretch beyond what the reviews support."
+    },
+    {
+     "id": "B01A3I5IGE",
+     "feedback": "The copy invents product claims not in the source, such as the 28mm head \"suits most nail shapes,\" \"conforms to the nail surface,\" \"Salon-Style Designs,\" and \"experiment with new looks every week,\" which conflicts with the prompt's no-overpromising rule. It also lacks clear feature-versus-benefit separation and repeats the full product name several times."
+    },
+    {
+     "id": "B08GKL32C9",
+     "feedback": "It overpromises despite the reviews: it claims talking and breathing \"feel more comfortable\" and that the frame fits the face well, though reviewers say they couldn't talk while wearing it and it doesn't stay in place. It also contradicts itself by saying \"Every pack includes five\" right before listing 5/10/15/20-piece options, and it repeats \"breathe/breathing\" heavily."
+    },
+    {
+     "id": "B0BC2XLWML",
+     "feedback": "The copy claims the holder \"assembles and removes without tools,\" which the source never states (it only says \"easy to assemble and disassemble\"), so it is an invented spec in shipping product copy. Otherwise the length, structure, and CTA are fine, but a few sentences also drift into passive voice."
+    },
+    {
+     "id": "B01LXVXVJ7",
+     "feedback": "The copy overpromises in ways the reviews contradict: \"built for durability\" ignores reports of screws falling out and parts breaking within days, and \"without the risk\" ignores the reviewer warning of sharp parts that can cause injury. It also calls the product \"one-piece\" despite its foldable design, and the \"too small for adults\" concern is left unaddressed while the copy claims it suits experienced flippers."
+    },
+    {
+     "id": "B01F99RQQW",
+     "feedback": "The response overpromises beyond the source: it claims the pads \"resist the odor buildup common with traditional loofah,\" but the review only says these wring out easily while other loofah forms don't. It also adds unsupported claims like reaching the back and legs and a \"Risk-Free\" heading that never mentions the refund. Otherwise the format, length, and no-links/no-quotes rules are met."
+    },
+    {
+     "id": "B00PI8LB3E",
+     "feedback": "The response does not clearly distinguish features from benefits as required: the packaging and certification sections just list features (pump top, BPA-free, PETA, made in USA) with no buyer benefit, and it overpromises slightly with \"kids look forward to\" bath time, which the reviews don't support."
+    },
+    {
+     "id": "B07D324TZR",
+     "feedback": "Length (~210 words), Markdown, subheadings, CTA, and omission of weaknesses are all fine, but the prompt requires active voice and several sentences are passive (\"Each handle is made from,\" \"are designed to help,\" \"Each brush is individually numbered,\" \"are made from petroleum\"). It also never clearly separates features from benefits, and some phrasing is generic (\"Shop With Confidence,\" \"practical alternative\")."
+    },
+    {
+     "id": "B0813XZYZ1",
+     "feedback": "The prompt requires clearly distinguishing features from benefits and explaining how the product improves the buyer's life, but the response mostly restates usage instructions and never clearly states benefits (e.g., comfort, confidence, gentle daily care). It also drops the 4-10 day usage duration and offers thin SEO beyond the product name."
+    },
+    {
+     "id": "B07K4XLFC5",
+     "feedback": "The copy overpromises in ways the reviews contradict: it claims combs are more comfortable for the scalp and that they \"hold up through daily use,\" but a review says the combs scratch the head and another calls the material flimsy. Otherwise the length, headings, Markdown, active voice, and CTA meet the brief."
+    },
+    {
+     "id": "B07Q2G8WBV",
+     "feedback": "The response avoids weaknesses, invented quotes, and links, and it meets the length, Markdown, and subheading requirements. However, it breaks the explicit \"no generic or repetitive language\" rule: \"versatile\" appears in the title and the CTA, \"home\"/\"keep\" repeat across several sections, and filler like \"dependable option,\" \"practical addition,\" and \"ready for whatever comes next\" adds little specific benefit. The \"loyal following\" claim is also not supported by the input."
+    },
+    {
+     "id": "B00A7KLMOG",
+     "feedback": "The \"Built for Beginners\" section overpromises: several reviews say the kit is too difficult, with tiny, inadequate instructions, which the copy spins as \"basic instructions... help you get started.\" The final \"Value\" section is also generic and vague, and the copy runs about 180 words, slightly under the ~200 target."
+    },
+    {
+     "id": "B018T24L14",
+     "feedback": "The description doesn't clearly separate features from benefits as the prompt requires, and it overstates the evidence: \"every hair type\" goes beyond the fine and thick hair mentioned in reviews, \"many repeat buyers\" stretches a few reviews, and \"slim design\" and \"smooth\" feel are unsupported by the empty Features field. It also runs about 165 words, short of the ~200 target, and repeats \"grooming\" and \"precise\" often."
+    },
+    {
+     "id": "B00O9YV9WQ",
+     "feedback": "Mostly solid (no weaknesses, no fabricated quotes, no links, subheadings present), but it misses explicit instructions: several passive constructions (\"is formulated,\" \"is 100% vegan,\" \"It's formulated without\") despite the active-voice requirement, repetitive wording (\"vegan\" appears four times, \"soft and kissable\" and \"Rebel Sol\" recur), and features and benefits are not clearly distinguished. It also runs about 185 words, a bit under the ~200 target."
+    },
+    {
+     "id": "B085WM34YM",
+     "feedback": "The description overpromises despite the prompt's explicit \"without overpromising\" rule: it says the bands flex through \"runs, and gym sessions\" and promises an accessory \"you'll reach for in every session,\" though reviewers repeatedly say these slide off during workouts. It also has a grammar error (\"a effortless\" should be \"an effortless\")."
+    },
+    {
+     "id": "B07YG4PRTN",
+     "feedback": "The description invents a \"compact size\" that isn't in the product details and claims a \"balanced\" feel that overpromises and conflicts with a review calling the brushes top-heavy. It also never clearly separates features from benefits as the prompt requires."
+    },
+    {
+     "id": "B01C763HMW",
+     "feedback": "The description overpromises despite the reviews showing mixed results: \"in seconds\" and \"Learn quickly... easy for beginners\" conflict with reviews saying the tool was confusing, took time to learn, and tangled hair. The prompt explicitly requires avoiding overpromising, and the copy needs hedged wording (e.g., \"can help you create\" or \"many users find\") instead of unqualified claims."
+    },
+    {
+     "id": "B0B76MDD3C",
+     "feedback": "The copy invents product claims not in the source (e.g., \"glides on with precision,\" \"formula is designed to hold its shape,\" \"wear it under your favorite lipstick\"), which overpromises. It also never clearly separates features from benefits as the prompt requires, and it leans on generic phrasing like \"practical addition to any beauty collection.\""
+    },
+    {
+     "id": "B07CJWG8SP",
+     "feedback": "It overpromises despite the prompt's explicit ban: \"Your hair stays put\" and \"neatly in place every day of the week\" contradict the reviewer who said the band slips off every couple of hours, and \"in seconds\" is unsupported. The copy is otherwise well structured, in Markdown, around 200 words, with features and benefits clearly separated."
+    },
+    {
+     "id": "B06XRKM64X",
+     "feedback": "The response does not clearly separate features from benefits as the prompt requires: the \"Advanced Formula\" section mixes features and claims, and the single benefit sentence is thin. It also overpromises with \"fat-burning formula,\" \"shrink fat cells,\" and \"Risk-Free\" for a cosmetic cream, and \"easy to apply\" is an unsupported claim."
+    }
+   ]
+  },
+  "haiku/criteria": {
+   "vs_expert": {
+    "coverage": 0.25,
+    "ffr": 0.09782608695652174,
+    "alignment": 0.3915094339622642,
+    "n_bad": 8,
+    "n_good": 92,
+    "n_assertions": 1,
+    "accuracy": 0.85,
+    "agent_bad_rate": 0.10999999999999999
+   },
+   "evalgen_16_agent": {
+    "sampled": [
+     "B001V6SN5G",
+     "B001MP47WE",
+     "B07FMH13N6",
+     "B00776E934",
+     "B00011JN5G",
+     "B01GL4HV64",
+     "B01F99RQQW",
+     "B01M7UMAUG",
+     "B07W95JDDR",
+     "B07PYDRX18",
+     "B08P53H9BV",
+     "B07Q2G8WBV",
+     "B01F4N9MEC",
+     "B08ZBCGXSS",
+     "B01N7GX3XP",
+     "B0BFGRJV4H"
+    ],
+    "sample_grades": {
+     "B001V6SN5G": 0,
+     "B001MP47WE": 1,
+     "B07FMH13N6": 0,
+     "B00776E934": 1,
+     "B00011JN5G": 1,
+     "B01GL4HV64": 1,
+     "B01F99RQQW": 1,
+     "B01M7UMAUG": 1,
+     "B07W95JDDR": 0,
+     "B07PYDRX18": 1,
+     "B08P53H9BV": 1,
+     "B07Q2G8WBV": 1,
+     "B01F4N9MEC": 1,
+     "B08ZBCGXSS": 1,
+     "B01N7GX3XP": 1,
+     "B0BFGRJV4H": 1
+    },
+    "chosen": [
+     "p1_3",
+     "p2_1",
+     "p3_1",
+     "p4_3"
+    ],
+    "detail": {
+     "p1": {
+      "p1_1": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "p1_2": {
+       "coverage": 0.3333333333333333,
+       "ffr": 0.15384615384615385,
+       "alignment": 0.47826086956521735,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "p1_3": {
+       "coverage": 1.0,
+       "ffr": 0.38461538461538464,
+       "alignment": 0.761904761904762,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "selected": "p1_3"
+     },
+     "p2": {
+      "p2_1": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "p2_2": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "p2_3": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "selected": "p2_1"
+     },
+     "p3": {
+      "p3_1": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "p3_2": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "p3_3": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "selected": "p3_1"
+     },
+     "p4": {
+      "p4_1": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "p4_2": {
+       "coverage": 0.6666666666666666,
+       "ffr": 0.23076923076923078,
+       "alignment": 0.7142857142857143,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "p4_3": {
+       "coverage": 1.0,
+       "ffr": 0.15384615384615385,
+       "alignment": 0.9166666666666666,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "selected": "p4_3"
+     }
+    },
+    "coverage": 0.75,
+    "ffr": 0.9130434782608695,
+    "alignment": 0.15584415584415592,
+    "n_bad": 8,
+    "n_good": 92,
+    "n_assertions": 4
+   },
+   "evalgen_all_agent": {
+    "chosen": [
+     "p1_2",
+     "p2_1",
+     "p3_1",
+     "p4_3"
+    ],
+    "coverage": 0.25,
+    "ffr": 0.31521739130434784,
+    "alignment": 0.36627906976744184,
+    "n_bad": 8,
+    "n_good": 92,
+    "n_assertions": 4
+   },
+   "false_passes": [
+    "B00011JN5G",
+    "B088S9S9BD",
+    "B00ANIQPZ8",
+    "B07MBHXMPL",
+    "B00776E934",
+    "B000UK4Y5M"
+   ],
+   "false_fails": [
+    {
+     "id": "B018T24L14",
+     "feedback": "The description is about 155 words, noticeably short of the \"around 200\" target, though it meets the 300-word maximum. The other criteria pass: it stays positive, contains no links, and uses Markdown with subheadings."
+    },
+    {
+     "id": "B001V6SN5G",
+     "feedback": "The description is too short: roughly 115 words of body text (about 140 with headings and title), well below the \"around 200\" target, even though it stays under 300. It otherwise meets the other criteria: no negatives, no links, Markdown with subheadings."
+    },
+    {
+     "id": "B07FMH13N6",
+     "feedback": "The description is only about 130 words (title included), well short of the \"around 200 words\" target, though it does meet the 300-word cap. The other criteria are met: no negatives, no links, and Markdown subheadings."
+    },
+    {
+     "id": "B0BR8B5BK5",
+     "feedback": "The \"Tips for a Natural Blend\" section admits a product weakness by saying hairspray and dry shampoo are needed to \"reduce the shine of synthetic fibers\" and help it blend, which breaks the no-negatives rule. The response otherwise passes: no links, Markdown subheadings, and about 200 words."
+    },
+    {
+     "id": "B07W95JDDR",
+     "feedback": "The \"Reapply as needed during hot weather or long activity\" line draws on a reviewer's caveat and implicitly flags a limitation, which breaks the \"stays entirely positive\" requirement. The other criteria pass: there are no links, the Markdown has subheadings, and the length is about 166 words, within the 300-word cap."
+    },
+    {
+     "id": "B079JPNPF3",
+     "feedback": "The \"Generous Size, Secure Bottle\" section says the cap \"helps reduce spills,\" which brings up a negative review complaint about spilling and breaks the all-positive requirement. The rest passes: no links, Markdown subheadings, and about 225 words."
+    },
+    {
+     "id": "B09PB2JZ1C",
+     "feedback": "The \"Easy to Fill and Freeze\" section's tip about loosening the frozen cap with warm water implicitly surfaces the negative review content (the cap being hard to remove), which violates the no-negative-statements requirement. The other criteria pass: no links, Markdown with subheadings, and about 200 words."
+    },
+    {
+     "id": "B07DQGT2JH",
+     "feedback": "The \"without worrying about easy breakage\" line echoes the reviewers' breakage complaints, which violates the no-negative-content criterion even though it is phrased positively. The other criteria pass: no links, Markdown subheadings, and roughly 210\u2013230 words."
+    },
+    {
+     "id": "B01ENL20AE",
+     "feedback": "The \"Why Choose\" section says the cutters need to \"settle in after a few shaves\" before the finish is smooth, which surfaces the break-in drawback from a review and violates the no-weaknesses rule. The other criteria pass: no links, Markdown subheadings, and roughly 230-250 words."
+    }
+   ]
+  },
+  "sonnet/isolated": {
+   "vs_expert": {
+    "coverage": 0.5,
+    "ffr": 0.3695652173913043,
+    "alignment": 0.5576923076923076,
+    "n_bad": 8,
+    "n_good": 92,
+    "n_assertions": 1,
+    "accuracy": 0.62,
+    "agent_bad_rate": 0.38
+   },
+   "evalgen_16_agent": {
+    "sampled": [
+     "B001V6SN5G",
+     "B001MP47WE",
+     "B07FMH13N6",
+     "B00776E934",
+     "B00011JN5G",
+     "B01GL4HV64",
+     "B01F99RQQW",
+     "B01M7UMAUG",
+     "B07W95JDDR",
+     "B07PYDRX18",
+     "B08P53H9BV",
+     "B07Q2G8WBV",
+     "B01F4N9MEC",
+     "B08ZBCGXSS",
+     "B01N7GX3XP",
+     "B0BFGRJV4H"
+    ],
+    "sample_grades": {
+     "B001V6SN5G": 0,
+     "B001MP47WE": 0,
+     "B07FMH13N6": 0,
+     "B00776E934": 1,
+     "B00011JN5G": 0,
+     "B01GL4HV64": 0,
+     "B01F99RQQW": 0,
+     "B01M7UMAUG": 0,
+     "B07W95JDDR": 0,
+     "B07PYDRX18": 1,
+     "B08P53H9BV": 1,
+     "B07Q2G8WBV": 0,
+     "B01F4N9MEC": 0,
+     "B08ZBCGXSS": 1,
+     "B01N7GX3XP": 0,
+     "B0BFGRJV4H": 1
+    },
+    "chosen": [
+     "p1_3",
+     "p2_1",
+     "p3_1",
+     "p4_3"
+    ],
+    "detail": {
+     "p1": {
+      "p1_1": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 11,
+       "n_good": 5,
+       "n_assertions": 1
+      },
+      "p1_2": {
+       "coverage": 0.2727272727272727,
+       "ffr": 0.0,
+       "alignment": 0.42857142857142855,
+       "n_bad": 11,
+       "n_good": 5,
+       "n_assertions": 1
+      },
+      "p1_3": {
+       "coverage": 0.6363636363636364,
+       "ffr": 0.2,
+       "alignment": 0.7088607594936709,
+       "n_bad": 11,
+       "n_good": 5,
+       "n_assertions": 1
+      },
+      "selected": "p1_3"
+     },
+     "p2": {
+      "p2_1": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 11,
+       "n_good": 5,
+       "n_assertions": 1
+      },
+      "p2_2": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 11,
+       "n_good": 5,
+       "n_assertions": 1
+      },
+      "p2_3": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 11,
+       "n_good": 5,
+       "n_assertions": 1
+      },
+      "selected": "p2_1"
+     },
+     "p3": {
+      "p3_1": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 11,
+       "n_good": 5,
+       "n_assertions": 1
+      },
+      "p3_2": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 11,
+       "n_good": 5,
+       "n_assertions": 1
+      },
+      "p3_3": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 11,
+       "n_good": 5,
+       "n_assertions": 1
+      },
+      "selected": "p3_1"
+     },
+     "p4": {
+      "p4_1": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 11,
+       "n_good": 5,
+       "n_assertions": 1
+      },
+      "p4_2": {
+       "coverage": 0.36363636363636365,
+       "ffr": 0.2,
+       "alignment": 0.5000000000000001,
+       "n_bad": 11,
+       "n_good": 5,
+       "n_assertions": 1
+      },
+      "p4_3": {
+       "coverage": 0.45454545454545453,
+       "ffr": 0.0,
+       "alignment": 0.625,
+       "n_bad": 11,
+       "n_good": 5,
+       "n_assertions": 1
+      },
+      "selected": "p4_3"
+     }
+    },
+    "coverage": 0.75,
+    "ffr": 0.9130434782608695,
+    "alignment": 0.15584415584415592,
+    "n_bad": 8,
+    "n_good": 92,
+    "n_assertions": 4
+   },
+   "evalgen_all_agent": {
+    "chosen": [
+     "p1_2",
+     "p2_1",
+     "p3_1",
+     "p4_3"
+    ],
+    "coverage": 0.25,
+    "ffr": 0.31521739130434784,
+    "alignment": 0.36627906976744184,
+    "n_bad": 8,
+    "n_good": 92,
+    "n_assertions": 4
+   },
+   "false_passes": [
+    "B088S9S9BD",
+    "B07MBHXMPL",
+    "B00776E934",
+    "B000UK4Y5M"
+   ],
+   "false_fails": [
+    {
+     "id": "B01LXVXVJ7",
+     "feedback": "It overpromises (\"without the risk\", \"built for durability\") even though reviews report loose screws and sharp parts, and it repeats \"no sharp edges\" and the balanced-weight point across sections despite the no-repetition rule."
+    },
+    {
+     "id": "B01F99RQQW",
+     "feedback": "The description runs about 290 words, well over the \"around 200\" target, and it overpromises with unsupported claims: a \"rich\" lather (a review says these pads aren't good at lathering) and odor resistance (taken from a review's comparison to whole loofahs)."
+    },
+    {
+     "id": "B07DY1RDQR",
+     "feedback": "The description never clearly separates features from benefits, and its benefits are vague (\"simple swap,\" \"steady supply\"). It leaves out unique selling points the reviews support, such as the middle firmness or the cheaper price, and it ends on generic filler."
+    },
+    {
+     "id": "B0813XZYZ1",
+     "feedback": "The description reads mostly as usage instructions and safety warnings, so it never clearly separates features from benefits or says how the soap improves the buyer's life (for example confidence, gentle on skin, soothing lavender scent, or a drug-free option). It also has little SEO focus or unique selling points."
+    },
+    {
+     "id": "B07Q2G8WBV",
+     "feedback": "The copy is repetitive and generic: the cuts/burns/frostbite list appears twice, and \"home first-aid kit\" and \"keep it on hand\" recur throughout. It also calls the product a \"jar\" without any support in the product details, and the benefits stay shallow."
+    },
+    {
+     "id": "B018T24L14",
+     "feedback": "It invents product details (a \"slim design\" that fits a carry-on) and overstates the reviews (\"many repeat buyers\", when only a couple said so). It also doesn't clearly separate features from benefits, and at roughly 165 words it falls short of the ~200 target."
+    },
+    {
+     "id": "B085WM34YM",
+     "feedback": "It claims \"moisture-wicking\" fabric, which the product details don't support (the title only says \"Moisture\") and which reviews contradict by saying the bands slip when sweaty. It also blurs features and benefits instead of separating them, and it has a grammar error (\"a effortless touch\")."
+    },
+    {
+     "id": "B000G8LWZI",
+     "feedback": "It makes up claims the product details and reviews don't support (\"spreads easily and absorbs well\", \"gentle exfoliation\", \"proven AHA science\"), and it uses generic, repetitive wording (\"routine\", \"renew/renewal\", \"experience the difference\") with only shallow benefits."
+    },
+    {
+     "id": "B08DJZRM1M",
+     "feedback": "The copy mostly paraphrases the product description, so features and benefits aren't clearly distinguished and the benefits stay vague. It also leaves out review-backed selling points such as long-lasting wear and easy application, and it repeats the \"mix/blend\" language."
+    },
+    {
+     "id": "B07CJWG8SP",
+     "feedback": "It overpromises and repeats itself: \"many shoppers say\" rests on a single review, \"your hair stays put\" ignores the slipping complaints, and the cotton/Lycra blend and 2-inch width are restated across sections."
+    },
+    {
+     "id": "B07T18681V",
+     "feedback": "It wrongly says the set has \"two Classic Cocoa Brown\" pens, when the title lists one 10mm Classic and one Cocoa Brown. It also overpromises with \"full day\" and \"Endless Looks\", never uses the key terms waterproof or smudgeproof, and blurs features and benefits."
+    },
+    {
+     "id": "B001V6SN5G",
+     "feedback": "The description is only about 140 words, well under the requested ~200. It also doesn't clearly separate features from benefits, and it uses little SEO-oriented detail, such as the 16 oz size or the review-supported points about scent and hold."
+    },
+    {
+     "id": "B07FMH13N6",
+     "feedback": "The description is only about 140 words, well short of the ~200 target. It headlines \"Durable\" even though a review says the top broke, which overpromises. It also barely separates features from benefits and uses little SEO phrasing."
+    },
+    {
+     "id": "B01F4N9MEC",
+     "feedback": "The description overpromises longevity (\"morning meetings to evening plans\") when reviews say 4-5 hours on skin, and it repeats \"everyday\" and \"routine\" while giving little benefit-focused detail."
+    },
+    {
+     "id": "B0B87SH493",
+     "feedback": "The description invents product details that aren't in the source, such as \"about the size of a pen\" and \"cuticle exfoliation\", which is a risk in e-commerce copy."
+    },
+    {
+     "id": "B097545V9C",
+     "feedback": "The copy overpromises and invents unsupported claims (\"morning to night,\" \"feel healthier,\" \"soft and easy to manage\"), and it repeats \"fuller-looking\" and \"volumizing routine,\" which breaks the no-repetition and no-overpromising rules."
+    },
+    {
+     "id": "B07W95JDDR",
+     "feedback": "The description is about 165 words, short of the ~200 target. It also doesn't clearly separate features from concrete benefits, and it leans on vague, repetitive phrases like \"cool,\" \"fresh,\" and \"supports a greater cause\" instead of specific buyer outcomes from the reviews, such as chafing relief or travel size."
+    },
+    {
+     "id": "B01BI52W06",
+     "feedback": "It overpromises and invents details: it calls the powder \"certified vegan and cruelty free\" when the input only lists claims, and it says \"many customers\" keep one at home and one at the office when only one review says that. It also repeats itself across the shine-control sections, and it doesn't clearly separate features from benefits."
+    },
+    {
+     "id": "B001MP47WE",
+     "feedback": "The copy repeats \"repair/strength/protect\" and stays generic, with vague benefits and a filler \"Trusted by Shoppers\" section that only restates the rating and price, so it misses the \"no generic or repetitive language\" and concrete-benefit requirements."
+    },
+    {
+     "id": "B07HZ7T1SZ",
+     "feedback": "It makes unsupported claims (\"without stripping natural oils\", \"wet and dry hair\") and a \"Long-Lasting Value\" section that reviews contradict, which breaks the no-overpromising rule, and it repeats itself (\"At 16 oz, this 16-ounce bottle\", repeated \"smoother\" and \"easier to manage\")."
+    }
+   ]
+  },
+  "sonnet/criteria": {
+   "vs_expert": {
+    "coverage": 0.25,
+    "ffr": 0.07608695652173914,
+    "alignment": 0.39351851851851855,
+    "n_bad": 8,
+    "n_good": 92,
+    "n_assertions": 1,
+    "accuracy": 0.87,
+    "agent_bad_rate": 0.08999999999999997
+   },
+   "evalgen_16_agent": {
+    "sampled": [
+     "B001V6SN5G",
+     "B001MP47WE",
+     "B07FMH13N6",
+     "B00776E934",
+     "B00011JN5G",
+     "B01GL4HV64",
+     "B01F99RQQW",
+     "B01M7UMAUG",
+     "B07W95JDDR",
+     "B07PYDRX18",
+     "B08P53H9BV",
+     "B07Q2G8WBV",
+     "B01F4N9MEC",
+     "B08ZBCGXSS",
+     "B01N7GX3XP",
+     "B0BFGRJV4H"
+    ],
+    "sample_grades": {
+     "B001V6SN5G": 0,
+     "B001MP47WE": 1,
+     "B07FMH13N6": 0,
+     "B00776E934": 1,
+     "B00011JN5G": 0,
+     "B01GL4HV64": 1,
+     "B01F99RQQW": 1,
+     "B01M7UMAUG": 1,
+     "B07W95JDDR": 1,
+     "B07PYDRX18": 1,
+     "B08P53H9BV": 1,
+     "B07Q2G8WBV": 1,
+     "B01F4N9MEC": 1,
+     "B08ZBCGXSS": 1,
+     "B01N7GX3XP": 1,
+     "B0BFGRJV4H": 1
+    },
+    "chosen": [
+     "p1_3",
+     "p2_1",
+     "p3_1",
+     "p4_2"
+    ],
+    "detail": {
+     "p1": {
+      "p1_1": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "p1_2": {
+       "coverage": 0.3333333333333333,
+       "ffr": 0.15384615384615385,
+       "alignment": 0.47826086956521735,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "p1_3": {
+       "coverage": 1.0,
+       "ffr": 0.38461538461538464,
+       "alignment": 0.761904761904762,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "selected": "p1_3"
+     },
+     "p2": {
+      "p2_1": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "p2_2": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "p2_3": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "selected": "p2_1"
+     },
+     "p3": {
+      "p3_1": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "p3_2": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "p3_3": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "selected": "p3_1"
+     },
+     "p4": {
+      "p4_1": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "p4_2": {
+       "coverage": 1.0,
+       "ffr": 0.15384615384615385,
+       "alignment": 0.9166666666666666,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "p4_3": {
+       "coverage": 0.6666666666666666,
+       "ffr": 0.23076923076923078,
+       "alignment": 0.7142857142857143,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "selected": "p4_2"
+     }
+    },
+    "coverage": 0.875,
+    "ffr": 0.8913043478260869,
+    "alignment": 0.19337016574585641,
+    "n_bad": 8,
+    "n_good": 92,
+    "n_assertions": 4
+   },
+   "evalgen_all_agent": {
+    "chosen": [
+     "p1_2",
+     "p2_1",
+     "p3_1",
+     "p4_2"
+    ],
+    "coverage": 0.375,
+    "ffr": 0.2826086956521739,
+    "alignment": 0.49253731343283585,
+    "n_bad": 8,
+    "n_good": 92,
+    "n_assertions": 4
+   },
+   "false_passes": [
+    "B088S9S9BD",
+    "B00ANIQPZ8",
+    "B004L152NE",
+    "B07MBHXMPL",
+    "B00776E934",
+    "B000UK4Y5M"
+   ],
+   "false_fails": [
+    {
+     "id": "B0813XZYZ1",
+     "feedback": "The \"Use It Safely\" section warns about irritation and sulfur/sulfa sensitivity, which brings up the product's downsides and breaks the \"entirely positive, no weaknesses\" requirement."
+    },
+    {
+     "id": "B018T24L14",
+     "feedback": "The description is only about 155 words, well short of the requested \"around 200,\" and it also adds unsupported details such as the \"slim design.\""
+    },
+    {
+     "id": "B001V6SN5G",
+     "feedback": "The description is only about 140 words, well short of the requested \"around 200\" words."
+    },
+    {
+     "id": "B07FMH13N6",
+     "feedback": "The description is only about 130 words, well under the \"around 200\" target, and \"without extra features\" reads as a mild weakness."
+    },
+    {
+     "id": "B0BR8B5BK5",
+     "feedback": "The \"Tips for a Natural Blend\" section says to mist the bun to \"reduce the shine of synthetic fibers\", which points to a weakness (shiny, fake-looking hair) that the prompt said not to mention."
+    },
+    {
+     "id": "B01ENL20AE",
+     "feedback": "The line \"Once the cutters settle in after a few shaves\" and the \"aftermarket\" comparison to original Philips heads bring in the break-in period and non-OEM status from the reviews, so the description isn't entirely positive."
+    },
+    {
+     "id": "B088G1ZJHP",
+     "feedback": "The description points out limitations, which breaks the \"no weaknesses\" rule. It says the handle is \"sold separately\" and adds \"Results vary,\" which hints the product may not work for everyone."
+    }
+   ]
+  },
+  "opus/isolated": {
+   "vs_expert": {
+    "coverage": 1.0,
+    "ffr": 0.5652173913043478,
+    "alignment": 0.6060606060606061,
+    "n_bad": 8,
+    "n_good": 92,
+    "n_assertions": 1,
+    "accuracy": 0.48,
+    "agent_bad_rate": 0.6
+   },
+   "evalgen_16_agent": {
+    "sampled": [
+     "B001V6SN5G",
+     "B001MP47WE",
+     "B07FMH13N6",
+     "B00776E934",
+     "B00011JN5G",
+     "B01GL4HV64",
+     "B01F99RQQW",
+     "B01M7UMAUG",
+     "B07W95JDDR",
+     "B07PYDRX18",
+     "B08P53H9BV",
+     "B07Q2G8WBV",
+     "B01F4N9MEC",
+     "B08ZBCGXSS",
+     "B01N7GX3XP",
+     "B0BFGRJV4H"
+    ],
+    "sample_grades": {
+     "B001V6SN5G": 0,
+     "B001MP47WE": 1,
+     "B07FMH13N6": 0,
+     "B00776E934": 0,
+     "B00011JN5G": 0,
+     "B01GL4HV64": 0,
+     "B01F99RQQW": 0,
+     "B01M7UMAUG": 0,
+     "B07W95JDDR": 0,
+     "B07PYDRX18": 0,
+     "B08P53H9BV": 1,
+     "B07Q2G8WBV": 0,
+     "B01F4N9MEC": 0,
+     "B08ZBCGXSS": 1,
+     "B01N7GX3XP": 0,
+     "B0BFGRJV4H": 1
+    },
+    "chosen": [
+     "p1_3",
+     "p2_1",
+     "p3_1",
+     "p4_3"
+    ],
+    "detail": {
+     "p1": {
+      "p1_1": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 12,
+       "n_good": 4,
+       "n_assertions": 1
+      },
+      "p1_2": {
+       "coverage": 0.25,
+       "ffr": 0.0,
+       "alignment": 0.4,
+       "n_bad": 12,
+       "n_good": 4,
+       "n_assertions": 1
+      },
+      "p1_3": {
+       "coverage": 0.5833333333333334,
+       "ffr": 0.25,
+       "alignment": 0.6562499999999999,
+       "n_bad": 12,
+       "n_good": 4,
+       "n_assertions": 1
+      },
+      "selected": "p1_3"
+     },
+     "p2": {
+      "p2_1": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 12,
+       "n_good": 4,
+       "n_assertions": 1
+      },
+      "p2_2": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 12,
+       "n_good": 4,
+       "n_assertions": 1
+      },
+      "p2_3": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 12,
+       "n_good": 4,
+       "n_assertions": 1
+      },
+      "selected": "p2_1"
+     },
+     "p3": {
+      "p3_1": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 12,
+       "n_good": 4,
+       "n_assertions": 1
+      },
+      "p3_2": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 12,
+       "n_good": 4,
+       "n_assertions": 1
+      },
+      "p3_3": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 12,
+       "n_good": 4,
+       "n_assertions": 1
+      },
+      "selected": "p3_1"
+     },
+     "p4": {
+      "p4_1": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 12,
+       "n_good": 4,
+       "n_assertions": 1
+      },
+      "p4_2": {
+       "coverage": 0.3333333333333333,
+       "ffr": 0.25,
+       "alignment": 0.46153846153846156,
+       "n_bad": 12,
+       "n_good": 4,
+       "n_assertions": 1
+      },
+      "p4_3": {
+       "coverage": 0.4166666666666667,
+       "ffr": 0.0,
+       "alignment": 0.5882352941176471,
+       "n_bad": 12,
+       "n_good": 4,
+       "n_assertions": 1
+      },
+      "selected": "p4_3"
+     }
+    },
+    "coverage": 0.75,
+    "ffr": 0.9130434782608695,
+    "alignment": 0.15584415584415592,
+    "n_bad": 8,
+    "n_good": 92,
+    "n_assertions": 4
+   },
+   "evalgen_all_agent": {
+    "chosen": [
+     "p1_2",
+     "p2_1",
+     "p3_1",
+     "p4_3"
+    ],
+    "coverage": 0.25,
+    "ffr": 0.31521739130434784,
+    "alignment": 0.36627906976744184,
+    "n_bad": 8,
+    "n_good": 92,
+    "n_assertions": 4
+   },
+   "false_passes": [],
+   "false_fails": [
+    {
+     "id": "B00UFVS0G0",
+     "feedback": "It wrongly calls the 2-pack a \"spare/backup\" (twice) instead of a shampoo-and-conditioner pair, makes an unsupported \"fraction of the cost of replacing bottles\" claim with no price data, and mixes features and benefits instead of clearly separating them."
+    },
+    {
+     "id": "B01A3I5IGE",
+     "feedback": "The description contradicts itself and overpromises: it says to roll the stamper across your nail, then says you don't need to roll it on your finger, and it claims the set has \"everything you need to begin\" even though image plates and polish aren't included."
+    },
+    {
+     "id": "B07LBZZSMR",
+     "feedback": "The response says the product is \"rated by more than 380 customers,\" but the data shows exactly 380 ratings, so the copy misstates a fact. It also blends features and benefits into the same sentences instead of clearly separating them as the prompt asked."
+    },
+    {
+     "id": "B08NHTHD2G",
+     "feedback": "The response mostly restates the product listing and blends features and benefits together, even copying the application steps, so it never clearly separates them as the prompt requires; it also overpromises \"thick, durable\" coverage that the reviews describe as sheer and runny."
+    },
+    {
+     "id": "B0BC2XLWML",
+     "feedback": "Not ready to ship: features and benefits are mixed together in topic sections instead of being clearly separated, as the prompt asks; the benefits are thin and mostly functional; and the claim that it \"assembles and removes without tools\" isn't in the product details."
+    },
+    {
+     "id": "B07KFGWC8S",
+     "feedback": "Features and benefits are mixed together in the paragraphs instead of being clearly separated as the prompt requires, and \"spa-style pedicure at home\" slightly overpromises."
+    },
+    {
+     "id": "B01LXVXVJ7",
+     "feedback": "The response overpromises on durability and safety, which the prompt forbids: it says \"built for durability,\" \"Made for Safe, Everyday Practice,\" \"without the risk,\" and calls it safe for younger learners, yet several reviews report screws falling out, breakage within days and sharp parts that can injure. The repeated phrase \"centered center of mass\" is also clumsy and repetitive."
+    },
+    {
+     "id": "B01F99RQQW",
+     "feedback": "The response overpromises: reviews contradict the \"rich, silky lather\" claim, the washcloth comparison and odor-resistance claim aren't in the source, and calling a pad reviewers found harsh \"well suited\" for psoriasis and eczema goes too far."
+    },
+    {
+     "id": "B00PI8LB3E",
+     "feedback": "Features and benefits are blended in every section instead of clearly separated; it also wrongly calls the formula BPA-free (it's the bottle), gives the 8 oz bottle's pump to a 32 oz bottle, and copies the opening line word for word from the product description."
+    },
+    {
+     "id": "B07DY1RDQR",
+     "feedback": "The response meets the hard limits (about 175 words, Markdown subheadings, a call to action, no links or invented quotes), but it ignores the customer reviews and leans on generic filler like \"give your smile the care it deserves.\" Because it skips the reviews, it misses the clearest selling point: buyers say the heads perform as well as name-brand ones and hit a good middle ground between soft and firm. It also mixes features and benefits in the same sentences instead of clearly separating them as the prompt asks."
+    },
+    {
+     "id": "B0813XZYZ1",
+     "feedback": "It reads mostly like usage instructions, doesn't clearly separate features from real buyer benefits, and its \"Use It Safely\" section points out a weakness (possible irritation)."
+    },
+    {
+     "id": "B07Q2G8WBV",
+     "feedback": "The prompt bans generic and repetitive language, and this copy repeats itself a lot: the same \"cuts, scratches, burns, and frostbite\" list shows up in the intro and again in the feature bullets, \"versatile skin remedy,\" \"home first-aid kit\" and \"wide/broad range\" each appear twice, \"keep\" is used four times, and the \"Why Keep It at Home\" section is filler."
+    },
+    {
+     "id": "B00A7KLMOG",
+     "feedback": "The response overpromises by calling the kit \"Built for Beginners\" when five of the eight reviews complain about difficulty and useless instructions, it doesn't clearly separate features from benefits, and its benefits are vague (\"Value for Your Hair Routine\", repeated \"try/experiment with new styles\")."
+    },
+    {
+     "id": "B001B68ZHW",
+     "feedback": "The scent section says to \"blend\" sage, sandalwood, cedarwood, musk, frankincense and myrrh into one \"layered aroma\" with \"softer notes\", but the reviews show each box is a separate scent, so it never says this is a six-scent variety pack; features and benefits are also mixed together rather than clearly separated."
+    },
+    {
+     "id": "B018T24L14",
+     "feedback": "At about 156 words (only about 126 of body copy), the description falls well short of \"around 200 words,\" and it mixes features and benefits together instead of clearly distinguishing them."
+    },
+    {
+     "id": "B00Y14CKRW",
+     "feedback": "It never clearly separates features from benefits as the prompt requires, and the wording repeats itself (\"routine\" five times, \"versatile\" three times)."
+    },
+    {
+     "id": "B085WM34YM",
+     "feedback": "The copy has a visible grammar error (\"a effortless\" should be \"an effortless\"), and features are mixed in with benefits instead of being clearly separated as the prompt asks; it also repeats \"session\" and \"effortless/without extra effort\"."
+    },
+    {
+     "id": "B01HPKBQFK",
+     "feedback": "The response gets the product wrong: it's a bracelet with nine cat beads in different colors, but the copy calls it \"a lucky cat charm\" and says \"Choose white for\u2026\", which suggests the buyer picks one color. It also leaves out yellow/orange, and its benefits are thin and lean on repeated \"everyday\" wording."
+    },
+    {
+     "id": "B08DJZRM1M",
+     "feedback": "The copy mostly lifts the manufacturer's text nearly word for word and keeps repeating \"glow,\" \"mix,\" \"create\" and \"ultra-concentrated,\" which breaks the no-repetition rule. The benefits section is thin and doesn't really say how the product improves the buyer's life. SEO is weak because it skips keywords like highlighter or face/eye glitter and the uses customers mention, such as mixing with foundation."
+    },
+    {
+     "id": "B07CJWG8SP",
+     "feedback": "It overpromises: only one review mentions the bands keeping their stretch, but the copy says \"many shoppers say\" so and adds the heading \"Made to Keep Their Stretch\"; it also promises hair \"stays put\" every day, though two reviews say the bands slip."
+    }
+   ]
+  },
+  "opus/criteria": {
+   "vs_expert": {
+    "coverage": 0.75,
+    "ffr": 0.06521739130434782,
+    "alignment": 0.8322580645161289,
+    "n_bad": 8,
+    "n_good": 92,
+    "n_assertions": 1,
+    "accuracy": 0.92,
+    "agent_bad_rate": 0.12
+   },
+   "evalgen_16_agent": {
+    "sampled": [
+     "B001V6SN5G",
+     "B001MP47WE",
+     "B07FMH13N6",
+     "B00776E934",
+     "B00011JN5G",
+     "B01GL4HV64",
+     "B01F99RQQW",
+     "B01M7UMAUG",
+     "B07W95JDDR",
+     "B07PYDRX18",
+     "B08P53H9BV",
+     "B07Q2G8WBV",
+     "B01F4N9MEC",
+     "B08ZBCGXSS",
+     "B01N7GX3XP",
+     "B0BFGRJV4H"
+    ],
+    "sample_grades": {
+     "B001V6SN5G": 0,
+     "B001MP47WE": 1,
+     "B07FMH13N6": 0,
+     "B00776E934": 1,
+     "B00011JN5G": 0,
+     "B01GL4HV64": 1,
+     "B01F99RQQW": 1,
+     "B01M7UMAUG": 1,
+     "B07W95JDDR": 1,
+     "B07PYDRX18": 1,
+     "B08P53H9BV": 1,
+     "B07Q2G8WBV": 1,
+     "B01F4N9MEC": 1,
+     "B08ZBCGXSS": 1,
+     "B01N7GX3XP": 1,
+     "B0BFGRJV4H": 1
+    },
+    "chosen": [
+     "p1_3",
+     "p2_1",
+     "p3_1",
+     "p4_2"
+    ],
+    "detail": {
+     "p1": {
+      "p1_1": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "p1_2": {
+       "coverage": 0.3333333333333333,
+       "ffr": 0.15384615384615385,
+       "alignment": 0.47826086956521735,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "p1_3": {
+       "coverage": 1.0,
+       "ffr": 0.38461538461538464,
+       "alignment": 0.761904761904762,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "selected": "p1_3"
+     },
+     "p2": {
+      "p2_1": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "p2_2": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "p2_3": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "selected": "p2_1"
+     },
+     "p3": {
+      "p3_1": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "p3_2": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "p3_3": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "selected": "p3_1"
+     },
+     "p4": {
+      "p4_1": {
+       "coverage": 0.0,
+       "ffr": 0.0,
+       "alignment": 0.0,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "p4_2": {
+       "coverage": 1.0,
+       "ffr": 0.15384615384615385,
+       "alignment": 0.9166666666666666,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "p4_3": {
+       "coverage": 0.6666666666666666,
+       "ffr": 0.23076923076923078,
+       "alignment": 0.7142857142857143,
+       "n_bad": 3,
+       "n_good": 13,
+       "n_assertions": 1
+      },
+      "selected": "p4_2"
+     }
+    },
+    "coverage": 0.875,
+    "ffr": 0.8913043478260869,
+    "alignment": 0.19337016574585641,
+    "n_bad": 8,
+    "n_good": 92,
+    "n_assertions": 4
+   },
+   "evalgen_all_agent": {
+    "chosen": [
+     "p1_2",
+     "p2_1",
+     "p3_1",
+     "p4_2"
+    ],
+    "coverage": 0.375,
+    "ffr": 0.2826086956521739,
+    "alignment": 0.49253731343283585,
+    "n_bad": 8,
+    "n_good": 92,
+    "n_assertions": 4
+   },
+   "false_passes": [
+    "B088S9S9BD",
+    "B00776E934"
+   ],
+   "false_fails": [
+    {
+     "id": "B0813XZYZ1",
+     "feedback": "The \"Use It Safely\" section says to stop use if irritation occurs and points to sulfur sensitivity, which brings up a possible drawback and breaks the \"entirely positive\" rule (it meets the word count, no-links and subheading rules)."
+    },
+    {
+     "id": "B001V6SN5G",
+     "feedback": "At about 142 words including the headings, and about 114 of body text, the description falls well short of the requested ~200 words."
+    },
+    {
+     "id": "B07FMH13N6",
+     "feedback": "At about 131 words, the description falls well short of the requested \"around 200 words.\""
+    },
+    {
+     "id": "B0BR8B5BK5",
+     "feedback": "The \"Tips for a Natural Blend\" section admits a weakness, saying the synthetic fibers are too shiny and need hairspray and dry shampoo to blend in, so the copy isn't entirely positive."
+    },
+    {
+     "id": "B07HZ7T1SZ",
+     "feedback": "The response meets all four listed criteria (about 238 words, Markdown subheadings, no links, nothing negative), but the line \"At 16 oz, this 16-ounce bottle\" repeats itself, which breaks the prompt's no-repetitive-language rule and isn't copy you could ship as is."
+    },
+    {
+     "id": "B01ENL20AE",
+     "feedback": "It mentions a weakness: \"Once the cutters settle in after a few shaves\" brings up the break-in period from the reviews, and \"works well for many owners\" suggests it doesn't work for everyone, so the description isn't entirely positive."
+    }
+   ]
+  }
+ }
+}

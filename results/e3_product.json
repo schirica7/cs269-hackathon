@@ -1,0 +1,153 @@
+{
+ "pipeline": "product",
+ "model": "sonnet",
+ "n": 100,
+ "flip_iso_vs_seq_fwd": 0.3,
+ "flip_iso_vs_seq_rev": 0.26,
+ "flip_seq_fwd_vs_rev": 0.06,
+ "bad_rate": {
+  "isolated": 0.38,
+  "seq_fwd": 0.09999999999999998,
+  "seq_rev": 0.14,
+  "expert": 0.07999999999999996
+ },
+ "seq_fwd_bad_rate_by_quartile": [
+  0.12,
+  0.12,
+  0.040000000000000036,
+  0.12
+ ],
+ "seq_rev_bad_rate_by_quartile": [
+  0.16000000000000003,
+  0,
+  0.19999999999999996,
+  0.19999999999999996
+ ],
+ "accuracy": {
+  "isolated": 0.62,
+  "seq_fwd": 0.84,
+  "seq_rev": 0.8
+ },
+ "examples_flipped": [
+  {
+   "id": "B08GKL32C9",
+   "isolated": 1,
+   "seq_fwd": 1,
+   "seq_rev": 0,
+   "expert": 1,
+   "fwd_feedback": "The description is about 190 words in Markdown with clear subheadings, an active voice and a call to action. It separates features from benefits, and its claims come from the product details. It leaves out weaknesses, links and invented quotes. The one minor flaw is the unsupported claim that talking feels more comfortable, since reviews say otherwise."
+  },
+  {
+   "id": "B01LXVXVJ7",
+   "isolated": 0,
+   "seq_fwd": 1,
+   "seq_rev": 0,
+   "expert": 1,
+   "fwd_feedback": "The description is about 200 words in Markdown with clear subheadings and a call to action. It leaves out weaknesses, links and invented quotes, and its claims come from the product details. Minor flaws are the repeated \"no sharp edges\" and balance points, and the slight overpromise in \"without the risk\" and \"built for durability\" given the review complaints."
+  },
+  {
+   "id": "B07DY1RDQR",
+   "isolated": 0,
+   "seq_fwd": 1,
+   "seq_rev": 1,
+   "expert": 1,
+   "fwd_feedback": "The description is about 180 words in Markdown with clear subheadings and a call to action. It leaves out weaknesses, links and invented quotes, and its claims come from the product details. Minor flaws are the passive \"are designed for\" phrasing and a feature/benefit split that could be more explicit."
+  },
+  {
+   "id": "B07Q2G8WBV",
+   "isolated": 0,
+   "seq_fwd": 1,
+   "seq_rev": 1,
+   "expert": 1,
+   "fwd_feedback": "The description is about 200 words in Markdown with clear subheadings, mostly active voice and a call to action. Its claims come from the listing, and it leaves out weaknesses, links and invented quotes. Minor flaws are that features and benefits are only loosely separated and that it calls the product a \"jar\" without support."
+  },
+  {
+   "id": "B018T24L14",
+   "isolated": 0,
+   "seq_fwd": 1,
+   "seq_rev": 1,
+   "expert": 1,
+   "fwd_feedback": "The description is about 170 words in Markdown with clear subheadings, an active voice and a call to action. It leaves out the peeling-color complaint, links and invented quotes, and its claims mostly come from the reviews. Minor flaws are the unsupported \"slim design\" claim and a feature/benefit split that could be sharper."
+  },
+  {
+   "id": "B00ANIQPZ8",
+   "isolated": 0,
+   "seq_fwd": 1,
+   "seq_rev": 1,
+   "expert": 0,
+   "fwd_feedback": "The description is about 190 words in Markdown with clear subheadings, an active voice and a call to action. Its claims come from the listing and reviews, and it leaves out weaknesses, links and invented quotes. Minor flaws are the loose feature/benefit split, the \"generous amount\" claim (some reviews say there's little product) and the extra notes section."
+  },
+  {
+   "id": "B004L152NE",
+   "isolated": 0,
+   "seq_fwd": 1,
+   "seq_rev": 1,
+   "expert": 0,
+   "fwd_feedback": "The description is about 160 words in Markdown with clear subheadings, an active voice and a call to action. It leaves out weaknesses, links and invented quotes, and its claims come from the listing and reviews. Minor flaws are the loose feature/benefit split, the unsupported \"jackets\" claim, and a length slightly under 200 words."
+  },
+  {
+   "id": "B085WM34YM",
+   "isolated": 0,
+   "seq_fwd": 1,
+   "seq_rev": 1,
+   "expert": 1,
+   "fwd_feedback": "The description is about 175 words in Markdown with clear subheadings, an active voice and a call to action. Its claims come from the listing and reviews, and it leaves out weaknesses like slipping, links and invented quotes. Minor flaws are the \"a effortless\" typo, a loose feature/benefit split, and a length a bit under 200 words."
+  },
+  {
+   "id": "B000G8LWZI",
+   "isolated": 0,
+   "seq_fwd": 1,
+   "seq_rev": 0,
+   "expert": 1,
+   "fwd_feedback": "The description is about 170 words in Markdown with clear subheadings, an active voice and a call to action. Its claims come from the listing, and it leaves out weaknesses, links and invented quotes. Minor flaws are the unsupported \"spreads easily and absorbs well\" claim, the questionable \"gentle\" exfoliation, a length a bit under 200 words, and a generic closing."
+  },
+  {
+   "id": "B003PP0CPU",
+   "isolated": 0,
+   "seq_fwd": 1,
+   "seq_rev": 1,
+   "expert": 0,
+   "fwd_feedback": "The description is about 190 words in Markdown with clear subheadings, an active voice and a call to action. Its claims come from the listing and reviews, and it leaves out weaknesses, links and invented quotes. Minor flaws are the loose feature/benefit split and the unnecessary closing note about the omitted negative reviews, which would need trimming."
+  },
+  {
+   "id": "B08DJZRM1M",
+   "isolated": 0,
+   "seq_fwd": 1,
+   "seq_rev": 0,
+   "expert": 1,
+   "fwd_feedback": "The description is about 165 words in Markdown with clear subheadings, an active voice and a call to action. Its claims come from the listing, and it leaves out weaknesses like dried-up product, links and invented quotes. Minor flaws are a length under 200 words, a loose feature/benefit split, and some generic phrasing such as \"creative outlet\"."
+  },
+  {
+   "id": "B07CJWG8SP",
+   "isolated": 0,
+   "seq_fwd": 1,
+   "seq_rev": 1,
+   "expert": 1,
+   "fwd_feedback": "The description is about 210 words in Markdown with clear subheadings, an active voice and a call to action. Its claims come from the listing and reviews, and it leaves out the slipping and color-swap complaints, links and invented quotes. Minor flaws are that \"many shoppers say\" overstates a single review, and the feature/benefit split is a little loose."
+  },
+  {
+   "id": "B01F4N9MEC",
+   "isolated": 0,
+   "seq_fwd": 1,
+   "seq_rev": 1,
+   "expert": 1,
+   "fwd_feedback": "The description is about 165 words in Markdown with clear subheadings, an active voice and a call to action. Its claims come from the listing and reviews, and it leaves out weaknesses, links and invented quotes. Minor flaws are the slightly short length, the loose feature/benefit split, and \"morning meetings to evening plans\", which stretches the 4-5 hour skin longevity."
+  },
+  {
+   "id": "B0B87SH493",
+   "isolated": 0,
+   "seq_fwd": 1,
+   "seq_rev": 1,
+   "expert": 1,
+   "fwd_feedback": "The description is about 250 words in Markdown with clear subheadings, an active voice and a call to action. It leaves out the battery-life complaint, links and invented quotes. Minor flaws are \"about the size of a pen\" and \"cuticle exfoliation\", which the listing doesn't support, and a length a little above the 200-word target."
+  },
+  {
+   "id": "B08ZBCGXSS",
+   "isolated": 1,
+   "seq_fwd": 0,
+   "seq_rev": 1,
+   "expert": 1,
+   "fwd_feedback": "It calls the cream a \"plant-based option\" even though emu oil is animal-derived, and it calls the product a \"jar\" when the listing never says so."
+  }
+ ]
+}

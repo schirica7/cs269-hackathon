@@ -1,0 +1,1 @@
+{"text": "{\"good\":true,\"feedback\":\"The response has all six keys and no PII. It is about 183 words, within the 100\u2013200 range.\"}", "structured": {"good": true, "feedback": "The response has all six keys and no PII. It is about 183 words, within the 100\u2013200 range."}, "model": "claude-sonnet-5-5", "cost_usd": 0.0314304, "ms": 8013, "cached": false}

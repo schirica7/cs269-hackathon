@@ -1,0 +1,627 @@
+{
+ "pipeline": "product",
+ "n": 100,
+ "n_bad": 8,
+ "good_rate": 0.92,
+ "ffr_threshold": 0.4,
+ "candidates": [
+  {
+   "id": "g1_1",
+   "criterion": "g1",
+   "type": "llm",
+   "name": "strict_copy_only",
+   "selectivity": 0.92,
+   "coverage": 1.0,
+   "ffr": 0.0,
+   "alignment": 1.0,
+   "n_bad": 8,
+   "n_good": 92,
+   "n_assertions": 1
+  },
+  {
+   "id": "g1_2",
+   "criterion": "g1",
+   "type": "llm",
+   "name": "balanced_requester_directed",
+   "selectivity": 0.92,
+   "coverage": 1.0,
+   "ffr": 0.0,
+   "alignment": 1.0,
+   "n_bad": 8,
+   "n_good": 92,
+   "n_assertions": 1
+  },
+  {
+   "id": "g1_3",
+   "criterion": "g1",
+   "type": "llm",
+   "name": "lenient_substantive_notes",
+   "selectivity": 0.92,
+   "coverage": 1.0,
+   "ffr": 0.0,
+   "alignment": 1.0,
+   "n_bad": 8,
+   "n_good": 92,
+   "n_assertions": 1
+  },
+  {
+   "id": "g2_1",
+   "criterion": "g2",
+   "type": "code",
+   "name": "literal_spec_regex",
+   "selectivity": 0.92,
+   "coverage": 1.0,
+   "ffr": 0.0,
+   "alignment": 1.0,
+   "n_bad": 8,
+   "n_good": 92,
+   "n_assertions": 1
+  },
+  {
+   "id": "g2_2",
+   "criterion": "g2",
+   "type": "code",
+   "name": "precision_focused_pronoun_and_annotation",
+   "selectivity": 0.92,
+   "coverage": 1.0,
+   "ffr": 0.0,
+   "alignment": 1.0,
+   "n_bad": 8,
+   "n_good": 92,
+   "n_assertions": 1
+  },
+  {
+   "id": "g2_3",
+   "criterion": "g2",
+   "type": "code",
+   "name": "strict_meta_commentary_detector",
+   "selectivity": 0.92,
+   "coverage": 1.0,
+   "ffr": 0.0,
+   "alignment": 1.0,
+   "n_bad": 8,
+   "n_good": 92,
+   "n_assertions": 1
+  },
+  {
+   "id": "g3_1",
+   "criterion": "g3",
+   "type": "code",
+   "name": "literal_char_strip_whitespace_split",
+   "selectivity": 0.98,
+   "coverage": 0.0,
+   "ffr": 0.021739130434782608,
+   "alignment": 0.0,
+   "n_bad": 8,
+   "n_good": 92,
+   "n_assertions": 1
+  },
+  {
+   "id": "g3_2",
+   "criterion": "g3",
+   "type": "code",
+   "name": "markdown_aware_alnum_tokens",
+   "selectivity": 0.98,
+   "coverage": 0.0,
+   "ffr": 0.021739130434782608,
+   "alignment": 0.0,
+   "n_bad": 8,
+   "n_good": 92,
+   "n_assertions": 1
+  },
+  {
+   "id": "g3_3",
+   "criterion": "g3",
+   "type": "code",
+   "name": "symbols_to_space_regex_words_strict",
+   "selectivity": 0.98,
+   "coverage": 0.0,
+   "ffr": 0.021739130434782608,
+   "alignment": 0.0,
+   "n_bad": 8,
+   "n_good": 92,
+   "n_assertions": 1
+  },
+  {
+   "id": "g4_1",
+   "criterion": "g4",
+   "type": "code",
+   "name": "literal_spec_regex",
+   "selectivity": 1.0,
+   "coverage": 0.0,
+   "ffr": 0.0,
+   "alignment": 0.0,
+   "n_bad": 8,
+   "n_good": 92,
+   "n_assertions": 1
+  },
+  {
+   "id": "g4_2",
+   "criterion": "g4",
+   "type": "code",
+   "name": "commonmark_lenient_headings_broad_links",
+   "selectivity": 1.0,
+   "coverage": 0.0,
+   "ffr": 0.0,
+   "alignment": 0.0,
+   "n_bad": 8,
+   "n_good": 92,
+   "n_assertions": 1
+  },
+  {
+   "id": "g4_3",
+   "criterion": "g4",
+   "type": "code",
+   "name": "structural_strict_headings_targeted_links",
+   "selectivity": 1.0,
+   "coverage": 0.0,
+   "ffr": 0.0,
+   "alignment": 0.0,
+   "n_bad": 8,
+   "n_good": 92,
+   "n_assertions": 1
+  },
+  {
+   "id": "g5_1",
+   "criterion": "g5",
+   "type": "llm",
+   "name": "strict_explicit_final_cta",
+   "selectivity": 0.83,
+   "coverage": 1.0,
+   "ffr": 0.09782608695652174,
+   "alignment": 0.9485714285714286,
+   "n_bad": 8,
+   "n_good": 92,
+   "n_assertions": 1
+  },
+  {
+   "id": "g5_2",
+   "criterion": "g5",
+   "type": "llm",
+   "name": "moderate_closing_section_cta",
+   "selectivity": 0.87,
+   "coverage": 1.0,
+   "ffr": 0.05434782608695652,
+   "alignment": 0.9720670391061452,
+   "n_bad": 8,
+   "n_good": 92,
+   "n_assertions": 1
+  },
+  {
+   "id": "g5_3",
+   "criterion": "g5",
+   "type": "llm",
+   "name": "lenient_cta_in_closing",
+   "selectivity": 0.91,
+   "coverage": 1.0,
+   "ffr": 0.010869565217391304,
+   "alignment": 0.994535519125683,
+   "n_bad": 8,
+   "n_good": 92,
+   "n_assertions": 1
+  }
+ ],
+ "evalgen_16": {
+  "sampled": [
+   "B00011JN5G",
+   "B0001HYJW2",
+   "B000UK4Y5M",
+   "B000G8LWZI",
+   "B003PP0CPU",
+   "B001B68ZHW",
+   "B004L152NE",
+   "B001MP47WE",
+   "B00776E934",
+   "B00A7KLMOG",
+   "B00ANIQPZ8",
+   "B00BDB2RLA",
+   "B07MBHXMPL",
+   "B00KBYQDI8",
+   "B088S9S9BD",
+   "B00LPQX3SO"
+  ],
+  "sample_grades": {
+   "B00011JN5G": 0,
+   "B0001HYJW2": 1,
+   "B000UK4Y5M": 0,
+   "B000G8LWZI": 1,
+   "B003PP0CPU": 0,
+   "B001B68ZHW": 1,
+   "B004L152NE": 0,
+   "B001MP47WE": 1,
+   "B00776E934": 0,
+   "B00A7KLMOG": 1,
+   "B00ANIQPZ8": 0,
+   "B00BDB2RLA": 1,
+   "B07MBHXMPL": 0,
+   "B00KBYQDI8": 1,
+   "B088S9S9BD": 0,
+   "B00LPQX3SO": 1
+  },
+  "chosen": [
+   "g1_1",
+   "g2_1",
+   "g3_1",
+   "g4_1",
+   "g5_1"
+  ],
+  "detail": {
+   "g1": {
+    "g1_1": {
+     "coverage": 1.0,
+     "ffr": 0.0,
+     "alignment": 1.0,
+     "n_bad": 8,
+     "n_good": 8,
+     "n_assertions": 1
+    },
+    "g1_2": {
+     "coverage": 1.0,
+     "ffr": 0.0,
+     "alignment": 1.0,
+     "n_bad": 8,
+     "n_good": 8,
+     "n_assertions": 1
+    },
+    "g1_3": {
+     "coverage": 1.0,
+     "ffr": 0.0,
+     "alignment": 1.0,
+     "n_bad": 8,
+     "n_good": 8,
+     "n_assertions": 1
+    },
+    "selected": "g1_1"
+   },
+   "g2": {
+    "g2_1": {
+     "coverage": 1.0,
+     "ffr": 0.0,
+     "alignment": 1.0,
+     "n_bad": 8,
+     "n_good": 8,
+     "n_assertions": 1
+    },
+    "g2_2": {
+     "coverage": 1.0,
+     "ffr": 0.0,
+     "alignment": 1.0,
+     "n_bad": 8,
+     "n_good": 8,
+     "n_assertions": 1
+    },
+    "g2_3": {
+     "coverage": 1.0,
+     "ffr": 0.0,
+     "alignment": 1.0,
+     "n_bad": 8,
+     "n_good": 8,
+     "n_assertions": 1
+    },
+    "selected": "g2_1"
+   },
+   "g3": {
+    "g3_1": {
+     "coverage": 0.0,
+     "ffr": 0.0,
+     "alignment": 0.0,
+     "n_bad": 8,
+     "n_good": 8,
+     "n_assertions": 1
+    },
+    "g3_2": {
+     "coverage": 0.0,
+     "ffr": 0.0,
+     "alignment": 0.0,
+     "n_bad": 8,
+     "n_good": 8,
+     "n_assertions": 1
+    },
+    "g3_3": {
+     "coverage": 0.0,
+     "ffr": 0.0,
+     "alignment": 0.0,
+     "n_bad": 8,
+     "n_good": 8,
+     "n_assertions": 1
+    },
+    "selected": "g3_1"
+   },
+   "g4": {
+    "g4_1": {
+     "coverage": 0.0,
+     "ffr": 0.0,
+     "alignment": 0.0,
+     "n_bad": 8,
+     "n_good": 8,
+     "n_assertions": 1
+    },
+    "g4_2": {
+     "coverage": 0.0,
+     "ffr": 0.0,
+     "alignment": 0.0,
+     "n_bad": 8,
+     "n_good": 8,
+     "n_assertions": 1
+    },
+    "g4_3": {
+     "coverage": 0.0,
+     "ffr": 0.0,
+     "alignment": 0.0,
+     "n_bad": 8,
+     "n_good": 8,
+     "n_assertions": 1
+    },
+    "selected": "g4_1"
+   },
+   "g5": {
+    "g5_1": {
+     "coverage": 1.0,
+     "ffr": 0.0,
+     "alignment": 1.0,
+     "n_bad": 8,
+     "n_good": 8,
+     "n_assertions": 1
+    },
+    "g5_2": {
+     "coverage": 1.0,
+     "ffr": 0.0,
+     "alignment": 1.0,
+     "n_bad": 8,
+     "n_good": 8,
+     "n_assertions": 1
+    },
+    "g5_3": {
+     "coverage": 1.0,
+     "ffr": 0.0,
+     "alignment": 1.0,
+     "n_bad": 8,
+     "n_good": 8,
+     "n_assertions": 1
+    },
+    "selected": "g5_1"
+   }
+  },
+  "coverage": 1.0,
+  "ffr": 0.11956521739130435,
+  "alignment": 0.9364161849710982,
+  "n_bad": 8,
+  "n_good": 92,
+  "n_assertions": 5
+ },
+ "evalgen_all": {
+  "chosen": [
+   "g1_1",
+   "g2_1",
+   "g3_1",
+   "g4_1",
+   "g5_3"
+  ],
+  "detail": {
+   "g1": {
+    "g1_1": {
+     "coverage": 1.0,
+     "ffr": 0.0,
+     "alignment": 1.0,
+     "n_bad": 8,
+     "n_good": 92,
+     "n_assertions": 1
+    },
+    "g1_2": {
+     "coverage": 1.0,
+     "ffr": 0.0,
+     "alignment": 1.0,
+     "n_bad": 8,
+     "n_good": 92,
+     "n_assertions": 1
+    },
+    "g1_3": {
+     "coverage": 1.0,
+     "ffr": 0.0,
+     "alignment": 1.0,
+     "n_bad": 8,
+     "n_good": 92,
+     "n_assertions": 1
+    },
+    "selected": "g1_1"
+   },
+   "g2": {
+    "g2_1": {
+     "coverage": 1.0,
+     "ffr": 0.0,
+     "alignment": 1.0,
+     "n_bad": 8,
+     "n_good": 92,
+     "n_assertions": 1
+    },
+    "g2_2": {
+     "coverage": 1.0,
+     "ffr": 0.0,
+     "alignment": 1.0,
+     "n_bad": 8,
+     "n_good": 92,
+     "n_assertions": 1
+    },
+    "g2_3": {
+     "coverage": 1.0,
+     "ffr": 0.0,
+     "alignment": 1.0,
+     "n_bad": 8,
+     "n_good": 92,
+     "n_assertions": 1
+    },
+    "selected": "g2_1"
+   },
+   "g3": {
+    "g3_1": {
+     "coverage": 0.0,
+     "ffr": 0.021739130434782608,
+     "alignment": 0.0,
+     "n_bad": 8,
+     "n_good": 92,
+     "n_assertions": 1
+    },
+    "g3_2": {
+     "coverage": 0.0,
+     "ffr": 0.021739130434782608,
+     "alignment": 0.0,
+     "n_bad": 8,
+     "n_good": 92,
+     "n_assertions": 1
+    },
+    "g3_3": {
+     "coverage": 0.0,
+     "ffr": 0.021739130434782608,
+     "alignment": 0.0,
+     "n_bad": 8,
+     "n_good": 92,
+     "n_assertions": 1
+    },
+    "selected": "g3_1"
+   },
+   "g4": {
+    "g4_1": {
+     "coverage": 0.0,
+     "ffr": 0.0,
+     "alignment": 0.0,
+     "n_bad": 8,
+     "n_good": 92,
+     "n_assertions": 1
+    },
+    "g4_2": {
+     "coverage": 0.0,
+     "ffr": 0.0,
+     "alignment": 0.0,
+     "n_bad": 8,
+     "n_good": 92,
+     "n_assertions": 1
+    },
+    "g4_3": {
+     "coverage": 0.0,
+     "ffr": 0.0,
+     "alignment": 0.0,
+     "n_bad": 8,
+     "n_good": 92,
+     "n_assertions": 1
+    },
+    "selected": "g4_1"
+   },
+   "g5": {
+    "g5_1": {
+     "coverage": 1.0,
+     "ffr": 0.09782608695652174,
+     "alignment": 0.9485714285714286,
+     "n_bad": 8,
+     "n_good": 92,
+     "n_assertions": 1
+    },
+    "g5_2": {
+     "coverage": 1.0,
+     "ffr": 0.05434782608695652,
+     "alignment": 0.9720670391061452,
+     "n_bad": 8,
+     "n_good": 92,
+     "n_assertions": 1
+    },
+    "g5_3": {
+     "coverage": 1.0,
+     "ffr": 0.010869565217391304,
+     "alignment": 0.994535519125683,
+     "n_bad": 8,
+     "n_good": 92,
+     "n_assertions": 1
+    },
+    "selected": "g5_3"
+   }
+  },
+  "coverage": 1.0,
+  "ffr": 0.03260869565217391,
+  "alignment": 0.9834254143646408,
+  "n_bad": 8,
+  "n_good": 92,
+  "n_assertions": 5
+ },
+ "spade": {
+  "chosen": [
+   "g1_1",
+   "g2_1",
+   "g3_1",
+   "g4_1",
+   "g5_1"
+  ],
+  "feasible": true,
+  "coverage": 1.0,
+  "ffr": 0.11956521739130435,
+  "alignment": 0.9364161849710982,
+  "n_bad": 8,
+  "n_good": 92,
+  "n_assertions": 5
+ },
+ "sampling": {
+  "random": [
+   0.9364161849710982,
+   0.9364161849710982,
+   0.9834254143646408,
+   0.9364161849710982,
+   0.9834254143646408,
+   0.96045197740113,
+   0.96045197740113,
+   0.9364161849710982,
+   0.9834254143646408,
+   0.9364161849710982
+  ],
+  "highest": [
+   0.9834254143646408,
+   0.9834254143646408,
+   0.9834254143646408,
+   0.9834254143646408,
+   0.9834254143646408,
+   0.9834254143646408,
+   0.9834254143646408,
+   0.9834254143646408,
+   0.9834254143646408,
+   0.9834254143646408
+  ],
+  "lowest": [
+   0.9364161849710982,
+   0.9364161849710982,
+   0.9364161849710982,
+   0.9364161849710982,
+   0.9364161849710982,
+   0.9364161849710982,
+   0.9364161849710982,
+   0.9364161849710982,
+   0.9364161849710982,
+   0.9364161849710982
+  ],
+  "alternating": [
+   0.9364161849710982,
+   0.9364161849710982,
+   0.9364161849710982,
+   0.9364161849710982,
+   0.9364161849710982,
+   0.9364161849710982,
+   0.9364161849710982,
+   0.9364161849710982,
+   0.9364161849710982,
+   0.9364161849710982
+  ]
+ },
+ "paper": {
+  "evalgen": {
+   "n_assertions": 4,
+   "coverage": 0.73,
+   "ffr": 0.39,
+   "alignment": 66.46
+  },
+  "spade": {
+   "n_assertions": 9,
+   "coverage": 0.49,
+   "ffr": 0.39,
+   "alignment": 54.35
+  },
+  "ffr_threshold": 0.4,
+  "good_rate": 0.51,
+  "n": 100
+ }
+}

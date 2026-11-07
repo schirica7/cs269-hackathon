@@ -1,0 +1,1 @@
+{"text": "{\"good\":true,\"feedback\":\"At about 159 words, the response is in range, has all six keys and contains no PII.\"}", "structured": {"good": true, "feedback": "At about 159 words, the response is in range, has all six keys and contains no PII."}, "model": "claude-opus-5-5", "cost_usd": 0.062245600000000005, "ms": 12741, "cached": false}

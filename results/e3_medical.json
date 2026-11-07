@@ -1,0 +1,153 @@
+{
+ "pipeline": "medical",
+ "model": "sonnet",
+ "n": 84,
+ "flip_iso_vs_seq_fwd": 0.39285714285714285,
+ "flip_iso_vs_seq_rev": 0.40476190476190477,
+ "flip_seq_fwd_vs_rev": 0.20238095238095238,
+ "bad_rate": {
+  "isolated": 0.5714285714285714,
+  "seq_fwd": 0.1785714285714286,
+  "seq_rev": 0.16666666666666663,
+  "expert": 0.26190476190476186
+ },
+ "seq_fwd_bad_rate_by_quartile": [
+  0.5238095238095238,
+  0.04761904761904767,
+  0.09523809523809523,
+  0.04761904761904767
+ ],
+ "seq_rev_bad_rate_by_quartile": [
+  0.33333333333333337,
+  0.19047619047619047,
+  0.04761904761904767,
+  0.09523809523809523
+ ],
+ "accuracy": {
+  "isolated": 0.6904761904761905,
+  "seq_fwd": 0.7738095238095238,
+  "seq_rev": 0.7380952380952381
+ },
+ "examples_flipped": [
+  {
+   "id": "D2N078",
+   "isolated": 0,
+   "seq_fwd": 0,
+   "seq_rev": 1,
+   "expert": 0,
+   "fwd_feedback": "The response is about 220 words, well over the requested ~150-word limit, and it should have been summarized more tightly."
+  },
+  {
+   "id": "D2N068",
+   "isolated": 0,
+   "seq_fwd": 0,
+   "seq_rev": 1,
+   "expert": 0,
+   "fwd_feedback": "The response is about 210 words, well over the requested ~150-word limit, and it should have been summarized more tightly."
+  },
+  {
+   "id": "D2N012",
+   "isolated": 0,
+   "seq_fwd": 0,
+   "seq_rev": 1,
+   "expert": 1,
+   "fwd_feedback": "The response is about 210 words, well over the requested ~150-word limit, and it should have been summarized more tightly."
+  },
+  {
+   "id": "D2N027",
+   "isolated": 0,
+   "seq_fwd": 0,
+   "seq_rev": 1,
+   "expert": 1,
+   "fwd_feedback": "The response is about 205 words, well over the requested ~150-word limit, and it should have been summarized more tightly."
+  },
+  {
+   "id": "D2N002",
+   "isolated": 0,
+   "seq_fwd": 0,
+   "seq_rev": 1,
+   "expert": 0,
+   "fwd_feedback": "The response is about 215 words, well over the requested ~150-word limit, so it should have been summarized more tightly. It also says \"right elbow\" pain, but the patient never said which elbow."
+  },
+  {
+   "id": "D2N008",
+   "isolated": 0,
+   "seq_fwd": 1,
+   "seq_rev": 1,
+   "expert": 1,
+   "fwd_feedback": "The response is about 185 words, which is acceptable for a dense transcript and matches the earlier accepted case. It covers all six fields accurately, leaves out PII, and uses the requested bullet format."
+  },
+  {
+   "id": "D2N048",
+   "isolated": 0,
+   "seq_fwd": 0,
+   "seq_rev": 1,
+   "expert": 0,
+   "fwd_feedback": "The response is about 260 words, far over the requested ~150-word limit, so the physical exam and follow-up bullets should have been summarized much more tightly."
+  },
+  {
+   "id": "D2N055",
+   "isolated": 0,
+   "seq_fwd": 1,
+   "seq_rev": 1,
+   "expert": 1,
+   "fwd_feedback": "The response is about 190 words, which is a bit long but acceptable for this transcript and in line with earlier accepted cases. It covers all six fields accurately, leaves out PII, and uses the requested bullet format."
+  },
+  {
+   "id": "D2N035",
+   "isolated": 0,
+   "seq_fwd": 0,
+   "seq_rev": 1,
+   "expert": 0,
+   "fwd_feedback": "The response is about 250 words, far over the requested ~150-word limit, so the physical exam, medications and follow-up bullets should have been summarized more tightly."
+  },
+  {
+   "id": "D2N060",
+   "isolated": 0,
+   "seq_fwd": 0,
+   "seq_rev": 1,
+   "expert": 0,
+   "fwd_feedback": "The response is about 225 words, well over the requested ~150, and the physical exam and follow-up bullets needed tighter summarizing. It also wrongly says Monday morning is a clinic follow-up, when the doctor was scheduling surgery then."
+  },
+  {
+   "id": "D2N030",
+   "isolated": 0,
+   "seq_fwd": 0,
+   "seq_rev": 1,
+   "expert": 1,
+   "fwd_feedback": "At about 200 words it runs over the ~150 target, and it wrongly lists stopping the birth control pill as a possible cause of the anxiety, since the patient stopped it later because of increased hunger."
+  },
+  {
+   "id": "D2N044",
+   "isolated": 0,
+   "seq_fwd": 1,
+   "seq_rev": 1,
+   "expert": 1,
+   "fwd_feedback": "The response covers all six fields accurately, leaves out PII, and uses the bullet format. It correctly says no new medication and that OTC NSAIDs continue. It runs about 200 words, a bit over the ~150 target, but that is close to earlier accepted cases."
+  },
+  {
+   "id": "D2N049",
+   "isolated": 0,
+   "seq_fwd": 1,
+   "seq_rev": 1,
+   "expert": 1,
+   "fwd_feedback": "The response covers all six fields accurately and leaves out PII. It uses the bullet format and correctly lists oxycodone 5 mg every 6\u20138 hours as the new medication, with no changes to the others. At about 200 words it runs a bit over the ~150 target, but that matches earlier accepted cases."
+  },
+  {
+   "id": "D2N087",
+   "isolated": 0,
+   "seq_fwd": 1,
+   "seq_rev": 1,
+   "expert": 1,
+   "fwd_feedback": "The response covers all six fields accurately, leaves out PII, and uses the bullet format. It correctly lists doxycycline 100 mg twice daily as new, with lisinopril and metformin continued. It runs about 190 words, a bit over the ~150 target, which matches earlier accepted cases. The basic metabolic panel isn't visible in the truncated transcript, but it is plausible given the kidney function discussion."
+  },
+  {
+   "id": "D2N059",
+   "isolated": 0,
+   "seq_fwd": 1,
+   "seq_rev": 1,
+   "expert": 1,
+   "fwd_feedback": "The response covers all six fields accurately and leaves out PII. It uses the bullet format and correctly lists Singulair as new with the dose as N/A, albuterol continued, and follow-up in six weeks plus therapy and screening. At about 200 words it runs a bit over the ~150 target, which matches earlier accepted cases."
+  }
+ ]
+}

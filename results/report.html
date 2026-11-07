@@ -1,0 +1,347 @@
+
+<title>Who Validates the Validator Agent</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* layout: one reading column (~68ch) with full-width tables; a report-card feel: ruled sections, numeric columns in mono */
+:root{--bg:#f6f7f9;--fg:#15202b;--mute:#5b6675;--line:#d9dee6;--panel:#ffffff;--acc:#2a5bd7;--acc-ink:#1d44a8;
+ --s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--s4:#8a93a3;--good:#1f8a4c;--bad:#c6373a;--warn:#b97200;
+ --display:"Fraunces",Georgia,serif;--body:"IBM Plex Sans",system-ui,-apple-system,Segoe UI,sans-serif;--mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#121619;--fg:#e8ecf1;--mute:#a2acb9;--line:#2a323c;--panel:#1a2026;--acc:#6f9bff;--acc-ink:#9ab8ff;
+ --s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#7c8696;--good:#3fb36f;--bad:#e66767;--warn:#d99a2b;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121619;--fg:#e8ecf1;--mute:#a2acb9;--line:#2a323c;--panel:#1a2026;--acc:#6f9bff;--acc-ink:#9ab8ff;
+ --s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#7c8696;--good:#3fb36f;--bad:#e66767;--warn:#d99a2b;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:16px/1.55 var(--body);margin:0}
+.wrap{max-width:980px;margin:0 auto;padding-block:28px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.hero{border-bottom:1px solid var(--line);padding-bottom:24px;margin-bottom:8px}
+.eyebrow{font:500 12px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mute);margin:0 0 10px}
+h1{font:700 clamp(30px,5vw,46px)/1.08 var(--display);margin:0 0 14px;text-wrap:balance;letter-spacing:-.01em}
+h2{font:600 clamp(22px,3vw,28px)/1.2 var(--display);margin:40px 0 12px;text-wrap:balance}
+h3{font:600 17px/1.3 var(--body);margin:26px 0 8px}
+p,li{max-width:68ch} p{margin:0 0 12px}
+.lede{font-size:18px;color:var(--fg);max-width:70ch}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:20px}
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.tile .k{font:500 12px/1.3 var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--mute)}
+.tile .v{font:700 30px/1.1 var(--display);margin:6px 0 4px;font-variant-numeric:tabular-nums}
+.tile .s{font-size:13px;color:var(--mute)}
+.flow{display:flex;flex-wrap:wrap;gap:6px 10px;font:500 13px/1.4 var(--mono);color:var(--acc-ink);margin:10px 0 6px}
+.tw{overflow-x:auto;margin:10px 0 14px;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font:600 12px/1.3 var(--mono);letter-spacing:.03em;color:var(--mute);background:var(--bg);position:sticky;top:0}
+td{font-variant-numeric:tabular-nums} tbody tr:last-child td{border-bottom:0}
+.rubric td:nth-child(2){min-width:260px} .rubric td:nth-child(4){min-width:300px;color:var(--mute)}
+.sc{display:inline-block;min-width:22px;text-align:center;border-radius:6px;font:600 12px/20px var(--mono);color:#fff}
+.sc2{background:var(--good)} .sc1{background:var(--warn)} .sc0{background:var(--bad)}
+figure{margin:14px 0 6px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 14px 8px}
+figcaption{font-size:13px;color:var(--mute);margin-top:6px}
+.axl{font:12.5px var(--body);fill:var(--fg)} .val{font:500 11.5px var(--mono);fill:var(--mute)} .grid{stroke:var(--line);stroke-width:1}
+.mut{color:var(--mute)} .note{font-size:14px;color:var(--mute)} code{font:13px var(--mono);background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:1px 5px}
+a{color:var(--acc-ink)} ul{padding-left:20px} li{margin-bottom:8px}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+<div class="wrap">
+<header class="hero">
+  <p class="eyebrow">CS 269 · revibe + replication · Shankar et al., UIST 2024</p>
+  <h1>Who validates the validator agent?</h1>
+  <p class="lede">EvalGen (Shankar et al., UIST 2024) rebuilt from the paper alone, its offline evaluation re-run with 2026 models, and then one change: the human grader is replaced by an LLM evaluator agent, the way most &#x27;programmer agent + evaluator agent&#x27; pipelines in industry are wired today.</p>
+  <div class="tiles">
+    <div class="tile"><div class="k">Revibeability</div><div class="v">0.82</div><div class="s">23/28 rubric points</div></div>
+    <div class="tile"><div class="k">Good outputs today</div><div class="v">74% · 92%</div><div class="s">medical · product (paper: 68% · 51%)</div></div>
+    <div class="tile"><div class="k">Evaluator-agent accuracy vs expert</div><div class="v">48%–94%</div><div class="s">range over 6 agent configurations</div></div>
+  </div>
+</header>
+
+<section id="system"><h2>1 · What was rebuilt</h2>
+<p>The agent was given the paper text and asked to reimplement EvalGen as a web tool. The result is a Python package plus a single-page UI: Claude Opus 5.5 proposes binary criteria from the prompt under test (optionally after the user has graded a few outputs); a second call per criterion writes three candidate implementations, Python functions or LLM grader prompts; candidates run on every pipeline output while the user grades outputs thumbs-up / thumbs-down with optional feedback; the next output to grade is chosen by the paper&#x27;s alternating policy over selectivity-weighted confidence scores; and the most aligned candidate per criterion is selected under a false-failure-rate threshold and shown in a Report Card (per-criterion confusion matrices, aggregate coverage / FFR / alignment) and a Table View. The paper&#x27;s SPADE baseline is re-implemented as a search for the smallest assertion set meeting the FFR threshold. No API key was available, so every model call runs through Claude Code in headless mode with tools disabled.</p>
+<div class="flow"><span>Prompt under test</span><span>→ Criteria (LLM)</span><span>→ Candidate assertions (code / LLM)</span><span>→ Execute on outputs</span><span>→ Human grades (alternating sampler)</span><span>→ Select by alignment</span><span>→ Report card · Table view</span></div>
+<h3>Revibeability rubric (Adar et al., UIST 2026: 2 full / 1 partial / 0 fail per test)</h3>
+<div class="tw"><table class="rubric"><thead><tr><th>#</th><th>Test</th><th>Score</th><th>Notes</th></tr></thead><tbody><tr><td>T1</td><td>Wizard with Infer / Manual / Grade First and a description</td><td><span class="sc sc2">2</span></td><td>Present (`ui/index.html` wizard screen). Entry point is a standalone page, not a node button (see T14).</td></tr><tr><td>T2</td><td>Infer: LLM proposes binary criteria from the prompt</td><td><span class="sc sc2">2</span></td><td>`/api/criteria/suggest` -&gt; opus; 5 criteria with code/llm type; verified by request.</td></tr><tr><td>T3</td><td>Pick Criteria: edit, toggle code/LLM, delete, deselect, add</td><td><span class="sc sc2">2</span></td><td>All five operations are in the criteria screen; `/api/criteria` persists them.</td></tr><tr><td>T4</td><td>Grade First: grade &gt;=5 then suggestions use feedback</td><td><span class="sc sc2">2</span></td><td>Grade screen reachable before criteria; suggest() passes graded bad outputs + feedback into the prompt (verified in criteria experiment: surfaced &#x27;No meta-commentary&#x27;).</td></tr><tr><td>T5</td><td>Implement It: one LLM call per criterion -&gt; several candidates (code / grader prompt), executed on outputs</td><td><span class="sc sc2">2</span></td><td>3 candidates per criterion via one structured-output call; code runs in a subprocess, grader prompts via haiku; 12 candidates x 100 outputs executed.</td></tr><tr><td>T6</td><td>Streaming: results arrive progressively while grading</td><td><span class="sc sc1">1</span></td><td>Execution results are published per candidate as each finishes; candidates within one criterion are not streamed from a partial LLM response (the paper parsed JSON markers mid-stream).</td></tr><tr><td>T7</td><td>Grade screen: output in focus, vars, prompt, Good/Bad, feedback, I&#x27;m tired, no fixed end point</td><td><span class="sc sc2">2</span></td><td>All elements present; progress bar shown only as count, matching the paper&#x27;s choice not to impose an end point.</td></tr><tr><td>T8</td><td>Sampler: alternating policy over selectivity-weighted confidence scores, updated live</td><td><span class="sc sc2">2</span></td><td>`align.confidence_scores` + `align.sample(&#x27;alternating&#x27;)`; `/api/next` recomputes on every call from current results and grades.</td></tr><tr><td>T9</td><td>Coverage / FFR / alignment as defined; per-criterion argmax subject to FFR threshold</td><td><span class="sc sc2">2</span></td><td>`align.metrics`, `align.select_evalgen`; threshold editable in the Report Card (`/api/threshold`).</td></tr><tr><td>T10</td><td>Report Card: per-criterion alignment + confusion matrix, aggregate coverage/FFR, implementations visible</td><td><span class="sc sc2">2</span></td><td>Confusion matrix is shown inline rather than on hover; all candidates listed with the selected one highlighted.</td></tr><tr><td>T11</td><td>Return to main interface: selected assertions in a Multi-Eval node runnable on all outputs</td><td><span class="sc sc1">1</span></td><td>Assertions are already executed on all outputs and shown in the Table View, but there is no ChainForge node to return to.</td></tr><tr><td>T12</td><td>Table View: rows outputs, columns assertions, pass/fail cells, grades visible</td><td><span class="sc sc2">2</span></td><td>Implemented; expands output text per row.</td></tr><tr><td>T13</td><td>Navigate back / revise a prior grade</td><td><span class="sc sc1">1</span></td><td>`/api/ungrade` exists and grades are a map, but the UI has no arrow buttons to step back; revision requires reopening the grading screen.</td></tr><tr><td>T14</td><td>Embedded in ChainForge (nodes, prompt node, LLM querying)</td><td><span class="sc sc0">0</span></td><td>Not rebuilt; the revibe is a standalone app around the pipeline runner.</td></tr></tbody></table></div>
+<p class="note">The rebuild scores 23/28 = 0.82 (0.89 excluding the ChainForge-embedding test, which the paper treats as host infrastructure). This sits inside the 0.80–1.00 range Adar et al. report for ten UIST systems. Misses: no step-back arrows on the grading screen, candidates are not streamed from a partially generated LLM response, and there is no ChainForge node to return to.</p>
+</section>
+
+<section id="e1"><h2>2 · Re-running the paper's offline evaluation</h2>
+<p>Same two pipelines and prompts as the paper (84 ACI-Bench doctor–patient transcripts; 100 Amazon All Beauty products with reviews), the same four + three criteria, 16 alternating-sampled grades, and the paper&#x27;s FFR thresholds (10% medical, 40% product). The generator is Claude Haiku 5.5 in place of GPT-3.5-Turbo; candidates are written by Claude Opus 5.5 in place of GPT-4; LLM graders run on Haiku. Ground truth is one careful grader with a fixed rule set (see Method).</p>
+<figure><svg viewBox="0 0 560 226" width="100%" style="max-width:560px;display:block" role="img" aria-label="bar chart">
+<text x="180" y="53.0" text-anchor="end" class="axl">medical: EvalGen</text>
+<rect x="190" y="32" width="151.6" height="14" rx="3" fill="var(--s1)"/>
+<text x="347.6" y="43" class="val">48%</text>
+<rect x="190" y="49" width="204.8" height="14" rx="3" fill="var(--s2)"/>
+<text x="400.8" y="60" class="val">65%</text>
+<text x="180" y="101.0" text-anchor="end" class="axl">medical: SPADE</text>
+<rect x="190" y="80" width="151.6" height="14" rx="3" fill="var(--s1)"/>
+<text x="347.6" y="91" class="val">48%</text>
+<rect x="190" y="97" width="303.5" height="14" rx="3" fill="var(--s2)"/>
+<text x="499.5" y="108" class="val">97%</text>
+<text x="180" y="149.0" text-anchor="end" class="axl">product: EvalGen</text>
+<rect x="190" y="128" width="208.7" height="14" rx="3" fill="var(--s1)"/>
+<text x="404.7" y="139" class="val">66%</text>
+<rect x="190" y="145" width="154.7" height="14" rx="3" fill="var(--s2)"/>
+<text x="350.7" y="156" class="val">49%</text>
+<text x="180" y="197.0" text-anchor="end" class="axl">product: SPADE</text>
+<rect x="190" y="176" width="170.7" height="14" rx="3" fill="var(--s1)"/>
+<text x="366.7" y="187" class="val">54%</text>
+<rect x="190" y="193" width="154.7" height="14" rx="3" fill="var(--s2)"/>
+<text x="350.7" y="204" class="val">49%</text>
+<line x1="190.0" y1="28" x2="190.0" y2="222" class="grid"/>
+<line x1="268.5" y1="28" x2="268.5" y2="222" class="grid"/>
+<line x1="347.0" y1="28" x2="347.0" y2="222" class="grid"/>
+<line x1="425.5" y1="28" x2="425.5" y2="222" class="grid"/>
+<line x1="504.0" y1="28" x2="504.0" y2="222" class="grid"/>
+<rect x="190" y="4" width="12" height="12" rx="3" fill="var(--s1)"/><text x="208" y="14" class="axl">Paper (2024)</text>
+<rect x="360" y="4" width="12" height="12" rx="3" fill="var(--s2)"/><text x="378" y="14" class="axl">This re-run (2026)</text>
+</svg><figcaption>Alignment of the selected assertion set, scored on all ground-truth grades.</figcaption></figure>
+<div class="tw"><table class=""><thead><tr><th>Pipeline</th><th>Method</th><th># assertions</th><th>Coverage</th><th>FFR</th><th>Alignment</th><th>Paper</th></tr></thead><tbody><tr><td>medical</td><td>EvalGen · 16 grades</td><td>3</td><td>1.00</td><td>0.52</td><td><b>65.2%</b></td><td>48.3% (n=3)</td></tr><tr><td>medical</td><td>SPADE-like · all grades</td><td>3</td><td>1.00</td><td>0.06</td><td><b>96.7%</b></td><td>48.3% (n=5)</td></tr><tr><td>medical</td><td>EvalGen · all grades</td><td>3</td><td>1.00</td><td>0.06</td><td><b>96.7%</b></td><td>–</td></tr><tr><td>product</td><td>EvalGen · 16 grades</td><td>4</td><td>0.38</td><td>0.28</td><td><b>49.3%</b></td><td>66.5% (n=4)</td></tr><tr><td>product</td><td>SPADE-like · all grades</td><td>4</td><td>0.38</td><td>0.28</td><td><b>49.3%</b></td><td>54.4% (n=9)</td></tr><tr><td>product</td><td>EvalGen · all grades</td><td>4</td><td>0.38</td><td>0.28</td><td><b>49.3%</b></td><td>–</td></tr></tbody></table></div>
+<p>Two things changed in two years. First, the generator got better: 74% and 92% of outputs are good versus 68% and 51% in the paper, so a 16-grade sample for the product pipeline contains only two bad outputs. Second, the failure modes changed. In the medical pipeline, PII leaks (the paper&#x27;s dominant failure) appear in 3 of 84 outputs while 14 outputs are simply too long, so word-count code catches almost everything and alignment is far above the paper&#x27;s 48%. In the product pipeline, none of the paper&#x27;s failures (negative review content, links, bad Markdown, length) occur any more. All 8 bad outputs fail for a reason the 2024 criteria do not name: the model appends notes addressed to the requester after the copy (&#x27;Notes for your review: I omitted...&#x27;). The paper-era criteria therefore top out at 38% coverage, and alignment drops from the paper&#x27;s 66% to 49%. The absolute numbers in Table 1 did not hold; the mechanism behind them did.</p>
+<h3>Sampling policy (paper Fig. 4)</h3>
+<figure><svg viewBox="0 0 560 198" width="100%" style="max-width:560px;display:block" role="img" aria-label="bar chart">
+<text x="180" y="70.0" text-anchor="end" class="axl">medical</text>
+<rect x="190" y="32" width="288.1" height="14" rx="3" fill="var(--s4)"/>
+<text x="484.1" y="43" class="val">92%</text>
+<rect x="190" y="49" width="233.3" height="14" rx="3" fill="var(--s2)"/>
+<text x="429.3" y="60" class="val">74%</text>
+<rect x="190" y="66" width="274.5" height="14" rx="3" fill="var(--s3)"/>
+<text x="470.5" y="77" class="val">87%</text>
+<rect x="190" y="83" width="204.8" height="14" rx="3" fill="var(--s1)"/>
+<text x="400.8" y="94" class="val">65%</text>
+<text x="180" y="152.0" text-anchor="end" class="axl">product</text>
+<rect x="190" y="114" width="58.2" height="14" rx="3" fill="var(--s4)"/>
+<text x="254.2" y="125" class="val">19%</text>
+<rect x="190" y="131" width="124.5" height="14" rx="3" fill="var(--s2)"/>
+<text x="320.5" y="142" class="val">40%</text>
+<rect x="190" y="148" width="59.6" height="14" rx="3" fill="var(--s3)"/>
+<text x="255.6" y="159" class="val">19%</text>
+<rect x="190" y="165" width="154.7" height="14" rx="3" fill="var(--s1)"/>
+<text x="350.7" y="176" class="val">49%</text>
+<line x1="190.0" y1="28" x2="190.0" y2="194" class="grid"/>
+<line x1="268.5" y1="28" x2="268.5" y2="194" class="grid"/>
+<line x1="347.0" y1="28" x2="347.0" y2="194" class="grid"/>
+<line x1="425.5" y1="28" x2="425.5" y2="194" class="grid"/>
+<line x1="504.0" y1="28" x2="504.0" y2="194" class="grid"/>
+<rect x="190" y="4" width="12" height="12" rx="3" fill="var(--s4)"/><text x="208" y="14" class="axl">random (mean of 10)</text>
+<rect x="360" y="4" width="12" height="12" rx="3" fill="var(--s2)"/><text x="378" y="14" class="axl">highest</text>
+<rect x="530" y="4" width="12" height="12" rx="3" fill="var(--s3)"/><text x="548" y="14" class="axl">lowest</text>
+<rect x="700" y="4" width="12" height="12" rx="3" fill="var(--s1)"/><text x="718" y="14" class="axl">alternating</text>
+</svg><figcaption>Alignment on all grades after 16 grades under each policy.</figcaption></figure>
+<p>The paper reported that any non-random policy beats random sampling. Here the result splits by pipeline. On product, alternating is best (49% vs 19% random) because the bad outputs are rare and random samples of 16 usually contain none. On medical, random beats alternating (92% vs 65%): the alternating sample happened to contain no output on which the strict 120–180-word candidate false-fails, so EvalGen picked it, and on the full set that candidate fails 44% of good outputs. The sampler is only as good as the 16 grades let it be; with rare failures the policy matters, with common failures a bad draw matters more.</p>
+</section>
+
+<section id="drift"><h2>3 · Criteria drift, two years later</h2>
+<p>The paper&#x27;s central qualitative finding is criteria drift: people cannot fully define criteria before seeing outputs, and grading outputs changes the criteria. The offline numbers above are the quantitative face of the same thing. Asked for criteria from the prompt alone (Infer), Claude Opus 5.5 proposes essentially the paper&#x27;s 2024 list. Given eight graded bad outputs with feedback (Grade First), it proposes the criterion the outputs actually violate.</p>
+<div class="tw"><table class=""><thead><tr><th>Pipeline</th><th>Infer (prompt only)</th><th>Grade First (prompt + 8 graded bad outputs)</th></tr></thead><tbody><tr><td>medical</td><td>All six keys in bullet format<br>Word count near 150<br>No personally identifiable information<br>Faithful to the transcript<br>Correct N/A and dosage handling</td><td>Word count within limit<br>No gender or age PII<br>All six keys as bullets in order<br>Faithful to transcript<br>Medications and follow-up complete with correct N/A use</td></tr><tr><td>product</td><td>Word count within limit<br>Has Markdown subheadings<br>No links<br>Features and benefits kept distinct<br>No made-up quotes or claims</td><td>No meta-commentary<br>No author-voice markers<br>Word count within limit<br>Subheadings present, no links<br>Ends with call to action</td></tr></tbody></table></div>
+<p>For the product pipeline the Grade-First list leads with &#x27;No meta-commentary&#x27; and &#x27;No author-voice markers&#x27;, neither of which exists in the Infer list or the paper. For medical, Grade First sharpens the PII criterion to &#x27;No gender or age PII&#x27; because the graded bad outputs leaked gender through pronouns and age through phrases like &#x27;55-year-old male&#x27;. This is the paper&#x27;s claim reproduced with a different grader and different models: criteria depend on the outputs observed.</p>
+<h3>Second iteration: implement the Grade-First criteria (product)</h3><div class="tw"><table class=""><thead><tr><th>Method</th><th># assertions</th><th>Coverage</th><th>FFR</th><th>Alignment</th></tr></thead><tbody><tr><td>EvalGen · 16 grades</td><td>5</td><td>1.00</td><td>0.12</td><td><b>93.6%</b></td></tr><tr><td>EvalGen · all grades</td><td>5</td><td>1.00</td><td>0.03</td><td><b>98.3%</b></td></tr><tr><td>SPADE-like</td><td>5</td><td>1.00</td><td>0.12</td><td><b>93.6%</b></td></tr></tbody></table></div>
+<p>Implementing the Grade-First criteria and re-running EvalGen on the same 100 outputs lifts coverage from 0.38 to 1.00 and alignment from 49% to 94% with the same 16 grades (98% with all grades). The &#x27;no meta-commentary&#x27; criterion is caught equally well by a regex for first-person asides and by an LLM grader, which is also what participants in the paper wanted: code where code suffices, an LLM where it does not.</p>
+</section>
+
+<section id="e2"><h2>4 · The change: an evaluator agent replaces the human grader</h2>
+<p>Six evaluator agents (Claude Haiku 5.5, Sonnet 5.5, Opus 5.5; each either shown only the prompt, or also the explicit criteria list) graded every output good/bad with one sentence of feedback, exactly the signal EvalGen collects from a person. Two questions: how well does the agent agree with the expert grader, and what happens to the assertion set EvalGen selects when the agent&#x27;s grades drive selection?</p>
+<figure><svg viewBox="0 0 560 814" width="100%" style="max-width:560px;display:block" role="img" aria-label="bar chart">
+<text x="180" y="61.5" text-anchor="end" class="axl">medical: haiku/isolated</text>
+<rect x="190" y="32" width="285.5" height="14" rx="3" fill="var(--s1)"/>
+<text x="481.5" y="43" class="val">91%</text>
+<rect x="190" y="49" width="162.1" height="14" rx="3" fill="var(--s3)"/>
+<text x="358.1" y="60" class="val">52%</text>
+<rect x="190" y="66" width="194.4" height="14" rx="3" fill="var(--s2)"/>
+<text x="390.4" y="77" class="val">62%</text>
+<text x="180" y="126.5" text-anchor="end" class="axl">medical: haiku/criteria</text>
+<rect x="190" y="97" width="285.5" height="14" rx="3" fill="var(--s1)"/>
+<text x="481.5" y="108" class="val">91%</text>
+<rect x="190" y="114" width="268.4" height="14" rx="3" fill="var(--s3)"/>
+<text x="464.4" y="125" class="val">85%</text>
+<rect x="190" y="131" width="272.9" height="14" rx="3" fill="var(--s2)"/>
+<text x="468.9" y="142" class="val">87%</text>
+<text x="180" y="191.5" text-anchor="end" class="axl">medical: sonnet/isolated</text>
+<rect x="190" y="162" width="314.0" height="14" rx="3" fill="var(--s1)"/>
+<text x="510.0" y="173" class="val">100%</text>
+<rect x="190" y="179" width="182.3" height="14" rx="3" fill="var(--s3)"/>
+<text x="378.3" y="190" class="val">58%</text>
+<rect x="190" y="196" width="216.8" height="14" rx="3" fill="var(--s2)"/>
+<text x="412.8" y="207" class="val">69%</text>
+<text x="180" y="256.5" text-anchor="end" class="axl">medical: sonnet/criteria</text>
+<rect x="190" y="227" width="271.2" height="14" rx="3" fill="var(--s1)"/>
+<text x="467.2" y="238" class="val">86%</text>
+<rect x="190" y="244" width="303.9" height="14" rx="3" fill="var(--s3)"/>
+<text x="499.9" y="255" class="val">97%</text>
+<rect x="190" y="261" width="295.3" height="14" rx="3" fill="var(--s2)"/>
+<text x="491.3" y="272" class="val">94%</text>
+<text x="180" y="321.5" text-anchor="end" class="axl">medical: opus/isolated</text>
+<rect x="190" y="292" width="314.0" height="14" rx="3" fill="var(--s1)"/>
+<text x="510.0" y="303" class="val">100%</text>
+<rect x="190" y="309" width="136.7" height="14" rx="3" fill="var(--s3)"/>
+<text x="332.7" y="320" class="val">44%</text>
+<rect x="190" y="326" width="183.2" height="14" rx="3" fill="var(--s2)"/>
+<text x="379.2" y="337" class="val">58%</text>
+<text x="180" y="386.5" text-anchor="end" class="axl">medical: opus/criteria</text>
+<rect x="190" y="357" width="299.7" height="14" rx="3" fill="var(--s1)"/>
+<text x="495.7" y="368" class="val">95%</text>
+<rect x="190" y="374" width="288.7" height="14" rx="3" fill="var(--s3)"/>
+<text x="484.7" y="385" class="val">92%</text>
+<rect x="190" y="391" width="291.6" height="14" rx="3" fill="var(--s2)"/>
+<text x="487.6" y="402" class="val">93%</text>
+<text x="180" y="451.5" text-anchor="end" class="axl">product: haiku/isolated</text>
+<rect x="190" y="422" width="235.5" height="14" rx="3" fill="var(--s1)"/>
+<text x="431.5" y="433" class="val">75%</text>
+<rect x="190" y="439" width="167.2" height="14" rx="3" fill="var(--s3)"/>
+<text x="363.2" y="450" class="val">53%</text>
+<rect x="190" y="456" width="172.7" height="14" rx="3" fill="var(--s2)"/>
+<text x="368.7" y="467" class="val">55%</text>
+<text x="180" y="516.5" text-anchor="end" class="axl">product: haiku/criteria</text>
+<rect x="190" y="487" width="78.5" height="14" rx="3" fill="var(--s1)"/>
+<text x="274.5" y="498" class="val">25%</text>
+<rect x="190" y="504" width="283.3" height="14" rx="3" fill="var(--s3)"/>
+<text x="479.3" y="515" class="val">90%</text>
+<rect x="190" y="521" width="266.9" height="14" rx="3" fill="var(--s2)"/>
+<text x="462.9" y="532" class="val">85%</text>
+<text x="180" y="581.5" text-anchor="end" class="axl">product: sonnet/isolated</text>
+<rect x="190" y="552" width="157.0" height="14" rx="3" fill="var(--s1)"/>
+<text x="353.0" y="563" class="val">50%</text>
+<rect x="190" y="569" width="198.0" height="14" rx="3" fill="var(--s3)"/>
+<text x="394.0" y="580" class="val">63%</text>
+<rect x="190" y="586" width="194.7" height="14" rx="3" fill="var(--s2)"/>
+<text x="390.7" y="597" class="val">62%</text>
+<text x="180" y="646.5" text-anchor="end" class="axl">product: sonnet/criteria</text>
+<rect x="190" y="617" width="78.5" height="14" rx="3" fill="var(--s1)"/>
+<text x="274.5" y="628" class="val">25%</text>
+<rect x="190" y="634" width="290.1" height="14" rx="3" fill="var(--s3)"/>
+<text x="486.1" y="645" class="val">92%</text>
+<rect x="190" y="651" width="273.2" height="14" rx="3" fill="var(--s2)"/>
+<text x="469.2" y="662" class="val">87%</text>
+<text x="180" y="711.5" text-anchor="end" class="axl">product: opus/isolated</text>
+<rect x="190" y="682" width="314.0" height="14" rx="3" fill="var(--s1)"/>
+<text x="510.0" y="693" class="val">100%</text>
+<rect x="190" y="699" width="136.5" height="14" rx="3" fill="var(--s3)"/>
+<text x="332.5" y="710" class="val">43%</text>
+<rect x="190" y="716" width="150.7" height="14" rx="3" fill="var(--s2)"/>
+<text x="346.7" y="727" class="val">48%</text>
+<text x="180" y="776.5" text-anchor="end" class="axl">product: opus/criteria</text>
+<rect x="190" y="747" width="235.5" height="14" rx="3" fill="var(--s1)"/>
+<text x="431.5" y="758" class="val">75%</text>
+<rect x="190" y="764" width="293.5" height="14" rx="3" fill="var(--s3)"/>
+<text x="489.5" y="775" class="val">93%</text>
+<rect x="190" y="781" width="288.9" height="14" rx="3" fill="var(--s2)"/>
+<text x="484.9" y="792" class="val">92%</text>
+<line x1="190.0" y1="28" x2="190.0" y2="810" class="grid"/>
+<line x1="268.5" y1="28" x2="268.5" y2="810" class="grid"/>
+<line x1="347.0" y1="28" x2="347.0" y2="810" class="grid"/>
+<line x1="425.5" y1="28" x2="425.5" y2="810" class="grid"/>
+<line x1="504.0" y1="28" x2="504.0" y2="810" class="grid"/>
+<rect x="190" y="4" width="12" height="12" rx="3" fill="var(--s1)"/><text x="208" y="14" class="axl">coverage (catches expert-bad)</text>
+<rect x="360" y="4" width="12" height="12" rx="3" fill="var(--s3)"/><text x="378" y="14" class="axl">1 − FFR (passes expert-good)</text>
+<rect x="530" y="4" width="12" height="12" rx="3" fill="var(--s2)"/><text x="548" y="14" class="axl">accuracy</text>
+</svg><figcaption>The evaluator agent treated as a single assertion, scored against expert grades.</figcaption></figure>
+<figure><svg viewBox="0 0 560 814" width="100%" style="max-width:560px;display:block" role="img" aria-label="bar chart">
+<text x="180" y="61.5" text-anchor="end" class="axl">medical: haiku/isolated</text>
+<rect x="190" y="32" width="204.8" height="14" rx="3" fill="var(--s1)"/>
+<text x="400.8" y="43" class="val">65%</text>
+<rect x="190" y="49" width="198.1" height="14" rx="3" fill="var(--s2)"/>
+<text x="394.1" y="60" class="val">63%</text>
+<rect x="190" y="66" width="296.7" height="14" rx="3" fill="var(--s4)"/>
+<text x="492.7" y="77" class="val">94%</text>
+<text x="180" y="126.5" text-anchor="end" class="axl">medical: haiku/criteria</text>
+<rect x="190" y="97" width="204.8" height="14" rx="3" fill="var(--s1)"/>
+<text x="400.8" y="108" class="val">65%</text>
+<rect x="190" y="114" width="204.8" height="14" rx="3" fill="var(--s2)"/>
+<text x="400.8" y="125" class="val">65%</text>
+<rect x="190" y="131" width="303.5" height="14" rx="3" fill="var(--s4)"/>
+<text x="499.5" y="142" class="val">97%</text>
+<text x="180" y="191.5" text-anchor="end" class="axl">medical: sonnet/isolated</text>
+<rect x="190" y="162" width="204.8" height="14" rx="3" fill="var(--s1)"/>
+<text x="400.8" y="173" class="val">65%</text>
+<rect x="190" y="179" width="204.8" height="14" rx="3" fill="var(--s2)"/>
+<text x="400.8" y="190" class="val">65%</text>
+<rect x="190" y="196" width="303.5" height="14" rx="3" fill="var(--s4)"/>
+<text x="499.5" y="207" class="val">97%</text>
+<text x="180" y="256.5" text-anchor="end" class="axl">medical: sonnet/criteria</text>
+<rect x="190" y="227" width="204.8" height="14" rx="3" fill="var(--s1)"/>
+<text x="400.8" y="238" class="val">65%</text>
+<rect x="190" y="244" width="204.8" height="14" rx="3" fill="var(--s2)"/>
+<text x="400.8" y="255" class="val">65%</text>
+<rect x="190" y="261" width="303.5" height="14" rx="3" fill="var(--s4)"/>
+<text x="499.5" y="272" class="val">97%</text>
+<text x="180" y="321.5" text-anchor="end" class="axl">medical: opus/isolated</text>
+<rect x="190" y="292" width="204.8" height="14" rx="3" fill="var(--s1)"/>
+<text x="400.8" y="303" class="val">65%</text>
+<rect x="190" y="309" width="204.8" height="14" rx="3" fill="var(--s2)"/>
+<text x="400.8" y="320" class="val">65%</text>
+<rect x="190" y="326" width="226.6" height="14" rx="3" fill="var(--s4)"/>
+<text x="422.6" y="337" class="val">72%</text>
+<text x="180" y="386.5" text-anchor="end" class="axl">medical: opus/criteria</text>
+<rect x="190" y="357" width="204.8" height="14" rx="3" fill="var(--s1)"/>
+<text x="400.8" y="368" class="val">65%</text>
+<rect x="190" y="374" width="204.8" height="14" rx="3" fill="var(--s2)"/>
+<text x="400.8" y="385" class="val">65%</text>
+<rect x="190" y="391" width="303.5" height="14" rx="3" fill="var(--s4)"/>
+<text x="499.5" y="402" class="val">97%</text>
+<text x="180" y="451.5" text-anchor="end" class="axl">product: haiku/isolated</text>
+<rect x="190" y="422" width="154.7" height="14" rx="3" fill="var(--s1)"/>
+<text x="350.7" y="433" class="val">49%</text>
+<rect x="190" y="439" width="48.9" height="14" rx="3" fill="var(--s2)"/>
+<text x="244.9" y="450" class="val">16%</text>
+<rect x="190" y="456" width="115.0" height="14" rx="3" fill="var(--s4)"/>
+<text x="311.0" y="467" class="val">37%</text>
+<text x="180" y="516.5" text-anchor="end" class="axl">product: haiku/criteria</text>
+<rect x="190" y="487" width="154.7" height="14" rx="3" fill="var(--s1)"/>
+<text x="350.7" y="498" class="val">49%</text>
+<rect x="190" y="504" width="48.9" height="14" rx="3" fill="var(--s2)"/>
+<text x="244.9" y="515" class="val">16%</text>
+<rect x="190" y="521" width="115.0" height="14" rx="3" fill="var(--s4)"/>
+<text x="311.0" y="532" class="val">37%</text>
+<text x="180" y="581.5" text-anchor="end" class="axl">product: sonnet/isolated</text>
+<rect x="190" y="552" width="154.7" height="14" rx="3" fill="var(--s1)"/>
+<text x="350.7" y="563" class="val">49%</text>
+<rect x="190" y="569" width="48.9" height="14" rx="3" fill="var(--s2)"/>
+<text x="244.9" y="580" class="val">16%</text>
+<rect x="190" y="586" width="115.0" height="14" rx="3" fill="var(--s4)"/>
+<text x="311.0" y="597" class="val">37%</text>
+<text x="180" y="646.5" text-anchor="end" class="axl">product: sonnet/criteria</text>
+<rect x="190" y="617" width="154.7" height="14" rx="3" fill="var(--s1)"/>
+<text x="350.7" y="628" class="val">49%</text>
+<rect x="190" y="634" width="60.7" height="14" rx="3" fill="var(--s2)"/>
+<text x="256.7" y="645" class="val">19%</text>
+<rect x="190" y="651" width="154.7" height="14" rx="3" fill="var(--s4)"/>
+<text x="350.7" y="662" class="val">49%</text>
+<text x="180" y="711.5" text-anchor="end" class="axl">product: opus/isolated</text>
+<rect x="190" y="682" width="154.7" height="14" rx="3" fill="var(--s1)"/>
+<text x="350.7" y="693" class="val">49%</text>
+<rect x="190" y="699" width="48.9" height="14" rx="3" fill="var(--s2)"/>
+<text x="244.9" y="710" class="val">16%</text>
+<rect x="190" y="716" width="115.0" height="14" rx="3" fill="var(--s4)"/>
+<text x="311.0" y="727" class="val">37%</text>
+<text x="180" y="776.5" text-anchor="end" class="axl">product: opus/criteria</text>
+<rect x="190" y="747" width="154.7" height="14" rx="3" fill="var(--s1)"/>
+<text x="350.7" y="758" class="val">49%</text>
+<rect x="190" y="764" width="60.7" height="14" rx="3" fill="var(--s2)"/>
+<text x="256.7" y="775" class="val">19%</text>
+<rect x="190" y="781" width="154.7" height="14" rx="3" fill="var(--s4)"/>
+<text x="350.7" y="792" class="val">49%</text>
+<line x1="190.0" y1="28" x2="190.0" y2="810" class="grid"/>
+<line x1="268.5" y1="28" x2="268.5" y2="810" class="grid"/>
+<line x1="347.0" y1="28" x2="347.0" y2="810" class="grid"/>
+<line x1="425.5" y1="28" x2="425.5" y2="810" class="grid"/>
+<line x1="504.0" y1="28" x2="504.0" y2="810" class="grid"/>
+<rect x="190" y="4" width="12" height="12" rx="3" fill="var(--s1)"/><text x="208" y="14" class="axl">16 human grades</text>
+<rect x="360" y="4" width="12" height="12" rx="3" fill="var(--s2)"/><text x="378" y="14" class="axl">16 agent grades</text>
+<rect x="530" y="4" width="12" height="12" rx="3" fill="var(--s4)"/><text x="548" y="14" class="axl">all agent grades</text>
+</svg><figcaption>Alignment of the EvalGen-selected assertion set with expert truth, depending on who supplied the grades.</figcaption></figure>
+<div class="tw"><table class=""><thead><tr><th>Pipeline</th><th>Agent</th><th>Agent bad-rate (expert)</th><th>Accuracy</th><th>Coverage</th><th>FFR</th><th>Alignment</th><th>EvalGen w/ 16 agent grades</th><th>EvalGen w/ all agent grades</th><th>EvalGen w/ 16 human grades</th></tr></thead><tbody><tr><td>medical</td><td>haiku/isolated</td><td>60% <span class='mut'>(26%)</span></td><td>62%</td><td>0.91</td><td>0.48</td><td><b>66%</b></td><td>63% <span class='mut'>(n=3)</span></td><td>94%</td><td>65%</td></tr><tr><td>medical</td><td>haiku/criteria</td><td>35% <span class='mut'>(26%)</span></td><td>87%</td><td>0.91</td><td>0.15</td><td><b>88%</b></td><td>65% <span class='mut'>(n=3)</span></td><td>97%</td><td>65%</td></tr><tr><td>medical</td><td>sonnet/isolated</td><td>57% <span class='mut'>(26%)</span></td><td>69%</td><td>1.00</td><td>0.42</td><td><b>73%</b></td><td>65% <span class='mut'>(n=3)</span></td><td>97%</td><td>65%</td></tr><tr><td>medical</td><td>sonnet/criteria</td><td>25% <span class='mut'>(26%)</span></td><td>94%</td><td>0.86</td><td>0.03</td><td><b>91%</b></td><td>65% <span class='mut'>(n=3)</span></td><td>97%</td><td>65%</td></tr><tr><td>medical</td><td>opus/isolated</td><td>68% <span class='mut'>(26%)</span></td><td>58%</td><td>1.00</td><td>0.56</td><td><b>61%</b></td><td>65% <span class='mut'>(n=3)</span></td><td>72%</td><td>65%</td></tr><tr><td>medical</td><td>opus/criteria</td><td>31% <span class='mut'>(26%)</span></td><td>93%</td><td>0.95</td><td>0.08</td><td><b>94%</b></td><td>65% <span class='mut'>(n=3)</span></td><td>97%</td><td>65%</td></tr><tr><td>product</td><td>haiku/isolated</td><td>49% <span class='mut'>(8%)</span></td><td>55%</td><td>0.75</td><td>0.47</td><td><b>62%</b></td><td>16% <span class='mut'>(n=4)</span></td><td>37%</td><td>49%</td></tr><tr><td>product</td><td>haiku/criteria</td><td>11% <span class='mut'>(8%)</span></td><td>85%</td><td>0.25</td><td>0.10</td><td><b>39%</b></td><td>16% <span class='mut'>(n=4)</span></td><td>37%</td><td>49%</td></tr><tr><td>product</td><td>sonnet/isolated</td><td>38% <span class='mut'>(8%)</span></td><td>62%</td><td>0.50</td><td>0.37</td><td><b>56%</b></td><td>16% <span class='mut'>(n=4)</span></td><td>37%</td><td>49%</td></tr><tr><td>product</td><td>sonnet/criteria</td><td>9% <span class='mut'>(8%)</span></td><td>87%</td><td>0.25</td><td>0.08</td><td><b>39%</b></td><td>19% <span class='mut'>(n=4)</span></td><td>49%</td><td>49%</td></tr><tr><td>product</td><td>opus/isolated</td><td>60% <span class='mut'>(8%)</span></td><td>48%</td><td>1.00</td><td>0.57</td><td><b>61%</b></td><td>16% <span class='mut'>(n=4)</span></td><td>37%</td><td>49%</td></tr><tr><td>product</td><td>opus/criteria</td><td>12% <span class='mut'>(8%)</span></td><td>92%</td><td>0.75</td><td>0.07</td><td><b>83%</b></td><td>19% <span class='mut'>(n=4)</span></td><td>49%</td><td>49%</td></tr></tbody></table></div>
+<p>Shown only the prompt, every evaluator agent is far stricter than the expert grader: it fails 57–68% of medical outputs (expert: 26%) and 38–60% of product outputs (expert: 8%), reaching for criteria the expert did not apply, such as &#x27;overpromises&#x27;, &#x27;benefits are vague&#x27;, or &#x27;bold labels instead of plain key: value&#x27;. Coverage is high (it catches nearly every expert-bad output) but the false failure rate runs 37–57%, so accuracy sits at 48–69%, and Opus is the strictest of the three. Handing the agent the explicit criteria list changes everything: false failure rates fall to 3–15%, accuracy rises to 85–94%, and the agent&#x27;s bad-rate lands within a few points of the expert&#x27;s. With criteria, the agent&#x27;s own grades are as aligned as the better single assertions (88–94% alignment on medical; 83% for Opus on product). The residual errors are instructive: with criteria, the agent still fails good outputs for being too short (&#x27;131 words falls well short of around 200&#x27;) or for safety text it reads as a drawback, and it passes two of the eight meta-commentary outputs, exactly the failure the 2024 criteria do not name. For the pipeline question, the assertion set EvalGen selects from 16 agent grades is about as good as the one it selects from 16 human grades (65% vs 65% medical; 16–19% vs 49% product, where two bad outputs in the sample are too few for either grader). Letting the agent grade all 84–100 outputs, which costs nothing, reaches the all-human-grades ceiling on medical (97%) for four of six agents.</p>
+<p>In other words, the evaluator agent is a reasonable validator once a human has written down what counts, and an unreliable one when asked to infer that from the prompt alone. The strictness is not noise: agents disagreed with the expert in the same direction, by applying unstated criteria. The paper&#x27;s phrase for this was &#x27;tacit criteria&#x27;; here the tacit criteria belong to the model.</p>
+</section>
+
+<section id="e3"><h2>5 · Does the evaluator agent drift like the participants did?</h2>
+<p>The paper&#x27;s participants changed their criteria as they graded, and one of them admitted grading for consistency with earlier verdicts rather than belief. To test the analogue, Claude Sonnet 5.5 graded each output three ways: in isolation; sequentially, seeing its own last eight outputs and verdicts (forward order); and sequentially in reverse order.</p>
+<div class="tw"><table class=""><thead><tr><th>Pipeline</th><th>Flips: isolated → seq (fwd)</th><th>isolated → seq (rev)</th><th>seq fwd → seq rev</th><th>Bad-rate: iso / fwd / rev / expert</th><th>Accuracy: iso / fwd / rev</th><th>Bad-rate by quartile of the forward pass</th></tr></thead><tbody><tr><td>medical</td><td>39%</td><td>40%</td><td>20%</td><td>57% / 18% / 17% / <b>26%</b></td><td>69% / 77% / 74%</td><td>52% → 5% → 10% → 5%</td></tr><tr><td>product</td><td>30%</td><td>26%</td><td>6%</td><td>38% / 10% / 14% / <b>8%</b></td><td>62% / 84% / 80%</td><td>12% → 12% → 4% → 12%</td></tr></tbody></table></div>
+<p>The agent drifts, and in a recognisable direction. Seeing its own history makes it markedly more lenient: on medical the bad-rate falls from 57% in isolation to 18% (forward) and 17% (reverse), on product from 38% to 10% and 14%, in both cases landing near the expert&#x27;s 26% and 8%. Within the forward medical pass the threshold visibly moves: 52% of the first quartile is flagged bad, then 5%, 10% and 5% for the rest. The feedback text says why: &#x27;about 185 words, which is acceptable for a dense transcript and matches the earlier accepted case.&#x27; Thirty to forty percent of verdicts flip between the isolated and sequential conditions, and 6–20% flip between the two orderings of the same outputs, so the grade an output receives depends on which outputs preceded it. The drift happens to improve agreement with the expert here (accuracy 69% → 77% medical, 62% → 84% product), because the isolated agent is too strict and the history pulls it toward the base rate. That is a property of this sample, not a guarantee: the same mechanism would pull an agent toward leniency on a batch of bad outputs. The paper&#x27;s claim that criteria depend on the outputs observed holds for the LLM grader too, and at a faster time scale.</p>
+</section>
+
+<section id="method"><h2>6 · Method notes and caveats</h2>
+<ul>
+<li>Ground truth: all 184 outputs were graded by one grader (Claude Fable 5.1 working interactively in this session, not a human) under a fixed written rule set: medical bad = PII (name, age, gender incl. pronouns, DOB, MRN), more than 210 words, missing key, or no bullet list; product bad = negative statements, links, no Markdown subheadings, more than 300 words, or non-copy text addressed to the requester. The paper used two authors. Treat agreement numbers as expert-stand-in agreement, not human agreement.</li>
+<li>Models: generator Haiku 5.5 (the paper used GPT-3.5-Turbo), criteria and candidate synthesis Opus 5.5 (paper: GPT-4), LLM-based assertions executed with Haiku 5.5, evaluator agents Haiku / Sonnet / Opus 5.5. All calls went through Claude Code in headless mode with tools disabled; about 2,800 distinct calls were made (roughly $25 at list price) and every one is cached, so results/ is reproducible offline.</li>
+<li>The SPADE baseline is a re-implementation of its selection objective (smallest assertion set covering every criterion under the FFR threshold, then maximum coverage) over the same candidate pool, not the SPADE system, which generates its own candidates from prompt history.</li>
+<li>Datasets: ACI-Bench train + valid dialogues (84 of 87 sampled with seed 0), and Amazon Reviews 2023 All Beauty items joined to their reviews, keeping items with at least four reviews including at least one rated 2 or below, so the &quot;no negative statements&quot; criterion has something to catch.</li>
+</ul>
+<p class="note">Repository: <code>cs269-hackathon</code> · <code>evalgen/</code> (package), <code>ui/index.html</code>, <code>results/</code>, <code>REPORT.md</code>.</p>
+</section></div>

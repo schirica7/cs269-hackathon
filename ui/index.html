@@ -1,0 +1,72 @@
+<!doctype html><html><head><meta charset="utf-8"><title>EvalGen (revibe)</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#1a1d23;--mute:#667085;--line:#e4e7ec;--acc:#3b5bdb;--good:#2f9e44;--bad:#e03131;--warn:#f08c00}
+body{margin:0;font:14px/1.45 -apple-system,Segoe UI,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+header{display:flex;gap:16px;align-items:center;padding:10px 18px;background:#fff;border-bottom:1px solid var(--line)}
+header b{font-size:16px} header .step{color:var(--mute)} header .step.on{color:var(--acc);font-weight:600}
+main{max-width:1100px;margin:18px auto;padding:0 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:14px}
+button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit}
+button.pri{background:var(--acc);color:#fff;border-color:var(--acc)} button.good{background:var(--good);color:#fff;border-color:var(--good)}
+button.bad{background:var(--bad);color:#fff;border-color:var(--bad)} button:disabled{opacity:.5;cursor:default}
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.opt{border:1px solid var(--line);border-radius:10px;padding:14px;cursor:pointer}.opt:hover{border-color:var(--acc)}
+.opt h3{margin:0 0 6px}.mute{color:var(--mute)} pre{white-space:pre-wrap;word-break:break-word;background:#f8f9fb;border:1px solid var(--line);border-radius:8px;padding:10px;font-size:12.5px;max-height:340px;overflow:auto}
+.crit{display:grid;grid-template-columns:24px 1fr 2fr 90px 28px;gap:8px;align-items:start;margin-bottom:8px}
+input,textarea,select{font:inherit;border:1px solid var(--line);border-radius:6px;padding:6px;width:100%;box-sizing:border-box}
+.grade{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:12px}.tag{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;background:#eef1f6;color:var(--mute)}
+table{border-collapse:collapse;width:100%;font-size:12.5px}td,th{border:1px solid var(--line);padding:6px;vertical-align:top}th{background:#f8f9fb;position:sticky;top:0}
+.p{color:var(--good);font-weight:600}.f{color:var(--bad);font-weight:600}.n{color:var(--mute)}
+.bar{height:8px;background:#eef1f6;border-radius:4px;overflow:hidden}.bar i{display:block;height:100%;background:var(--acc)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.cm{font-size:12px;color:var(--mute)} .sel{outline:2px solid var(--acc)}
+</style></head><body>
+<header><b>EvalGen</b> <span class="mute">· Multi-Eval node ·</span> <span id="pname" class="mute"></span>
+<span style="flex:1"></span><span class="step" data-s="wizard">1 Wizard</span><span class="step" data-s="criteria">2 Pick Criteria</span><span class="step" data-s="grade">3 Grade</span><span class="step" data-s="report">4 Report Card</span><span class="step" data-s="table">5 Table View</span>
+<span id="cost" class="tag"></span></header>
+<main id="main"></main>
+<script>
+const $=s=>document.querySelector(s); let ST=null, screen='wizard', cur=null, crits=[];
+const api=(p,b)=>fetch('/api'+p,b?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}:{}).then(r=>r.json());
+const esc=s=>String(s??'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+async function refresh(){ST=await api('/state');$('#pname').textContent=`${ST.pipeline} pipeline · ${ST.n_outputs} LLM outputs · gen ${ST.gen_model}`;$('#cost').textContent=`$${(ST.cost_usd||0).toFixed(2)} spent this session`;document.querySelectorAll('.step').forEach(e=>e.classList.toggle('on',e.dataset.s===screen));}
+function go(s){screen=s;render();}
+async function render(){await refresh();const m=$('#main');
+ if(screen==='wizard'){m.innerHTML=`<div class="card"><h2>Generate evaluators for this prompt</h2><p class="mute">EvalGen helps you define criteria for good outputs, implements each criterion as a Python function or an LLM grader, and uses your thumbs-up/down grades to pick the implementations that best match your preferences.</p>
+ <pre>${esc(ST.prompt)}</pre><div class="opts">
+ <div class="opt" onclick="startInfer()"><h3>Infer</h3><div class="mute">Let an LLM suggest criteria from the prompt. You can edit them.</div></div>
+ <div class="opt" onclick="go('criteria')"><h3>Manual</h3><div class="mute">Write your own criteria from scratch.</div></div>
+ <div class="opt" onclick="go('grade')"><h3>Grade First</h3><div class="mute">Grade at least 5 outputs first; suggestions will use your feedback.</div></div></div>
+ ${Object.keys(ST.grades).length?`<p class="mute">${Object.keys(ST.grades).length} outputs graded so far. <button onclick="go('report')">Report Card</button> <button onclick="go('table')">Table View</button></p>`:''}</div>`;}
+ if(screen==='criteria'){crits=ST.criteria.length?ST.criteria:crits;m.innerHTML=`<div class="card"><h2>Pick criteria</h2><p class="mute">Each criterion is a binary check. Toggle whether it should be implemented as Python <b>code</b> or an <b>LLM</b> grader. Edit, remove, or add your own.</p>
+ <div id="clist"></div><div class="row"><button onclick="addCrit()">+ Add criterion</button><button onclick="startInfer()">Suggest with LLM</button><span style="flex:1"></span><button class="pri" onclick="implement()">Implement it →</button></div></div>`;drawCrits();}
+ if(screen==='grade'){m.innerHTML=`<div class="card"><div class="row"><h2 style="margin:0">Grade outputs</h2><span id="prog" class="tag"></span><span style="flex:1"></span><span class="mute" id="impl"></span></div>
+ <div class="bar" style="margin:8px 0"><i id="pbar" style="width:0"></i></div><div id="gbox"></div></div>`;await loadNext();}
+ if(screen==='report'){const r=await api('/report');const a=r.aggregate||{};const pct=x=>x==null?'–':(100*x).toFixed(0)+'%';
+ let per='';for(const c of ST.criteria){const cs=r.per_criterion[c.id]||[];per+=`<div class="card"><div class="row"><b>${esc(c.title)}</b><span class="tag">${c.eval_type}</span><span class="mute">${esc(c.description)}</span></div>`+
+  cs.map(x=>`<div class="card ${x.selected?'sel':''}" style="margin:8px 0"><div class="row"><b>${esc(x.name)}</b>${x.selected?'<span class="tag" style="background:#e7f5ff;color:#1864ab">selected</span>':''}<span class="tag">pass rate ${pct(x.selectivity)}</span>
+  <span class="tag" title="confusion matrix (flagged vs your grades)">alignment ${pct(x.metrics.alignment)} · coverage ${pct(x.metrics.coverage)} · FFR ${pct(x.metrics.ffr)}</span>
+  <span class="cm">flagged&bad ${x.confusion.tp} · flagged&good ${x.confusion.fp} · missed bad ${x.confusion.fn} · passed good ${x.confusion.tn}</span></div><pre>${esc(x.code||x.prompt)}</pre></div>`).join('')+`</div>`;}
+ m.innerHTML=`<div class="card"><h2>Report card</h2><p class="mute">How well the selected assertion set agrees with your ${r.n_graded} grades. Coverage = share of your bad outputs the set catches; false failure rate (FFR) = share of your good outputs it wrongly fails; alignment = their harmonic mean (F1 on failures). FFR threshold <input style="width:70px" id="thr" value="${ST.ffr_threshold}"> <button onclick="setThr()">apply</button></p>
+ <div class="row"><div class="card" style="flex:1"><div class="mute">Coverage</div><h1>${pct(a.coverage)}</h1></div><div class="card" style="flex:1"><div class="mute">False failure rate</div><h1>${pct(a.ffr)}</h1></div><div class="card" style="flex:1"><div class="mute">Alignment</div><h1>${pct(a.alignment)}</h1></div><div class="card" style="flex:1"><div class="mute">Assertions selected</div><h1>${r.chosen.length}/${ST.criteria.length}</h1></div></div>
+ ${ST.status!=='done'?'<p class="mute">⏳ Candidates are still being generated/executed; numbers update as you reload.</p>':''}
+ <div class="row"><button onclick="go('grade')">Grade more</button><button onclick="go('criteria')">Edit criteria</button><button class="pri" onclick="go('table')">Return to Multi-Eval table →</button></div></div>`+per;}
+ if(screen==='table'){const t=await api('/table');m.innerHTML=`<div class="card"><h2>Table view</h2><p class="mute">Rows are LLM outputs, columns are the ${t.columns.length} selected assertions (all candidates until you grade). ✓ pass, ✗ fail, – error.</p>
+ <div style="max-height:70vh;overflow:auto"><table><tr><th>#</th><th>your grade</th>${t.columns.map(c=>`<th>${esc(c.name)}<br><span class="mute">${c.criterion}</span></th>`).join('')}<th>output</th></tr>
+ ${t.rows.map((r,i)=>`<tr><td>${i+1}</td><td>${r.grade==null?'':r.grade?'👍':'👎'}</td>${t.columns.map(c=>{const v=r.cells[c.id];return `<td class="${v===1?'p':v===0?'f':'n'}">${v===1?'✓':v===0?'✗':'–'}</td>`}).join('')}<td><details><summary>${esc(r.output.slice(0,90))}…</summary><pre>${esc(r.output)}</pre></details></td></tr>`).join('')}</table></div>
+ <div class="row" style="margin-top:10px"><button onclick="go('wizard')">↻ Iterate: start EvalGen again</button><button onclick="go('report')">Report card</button></div></div>`;}
+}
+function drawCrits(){$('#clist').innerHTML=crits.map((c,i)=>`<div class="crit"><input type="checkbox" ${c.enabled===false?'':'checked'} onchange="crits[${i}].enabled=this.checked"><input value="${esc(c.title)}" onchange="crits[${i}].title=this.value"><textarea rows=2 onchange="crits[${i}].description=this.value">${esc(c.description)}</textarea>
+ <select onchange="crits[${i}].eval_type=this.value"><option ${c.eval_type==='code'?'selected':''}>code</option><option ${c.eval_type==='llm'?'selected':''}>llm</option></select><button onclick="crits.splice(${i},1);drawCrits()">×</button></div>`).join('')||'<p class="mute">No criteria yet.</p>';}
+function addCrit(){crits.push({title:'',description:'',eval_type:'code',source:'user'});drawCrits();}
+async function startInfer(){$('#main').innerHTML='<div class="card">Asking the LLM for criteria suggestions…</div>';const r=await api('/criteria/suggest',{});crits=r.criteria;go('criteria');}
+async function implement(){await api('/criteria',{criteria:crits.filter(c=>c.enabled!==false&&c.title)});await api('/implement',{});go('grade');}
+async function loadNext(){cur=await api('/next');const st=await api('/state');$('#impl').textContent=st.status==='implementing'?`⚙ generating & running candidates (${st.n_results}/${st.candidates.length||'?'} done) — grade while you wait`:st.status==='done'?`✓ ${st.candidates.length} candidates executed`:'(no criteria implemented yet)';
+ if(cur.done){$('#gbox').innerHTML='<p>All outputs graded.</p><button class="pri" onclick="go(\'report\')">Report card</button>';return;}
+ $('#prog').textContent=`${cur.n_graded} graded / ${cur.n_total}`;$('#pbar').style.width=(100*cur.n_graded/cur.n_total)+'%';
+ $('#gbox').innerHTML=`<div class="grade"><div><div class="mute">Input variables</div><pre>${esc(JSON.stringify(cur.vars,null,1))}</pre></div>
+ <div><div class="mute">LLM response <span class="tag">${cur.id}</span></div><pre style="max-height:460px;background:#fff;border-color:var(--acc)">${esc(cur.output)}</pre>
+ <div class="row"><button class="good" onclick="grade(1)">👍 Good</button><button class="bad" onclick="grade(0)">👎 Bad</button><input id="fb" placeholder="Why is it bad? (optional feedback)" style="flex:1"></div></div>
+ <div><div class="mute">Prompt</div><pre>${esc(ST.prompt)}</pre></div></div><div class="row" style="margin-top:10px"><span style="flex:1"></span><button onclick="go('report')">I'm tired → Report card</button></div>`;}
+async function grade(g){await api('/grade',{id:cur.id,grade:g,feedback:$('#fb').value});await loadNext();}
+async function setThr(){await api('/threshold',{ffr_threshold:parseFloat($('#thr').value)});go('report');}
+render();
+</script></body></html>

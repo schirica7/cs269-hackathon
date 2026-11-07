@@ -36,6 +36,8 @@ class State:
         return {o: g["grade"] for o, g in self.grades.items() if g.get("grade") in (0, 1)}
     def next_to_grade(self, policy="alternating"):
         scores = align.confidence_scores(self.results, [o["id"] for o in self.outputs]) if self.results else {o["id"]: 0 for o in self.outputs}
+        if policy == "alternating":  # one output at a time: alternate ends by how many are graded
+            policy = "highest" if len(self.grades) % 2 == 0 else "lowest"
         pick = align.sample(policy, scores, 1, graded=set(self.grades))
         return pick[0] if pick else None
     def implement(self):

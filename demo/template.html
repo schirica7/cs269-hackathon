@@ -1,0 +1,577 @@
+<title>EvalGen Live Grading</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: a marking desk. The output being graded fills the wide left column; a live report card stays pinned on the right; report, table and class views sit in tabs below. */
+:root{
+  --bg:#f3f5f8; --panel:#ffffff; --ink:#15202b; --mute:#5b6675; --line:#d8dde5; --wash:#eef1f6;
+  --accent:#2a5bd7; --accent-ink:#1d44a8; --accent-soft:#e6edfc;
+  --good:#1f8a4c; --good-soft:#e3f3ea; --bad:#c6373a; --bad-soft:#fbe8e8; --warn:#9a6200; --warn-soft:#fbf0dc; --on-sem:#ffffff;
+  --display:"Fraunces",Georgia,"Times New Roman",serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111518; --panel:#192026; --ink:#e7ebf0; --mute:#a0aab7; --line:#2b333d; --wash:#202830;
+  --accent:#7aa2ff; --accent-ink:#a6c0ff; --accent-soft:#1d2a45;
+  --good:#45b874; --good-soft:#16301f; --bad:#ec6d6d; --bad-soft:#3a1b1c; --warn:#e0a640; --warn-soft:#3a2c12; --on-sem:#0d1114; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111518; --panel:#192026; --ink:#e7ebf0; --mute:#a0aab7; --line:#2b333d; --wash:#202830;
+  --accent:#7aa2ff; --accent-ink:#a6c0ff; --accent-soft:#1d2a45;
+  --good:#45b874; --good-soft:#16301f; --bad:#ec6d6d; --bad-soft:#3a1b1c; --warn:#e0a640; --warn-soft:#3a2c12; --on-sem:#0d1114; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 var(--body);margin:0}
+.wrap{max-width:1240px;margin:0 auto;padding-block:22px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:18px}
+h1,h2,h3{text-wrap:balance;margin:0}
+h1{font:700 clamp(26px,3.6vw,38px)/1.1 var(--display);letter-spacing:-.01em}
+h2{font:600 20px/1.25 var(--display)}
+h3{font:600 15px/1.3 var(--body)}
+p{margin:0}
+.eyebrow{font:500 11.5px/1.4 var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--mute)}
+.mut{color:var(--mute)}
+.lede{max-width:72ch;color:var(--ink);margin-top:8px}
+.note{font-size:13px;color:var(--mute);max-width:72ch}
+button,select,input{font:inherit;color:inherit}
+button{cursor:pointer}
+button:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible,.out:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+kbd{font:500 11px var(--mono);border:1px solid currentColor;border-radius:4px;padding:0 4px;opacity:.7;margin-left:6px}
+
+/* header */
+.top{display:grid;gap:14px}
+.controls{display:flex;flex-wrap:wrap;gap:12px 22px;align-items:flex-end;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.ctl{display:grid;gap:5px;min-width:0}
+.lbl{font:500 11.5px/1.3 var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--mute)}
+.lbl b{color:var(--ink);font-weight:500}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:var(--wash)}
+.seg button{border:0;background:transparent;padding:7px 13px;font-weight:500}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--on-sem)}
+select{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:7px 10px;max-width:100%}
+input[type=range]{width:180px;max-width:100%;accent-color:var(--accent)}
+.ctl.sync{margin-left:auto}
+.chip{display:inline-flex;align-items:center;gap:6px;font:500 12px/1.2 var(--mono);padding:5px 9px;border-radius:999px;background:var(--wash);color:var(--mute);border:1px solid var(--line)}
+.chip::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.chip.ok{color:var(--good);background:var(--good-soft);border-color:transparent}
+.chip.warn{color:var(--warn);background:var(--warn-soft);border-color:transparent}
+.chip.err{color:var(--bad);background:var(--bad-soft);border-color:transparent}
+.pipeblurb{font-size:13.5px;color:var(--mute);max-width:80ch}
+
+/* main grid */
+.grid{display:grid;grid-template-columns:minmax(0,1.62fr) minmax(0,1fr);gap:18px;align-items:start}
+@media (max-width:920px){.grid{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;min-width:0}
+.ghead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}
+.gsub{font-size:13px;color:var(--mute);margin-top:2px}
+.count{font:500 13px var(--mono);color:var(--mute)} .count b{font:700 22px var(--display);color:var(--ink)}
+.bar{height:4px;background:var(--wash);border-radius:2px;margin:10px 0 14px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent)}
+.out{white-space:pre-wrap;word-break:break-word;font:15px/1.62 var(--body);background:var(--bg);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:8px;padding:14px 16px;max-height:560px;overflow:auto}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;align-items:center}
+.gbtn{border:0;border-radius:9px;padding:11px 20px;font-weight:600;font-size:15px;color:var(--on-sem);min-width:110px}
+.gbtn.good{background:var(--good)} .gbtn.bad{background:var(--bad)}
+.gbtn[aria-pressed="true"]{box-shadow:0 0 0 3px var(--panel),0 0 0 5px currentColor;color:var(--on-sem)}
+.gbtn.good[aria-pressed="true"]{box-shadow:0 0 0 3px var(--panel),0 0 0 5px var(--good)}
+.gbtn.bad[aria-pressed="true"]{box-shadow:0 0 0 3px var(--panel),0 0 0 5px var(--bad)}
+#fb{flex:1 1 220px;min-width:0;border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--panel)}
+.nav{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.btn{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:7px 12px;font-weight:500}
+.btn:disabled{opacity:.45;cursor:default}
+.btn.link{border-color:transparent;background:transparent;color:var(--accent-ink);padding:4px 6px}
+.hint{font-size:12.5px;color:var(--mute);margin-left:auto}
+details.ctx{margin-top:10px;border-top:1px solid var(--line);padding-top:8px}
+details.ctx summary{cursor:pointer;font-weight:500}
+.ctxbody{white-space:pre-wrap;word-break:break-word;font:13px/1.55 var(--mono);color:var(--ink);max-height:360px;overflow:auto;background:var(--bg);border-radius:8px;padding:10px 12px;margin-top:8px}
+.done{display:grid;gap:10px;padding:20px 4px}
+
+/* live report card */
+.side{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);display:grid;gap:12px}
+@media (max-width:920px){.side{position:static}}
+.side .card{display:grid;gap:12px}
+.meters{display:grid;gap:9px}
+.meter{display:grid;grid-template-columns:118px minmax(0,1fr) 46px;gap:8px;align-items:center;font-size:13px}
+.meter .track{height:8px;background:var(--wash);border-radius:4px;overflow:hidden}
+.meter .track i{display:block;height:100%;border-radius:4px}
+.meter .v{font:500 13px var(--mono);text-align:right;font-variant-numeric:tabular-nums}
+.big{font:700 34px/1 var(--display);font-variant-numeric:tabular-nums}
+.picks{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.picks li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 8px;font-size:13px;border-top:1px solid var(--line);padding-top:7px}
+.picks .crit{font-weight:600}
+.picks .impl{grid-column:1/-1;font:12.5px var(--mono);color:var(--mute);word-break:break-word}
+.picks .none{color:var(--warn)}
+.ty{font:500 11px/1 var(--mono);padding:3px 6px;border-radius:5px;background:var(--wash);color:var(--mute);text-transform:uppercase;letter-spacing:.04em}
+.ty.llm{background:var(--accent-soft);color:var(--accent-ink)}
+.mini{width:100%;border-collapse:collapse;font-size:13px}
+.mini td{padding:4px 0;border-top:1px solid var(--line)}
+.mini td:last-child{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.gen{background:var(--wash);border-radius:9px;padding:10px 12px;font-size:13px}
+.gen b{font-family:var(--mono)}
+
+/* tabs */
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);overflow-x:auto}
+.tabs button{border:0;background:transparent;padding:10px 14px;font-weight:500;color:var(--mute);border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.panel{display:grid;gap:14px;min-width:0}
+.critcard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:10px;min-width:0}
+.critcard header{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.cand{border:1px solid var(--line);border-radius:9px;padding:10px 12px;display:grid;gap:6px;min-width:0}
+.cand.sel{border-color:var(--accent);box-shadow:inset 3px 0 0 var(--accent)}
+.cand .row{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-size:13px}
+.cand .nm{font:500 13px var(--mono);word-break:break-word}
+.pill{font:600 11px/1 var(--mono);padding:3px 7px;border-radius:999px;background:var(--accent);color:var(--on-sem)}
+.stat{font:12.5px var(--mono);color:var(--mute);font-variant-numeric:tabular-nums}
+.stat b{color:var(--ink);font-weight:500}
+.cand pre{margin:0;white-space:pre;overflow-x:auto;font:12px/1.5 var(--mono);background:var(--bg);border-radius:7px;padding:10px 12px;max-height:300px}
+.cand details summary{cursor:pointer;font-size:12.5px;color:var(--accent-ink)}
+.notes{display:grid;gap:6px;margin:0;padding-left:18px;font-size:14px}
+.tw{overflow-x:auto;background:var(--panel);border:1px solid var(--line);border-radius:12px;max-height:640px;overflow-y:auto}
+table.grid-t{border-collapse:collapse;width:100%;font-size:13px}
+.grid-t th,.grid-t td{padding:6px 9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;white-space:nowrap}
+.grid-t th{position:sticky;top:0;background:var(--wash);font:500 11.5px/1.3 var(--mono);color:var(--mute);z-index:1}
+.grid-t td.prev{white-space:normal;min-width:260px;max-width:420px;color:var(--mute)}
+.grid-t td.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.p{color:var(--good);font-weight:600}.f{color:var(--bad);font-weight:600}.x{color:var(--mute)}
+.gd{display:inline-block;min-width:44px;text-align:center;font:600 11.5px/18px var(--mono);border-radius:5px}
+.gd.g1{background:var(--good-soft);color:var(--good)} .gd.g0{background:var(--bad-soft);color:var(--bad)}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;font-size:13.5px}
+.toolbar label{display:inline-flex;gap:6px;align-items:center}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.kpi .k{font:500 11.5px/1.3 var(--mono);color:var(--mute);text-transform:uppercase;letter-spacing:.05em}
+.kpi .v{font:700 26px/1.15 var(--display);margin-top:4px;font-variant-numeric:tabular-nums}
+.kpi .s{font-size:12.5px;color:var(--mute)}
+.banner{border-radius:10px;padding:10px 14px;font-size:13.5px;background:var(--warn-soft);color:var(--ink)}
+.foot{border-top:1px solid var(--line);padding-top:14px;font-size:13px;color:var(--mute);display:grid;gap:6px}
+.foot a{color:var(--accent-ink)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <p class="eyebrow">EvalGen · Shankar et al., UIST 2024 · re-run with Claude 5.5</p>
+      <h1>Grade the outputs. Watch EvalGen choose its checks.</h1>
+      <p class="lede">These are the two LLM pipelines from the EvalGen paper. Grade each output Good or Bad. After every grade, EvalGen picks the candidate check for each criterion that best matches your grades, and scores the set. Every check has already been run on every output, so selection happens instantly in your browser.</p>
+    </div>
+    <div class="controls" id="controls"></div>
+    <p class="pipeblurb" id="pipeblurb"></p>
+  </header>
+
+  <div class="grid">
+    <main class="card" id="grader" aria-live="polite"></main>
+    <aside class="side" id="live"></aside>
+  </div>
+
+  <div class="tabs" role="tablist" id="tabs">
+    <button type="button" role="tab" id="tab-report" data-act="tab" data-v="report">Report card</button>
+    <button type="button" role="tab" id="tab-table" data-act="tab" data-v="table">All outputs</button>
+    <button type="button" role="tab" id="tab-class" data-act="tab" data-v="class">Class results</button>
+  </div>
+  <section class="panel" id="tabpanel" role="tabpanel"></section>
+
+  <footer class="foot">
+    <p>The reference grades were written by Claude under a fixed rule set. They stand in for the two authors who graded every output in the paper, so treat agreement with them as agreement with a stand-in, not with a person. Your grades help replace them.</p>
+    <p>Outputs: Claude Haiku 5.5. Candidate checks: written by Claude Opus 5.5 and run on every output; LLM checks run with Haiku 5.5. Evaluator agents: Haiku, Sonnet and Opus 5.5, shown either the prompt only or the prompt plus the criteria. Paper: <a href="https://doi.org/10.1145/3654777.3676450" target="_blank" rel="noopener">doi.org/10.1145/3654777.3676450</a></p>
+  </footer>
+</div>
+
+<script id="eg-data" type="application/json">/*__DATA__*/</script>
+<script id="eg-core">
+/* Pure EvalGen logic, a port of evalgen/align.py. No DOM access. */
+window.EG = (function(){
+  function selectivity(arr){ let n=0,s=0; for(const v of arr){ if(v===0||v===1){ n++; s+=v; } } return n ? s/n : 1; }
+  function scores(set){
+    if(set._sc) return set._sc;
+    const N = set.res[set.cands[0].id].length, sc = new Array(N).fill(0);
+    for(const c of set.cands){ const a=set.res[c.id], s=selectivity(a); for(let i=0;i<N;i++) if(a[i]===0) sc[i]+=s; }
+    return (set._sc = sc);
+  }
+  /* gmap: Map(outputIndex -> 0 bad | 1 good). A set fails an output if any chosen check returns 0. */
+  function metrics(set, chosen, gmap){
+    let bad=0, good=0, cb=0, cg=0;
+    for(const [i,g] of gmap){ const f = chosen.some(c => set.res[c][i]===0); if(g===0){ bad++; if(f) cb++; } else { good++; if(f) cg++; } }
+    const coverage = bad ? cb/bad : 0, ffr = good ? cg/good : 0, inv = 1-ffr;
+    const alignment = (coverage+inv) > 0 ? 2*coverage*inv/(coverage+inv) : 0;
+    return {coverage, ffr, alignment, nBad:bad, nGood:good, n:chosen.length};
+  }
+  function confusion(set, cid, gmap){
+    const m={caught:0, falseFail:0, missed:0, passed:0};
+    for(const [i,g] of gmap){ const f = set.res[cid][i]===0; if(f){ g===0 ? m.caught++ : m.falseFail++; } else { g===0 ? m.missed++ : m.passed++; } }
+    return m;
+  }
+  /* Per criterion, the candidate with the highest alignment on the grades, among those within the FFR limit; ties keep the earlier candidate. */
+  function select(set, gmap, thr){
+    const out={chosen:[], per:{}};
+    for(const cr of set.criteria){
+      const rows = set.cands.filter(c => c.crit===cr.id).map(c => ({c, m:metrics(set,[c.id],gmap)}));
+      let best=null;
+      for(const r of rows){ if(r.m.ffr <= thr+1e-9 && (!best || r.m.alignment>best.m.alignment || (r.m.alignment===best.m.alignment && r.m.coverage>best.m.coverage))) best=r; }
+      out.per[cr.id] = {rows, selected: best ? best.c.id : null};
+      if(best) out.chosen.push(best.c.id);
+    }
+    return out;
+  }
+  /* Alternating sampler: even step takes the highest confidence score (most likely bad), odd step the lowest. Ties break on output id. */
+  function next(set, ids, gradedIdx, parity){
+    const sc=scores(set); let best=-1;
+    for(let i=0;i<ids.length;i++){
+      if(gradedIdx.has(i)) continue;
+      if(best<0){ best=i; continue; }
+      const better = parity===0 ? (sc[i]>sc[best] || (sc[i]===sc[best] && ids[i]<ids[best])) : (sc[i]<sc[best] || (sc[i]===sc[best] && ids[i]<ids[best]));
+      if(better) best=i;
+    }
+    return best<0 ? null : best;
+  }
+  return {selectivity, scores, metrics, confusion, select, next};
+})();
+</script>
+<script>
+(function(){
+const D = JSON.parse(document.getElementById('eg-data').textContent);
+const EG = window.EG;
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pc = (x,d=0) => (x==null || Number.isNaN(x)) ? '–' : (100*x).toFixed(d)+'%';
+const wc = s => (String(s).match(/\S+/g) || []).length;
+const PIPES = ['medical','product'];
+const IDX = {}, IDS = {}, REF = {};
+for(const p of PIPES){
+  const outs = D.pipes[p].outputs;
+  IDS[p] = outs.map(o => o.id);
+  IDX[p] = new Map(outs.map((o,i) => [o.id,i]));
+  REF[p] = new Map(outs.map((o,i) => [i,o.exp]));
+}
+const LS_KEY = 'evalgen-live-v1';
+const S = { pipe:'medical', set:{medical:'paper',product:'paper'}, thr:{medical:D.pipes.medical.thr, product:D.pipes.product.thr},
+  grades:{medical:{},product:{}}, view:{medical:null,product:null}, tab:'report', showRef:false, clearArm:false };
+
+function clean(p, m){
+  const o={}; if(!m || typeof m!=='object') return o;
+  for(const [oid,v] of Object.entries(m)){
+    if(!IDX[p].has(oid) || !v || (v.g!==0 && v.g!==1)) continue;
+    o[oid] = {g:v.g, f: typeof v.f==='string' ? v.f.slice(0,300) : '', n: Number.isFinite(v.n)?v.n:0, t: Number.isFinite(v.t)?v.t:0, r: Number.isFinite(v.r)?v.r:0};
+  }
+  return o;
+}
+try{
+  const raw = localStorage.getItem(LS_KEY);
+  if(raw){ const v = JSON.parse(raw);
+    for(const p of PIPES){ if(v.grades && v.grades[p]) S.grades[p] = clean(p, v.grades[p]); if(v.set && D.pipes[p].sets[v.set[p]]) S.set[p] = v.set[p]; }
+    if(PIPES.includes(v.pipe)) S.pipe = v.pipe;
+    if(['report','table','class'].includes(v.tab)) S.tab = v.tab;
+  }
+}catch(e){}
+function saveLocal(){ try{ localStorage.setItem(LS_KEY, JSON.stringify({grades:S.grades, pipe:S.pipe, set:S.set, tab:S.tab})); }catch(e){} }
+
+const P = () => D.pipes[S.pipe];
+const SET = () => P().sets[S.set[S.pipe]];
+function gmapOf(p){ const m=new Map(); for(const [oid,v] of Object.entries(S.grades[p])) m.set(IDX[p].get(oid), v.g); return m; }
+function history(p){ return Object.entries(S.grades[p]).sort((a,b) => a[1].n-b[1].n).map(e => e[0]); }
+function nextOid(p){
+  const pipe=D.pipes[p], set=pipe.sets[S.set[p]];
+  const graded = new Set(Object.keys(S.grades[p]).map(o => IDX[p].get(o)));
+  const i = EG.next(set, IDS[p], graded, graded.size % 2);
+  return i==null ? null : IDS[p][i];
+}
+const currentOid = () => S.view[S.pipe] ?? nextOid(S.pipe);
+const candById = (set,id) => set.cands.find(c => c.id===id);
+const prettyName = s => String(s).replace(/_/g,' ');
+
+/* ---------- shared storage ---------- */
+let DB=null, UID=null, canWrite=null, writeBlocked=false, classDocs=[], dbStatus='local', dbError='';
+let writing=false, dirty=false, writeTimer=null;
+function syncInfo(){
+  if(dbStatus==='connecting') return ['', 'Connecting to class results…'];
+  if(dbStatus==='live') return (dirty||writing) ? ['warn','Saving…'] : ['ok','Saved to class results'];
+  if(dbStatus==='readonly') return ['warn','Saved in this browser only'];
+  if(dbStatus==='offline') return ['warn','Class results unreachable · saved in this browser'];
+  if(dbStatus==='error') return ['err', dbError || 'Could not save to class results'];
+  return ['', 'Saved in this browser'];
+}
+function renderSync(){ const el=$('#sync'); if(!el) return; const [c,t]=syncInfo(); el.className='chip '+c; el.textContent=t; }
+function scheduleWrite(){ if(!DB || !UID || writeBlocked) return; dirty=true; renderSync(); clearTimeout(writeTimer); writeTimer=setTimeout(flush, 900); }
+async function flush(){
+  if(!DB || !UID || writeBlocked || writing || !dirty) return;
+  writing=true; dirty=false;
+  try{
+    await DB.doc('graders/'+UID).set({medical:S.grades.medical, product:S.grades.product, updated:new Date().toISOString(), v:1});
+    if(dbStatus!=='offline') dbStatus='live';
+  }catch(e){
+    const code = e && e.code;
+    if(code==='invalid_argument' || code==='not_granted'){ writeBlocked=true; dbStatus='readonly'; }
+    else if(code==='quota_exceeded'){ dbStatus='error'; dbError='Class results are full · saved in this browser'; }
+    else if(code==='revoked'){ writeBlocked=true; dbStatus='readonly'; }
+    else { dirty=true; setTimeout(flush, code==='resource_exhausted' ? 6000 : 1500+Math.random()*1500); }
+  }
+  writing=false;
+  if(dirty && !writeBlocked) setTimeout(flush, 300);
+  renderSync(); if(S.tab==='class') renderTab();
+}
+function mergeOwn(){
+  const mine = classDocs.find(d => d.id===UID);
+  let changed=false, needWrite=false;
+  for(const p of PIPES){
+    const server = mine ? clean(p, mine.data[p]) : {};
+    for(const [oid,v] of Object.entries(server)){ if(!S.grades[p][oid]){ S.grades[p][oid]=v; changed=true; } }
+    for(const [oid,v] of Object.entries(S.grades[p])){ const s=server[oid]; if(!s || s.g!==v.g || s.f!==v.f) needWrite=true; }
+  }
+  if(changed){ saveLocal(); renderAll(); }
+  if(needWrite) scheduleWrite();
+}
+async function initDb(){
+  if(!window.claude || typeof window.claude.use!=='function'){ dbStatus='local'; renderSync(); return; }
+  dbStatus='connecting'; renderSync();
+  let db=null, user=null;
+  try{ [db,user] = await Promise.all([window.claude.use('db'), window.claude.use('user')]); }catch(e){ db=null; }
+  if(!db){ dbStatus='local'; renderSync(); if(S.tab==='class') renderTab(); return; }
+  DB=db;
+  try{ UID = user ? await user.id() : null; }catch(e){ UID=null; }
+  try{ canWrite = user ? await user.can('data.write') : null; }catch(e){ canWrite=null; }
+  if(UID){ try{ DB.doc('graders/'+UID); }catch(e){ UID=null; } }
+  if(!UID || canWrite===false) writeBlocked=true;
+  let settled=false, merged=false;
+  const timer=setTimeout(() => { if(!settled){ dbStatus='offline'; renderSync(); if(S.tab==='class') renderTab(); } }, 10000);
+  DB.collection('graders').onSnapshot(snap => {
+    classDocs = snap.docs.filter(d => d.exists).map(d => ({id:d.id, data:d.data() || {}}));
+    if(!snap.metadata.fromCache){ settled=true; clearTimeout(timer); if(!merged){ merged=true; if(UID) mergeOwn(); } }
+    if(dbStatus!=='error') dbStatus = writeBlocked ? 'readonly' : 'live';
+    renderSync(); if(S.tab==='class') renderTab();
+  }, () => { settled=true; clearTimeout(timer); dbStatus='offline'; renderSync(); if(S.tab==='class') renderTab(); });
+}
+
+/* ---------- actions ---------- */
+function grade(g){
+  const p=S.pipe, oid=currentOid(); if(!oid) return;
+  const prev=S.grades[p][oid];
+  const fbEl=$('#fb'); const f = fbEl ? fbEl.value.trim().slice(0,300) : '';
+  const maxN = Math.max(0, ...Object.values(S.grades[p]).map(v => v.n));
+  S.grades[p][oid] = {g, f, n: prev ? prev.n : maxN+1, t: Date.now(), r: prev ? (prev.g!==g ? prev.r+1 : prev.r) : 0};
+  S.view[p]=null; S.clearArm=false;
+  saveLocal(); scheduleWrite(); renderAll();
+  const out=$('#out-text'); if(out) out.scrollTop=0;
+}
+function nav(dir){
+  const p=S.pipe, h=history(p), v=S.view[p], k = v==null ? -1 : h.indexOf(v);
+  if(dir<0){ if(v==null || k<0){ if(h.length) S.view[p]=h[h.length-1]; } else if(k>0) S.view[p]=h[k-1]; }
+  else { if(k>=0 && k+1<h.length) S.view[p]=h[k+1]; else S.view[p]=null; }
+  renderGrader();
+}
+
+/* ---------- rendering ---------- */
+function renderControls(){
+  const sets = P().sets;
+  $('#controls').innerHTML = `
+    <div class="ctl"><span class="lbl" id="pipe-lbl">Pipeline</span>
+      <div class="seg" role="group" aria-labelledby="pipe-lbl">${PIPES.map(p => `<button type="button" data-act="pipe" data-v="${p}" aria-pressed="${S.pipe===p}">${esc(D.pipes[p].label)}</button>`).join('')}</div></div>
+    <div class="ctl"><label class="lbl" for="crit-set">Criteria</label>
+      <select id="crit-set">${Object.entries(sets).map(([k,s]) => `<option value="${k}" ${S.set[S.pipe]===k?'selected':''}>${esc(s.label)}</option>`).join('')}</select></div>
+    <div class="ctl"><label class="lbl" for="ffr">False-failure limit <b id="ffr-v">${pc(S.thr[S.pipe])}</b></label>
+      <input id="ffr" type="range" min="0" max="1" step="0.05" value="${S.thr[S.pipe]}"></div>
+    <div class="ctl sync"><span class="lbl">Your grades</span><span class="chip" id="sync"></span></div>`;
+  const set=SET();
+  $('#pipeblurb').textContent = P().blurb + ' ' + set.blurb + (Object.keys(sets).length===1 ? '' : ' Switch criteria at any time; your grades carry over.');
+  renderSync();
+}
+function renderGrader(){
+  const p=S.pipe, pipe=P(), el=$('#grader'), h=history(p), N=pipe.outputs.length, oid=currentOid();
+  const v=S.view[p], k = v==null ? -1 : h.indexOf(v);
+  const canBack = (v==null || k<0) ? h.length>0 : k>0, canFwd = v!=null;
+  const navHtml = `<div class="nav"><button type="button" class="btn" data-act="back" ${canBack?'':'disabled'}>← Previous</button><button type="button" class="btn" data-act="fwd" ${canFwd?'':'disabled'}>Next →</button><span class="hint">Keys: G good · B bad · ← → move</span></div>`;
+  if(!oid){
+    el.innerHTML = `<div class="done"><p class="eyebrow">${esc(pipe.label)}</p><h2>You have graded all ${N} outputs.</h2><p class="mut">Open the report card below, switch criteria, or step back through your grades to revise them.</p>${navHtml}</div>`;
+    return;
+  }
+  const o=pipe.outputs[IDX[p].get(oid)], mine=S.grades[p][oid];
+  const where = mine ? `You graded this ${mine.g ? 'Good' : 'Bad'}. Pick again to change it.` : (v ? 'Opened from the output list.' : 'Chosen by EvalGen’s alternating sampler.');
+  el.innerHTML = `
+    <div class="ghead"><div><p class="eyebrow">${esc(pipe.label)} · output ${esc(oid)}</p><p class="gsub">${where}</p></div>
+      <div class="count"><b>${h.length}</b> of ${N} graded</div></div>
+    <div class="bar" aria-hidden="true"><i style="width:${(100*h.length/N).toFixed(1)}%"></i></div>
+    <div class="out" id="out-text" tabindex="0" aria-label="LLM response to grade">${esc(o.out)}</div>
+    <div class="actions">
+      <button type="button" class="gbtn good" data-act="grade" data-v="1" aria-pressed="${mine?.g===1}">Good<kbd>G</kbd></button>
+      <button type="button" class="gbtn bad" data-act="grade" data-v="0" aria-pressed="${mine?.g===0}">Bad<kbd>B</kbd></button>
+      <label class="mut" for="fb" hidden>Note</label>
+      <input id="fb" type="text" maxlength="300" autocomplete="off" placeholder="Why is it bad? Optional, saved with your grade" value="${esc(mine?.f || '')}">
+    </div>
+    ${navHtml}
+    <details class="ctx"><summary>${esc(pipe.inputLabel)} <span class="mut">· ${wc(o.inp).toLocaleString()} words</span></summary><div class="ctxbody">${esc(o.inp)}</div></details>
+    <details class="ctx"><summary>Prompt template</summary><div class="ctxbody">${esc(pipe.prompt)}</div></details>`;
+}
+function meter(label, x, color, title){
+  return `<div class="meter" title="${esc(title)}"><span>${label}</span><span class="track"><i style="width:${(100*(x||0)).toFixed(1)}%;background:${color}"></i></span><span class="v">${pc(x)}</span></div>`;
+}
+function agreement(p){
+  const pipe=D.pipes[p], ref=[0,0], ag=D.agents.map(() => [0,0]);
+  for(const [oid,v] of Object.entries(S.grades[p])){
+    const o=pipe.outputs[IDX[p].get(oid)]; ref[1]++; if(o.exp===v.g) ref[0]++;
+    D.agents.forEach((a,k) => { const x=o.ag[a.key]; if(x===0 || x===1){ ag[k][1]++; if(x===v.g) ag[k][0]++; } });
+  }
+  return {ref, ag};
+}
+function renderLive(){
+  const p=S.pipe, pipe=P(), set=SET(), gm=gmapOf(p), thr=S.thr[p];
+  const sel=EG.select(set, gm, thr), m=EG.metrics(set, sel.chosen, gm), mr=EG.metrics(set, sel.chosen, REF[p]);
+  const nBad=[...gm.values()].filter(g => g===0).length, nGood=gm.size-nBad;
+  const picks = set.criteria.map(cr => {
+    const id=sel.per[cr.id].selected, c=id ? candById(set,id) : null, cm=id ? sel.per[cr.id].rows.find(r => r.c.id===id).m : null;
+    return `<li><span class="crit">${esc(cr.title)}</span><span class="ty ${cr.type==='llm'?'llm':''}">${cr.type==='llm'?'LLM':'code'}</span>
+      <span class="impl">${c ? `${esc(prettyName(c.name))} · ${pc(cm.alignment)} aligned` : `<span class="none">No candidate stays under the ${pc(thr)} limit</span>`}</span></li>`;
+  }).join('');
+  const agr=agreement(p);
+  const agRows = D.agents.map((a,k) => `<tr><td>${esc(a.label)}</td><td>${agr.ag[k][1] ? pc(agr.ag[k][0]/agr.ag[k][1]) : '–'}</td></tr>`).join('');
+  $('#live').innerHTML = `
+    <div class="card">
+      <div><p class="eyebrow">Live report card</p><p class="mut" style="font-size:13px;margin-top:2px">${gm.size} graded · ${nGood} good · ${nBad} bad</p></div>
+      <div style="display:flex;align-items:baseline;gap:10px"><span class="big">${gm.size ? pc(m.alignment) : '–'}</span><span class="mut" style="font-size:13px">alignment with your grades</span></div>
+      <div class="meters">
+        ${meter('Coverage', m.coverage, 'var(--good)', 'Share of the outputs you graded Bad that the selected checks fail')}
+        ${meter('False failures', m.ffr, 'var(--bad)', 'Share of the outputs you graded Good that the selected checks fail')}
+      </div>
+      ${gm.size===0 ? `<p class="note">Grade a few outputs. Until then EvalGen has nothing to align with, so it keeps the first candidate for each criterion.</p>` : (nBad===0 ? `<p class="note">You have not marked anything Bad yet, so coverage cannot be measured.</p>` : '')}
+      <div><h3 style="margin-bottom:4px">Checks EvalGen picked</h3><ul class="picks">${picks}</ul></div>
+      <div class="gen">On all ${pipe.outputs.length} outputs, scored against the reference grades, this set reaches <b>${pc(mr.alignment)}</b> alignment (coverage ${pc(mr.coverage)}, false failures ${pc(mr.ffr)}).</div>
+    </div>
+    <div class="card">
+      <p class="eyebrow">Who agrees with you</p>
+      <table class="mini"><tbody>
+        <tr><td>Reference grades</td><td>${agr.ref[1] ? pc(agr.ref[0]/agr.ref[1]) : '–'}</td></tr>
+        ${agRows}
+      </tbody></table>
+      <p class="note">Share of the outputs you graded where each grader gave the same verdict. Evaluator agents are LLMs grading the same outputs.</p>
+    </div>`;
+}
+function renderReport(){
+  const p=S.pipe, set=SET(), gm=gmapOf(p), thr=S.thr[p], sel=EG.select(set, gm, thr);
+  const notes = history(p).map(oid => [oid, S.grades[p][oid]]).filter(([,v]) => v.g===0 && v.f);
+  const crits = set.criteria.map(cr => {
+    const per=sel.per[cr.id];
+    const cands = per.rows.map(({c,m}) => {
+      const cf=EG.confusion(set, c.id, gm), passRate=EG.selectivity(set.res[c.id]);
+      return `<div class="cand ${per.selected===c.id?'sel':''}">
+        <div class="row"><span class="nm">${esc(prettyName(c.name))}</span>${per.selected===c.id ? '<span class="pill">picked</span>' : ''}
+          <span class="stat">passes <b>${pc(passRate)}</b> of all outputs</span></div>
+        <div class="row"><span class="stat">on your grades: alignment <b>${gm.size?pc(m.alignment):'–'}</b> · coverage <b>${gm.size?pc(m.coverage):'–'}</b> · false failures <b>${gm.size?pc(m.ffr):'–'}</b></span></div>
+        <div class="row"><span class="stat">caught Bad <b>${cf.caught}</b> · failed Good <b>${cf.falseFail}</b> · missed Bad <b>${cf.missed}</b> · passed Good <b>${cf.passed}</b></span></div>
+        <details><summary>${c.type==='code' ? 'Show the Python check' : 'Show the grader prompt'}</summary><pre>${esc(c.body)}</pre></details>
+      </div>`;
+    }).join('');
+    return `<article class="critcard"><header><h3>${esc(cr.title)}</h3><span class="ty ${cr.type==='llm'?'llm':''}">${cr.type==='llm'?'LLM':'code'}</span></header>
+      <p class="mut" style="font-size:13.5px">${esc(cr.description)}</p>${cands}</article>`;
+  }).join('');
+  const switchHint = (p==='product' && S.set.product==='paper') ? ' For product copy, switch to the Grade First criteria above to see what happens when criteria come from graded outputs.' : '';
+  return `
+    <p class="note">Each criterion has three candidate checks with different interpretations. The picked one has the best alignment with your grades while failing no more than ${pc(thr)} of the outputs you marked Good.</p>
+    ${crits}
+    <article class="critcard"><header><h3>Your reasons for Bad grades</h3></header>
+      ${notes.length ? `<ol class="notes">${notes.map(([oid,v]) => `<li>${esc(v.f)} <span class="mut">· ${esc(oid)}</span></li>`).join('')}</ol>` : `<p class="mut">Notes you type next to a Bad grade appear here.</p>`}
+      <p class="note">In the paper, participants changed their criteria after seeing outputs. This list is where new criteria come from.${switchHint}</p></article>`;
+}
+function renderTable(){
+  const p=S.pipe, pipe=P(), set=SET(), gm=gmapOf(p), sel=EG.select(set, gm, S.thr[p]);
+  const cols = sel.chosen.map(id => candById(set,id));
+  const gd = g => g===1 ? '<span class="gd g1">Good</span>' : g===0 ? '<span class="gd g0">Bad</span>' : '<span class="x">–</span>';
+  const head = `<tr><th>Output</th><th>Words</th><th>Your grade</th>${S.showRef ? `<th>Reference</th>${D.agents.map(a => `<th title="${esc(a.label)}">${esc(a.short)}</th>`).join('')}` : ''}${cols.map(c => `<th title="${esc(prettyName(c.name))}">${esc(c.crit)}</th>`).join('')}<th>Preview</th><th></th></tr>`;
+  const rows = pipe.outputs.map((o,i) => {
+    const mine=S.grades[p][o.id];
+    return `<tr><td class="num">${esc(o.id)}</td><td class="num">${wc(o.out)}</td><td>${gd(mine?.g)}</td>
+      ${S.showRef ? `<td title="${esc(o.expf)}">${gd(o.exp)}</td>${D.agents.map(a => `<td>${gd(o.ag[a.key])}</td>`).join('')}` : ''}
+      ${cols.map(c => { const v=set.res[c.id][i]; return `<td class="${v===1?'p':v===0?'f':'x'}" aria-label="${v===1?'pass':v===0?'fail':'error'}">${v===1?'✓':v===0?'✗':'–'}</td>`; }).join('')}
+      <td class="prev">${esc(o.out.replace(/\s+/g,' ').slice(0,110))}…</td>
+      <td><button type="button" class="btn link" data-act="open" data-v="${esc(o.id)}">Open</button></td></tr>`;
+  }).join('');
+  return `<div class="toolbar"><label for="show-ref"><input type="checkbox" id="show-ref" ${S.showRef?'checked':''}> Show reference and evaluator-agent grades</label>
+      <span class="mut">Columns ${cols.map(c => esc(c.crit)).join(', ') || '–'} are the checks EvalGen picked. Agent codes: ${D.agents.map(a => `${esc(a.short)} = ${esc(a.label)}`).join('; ')}.</span></div>
+    ${S.showRef ? '' : '<p class="note">Reference and agent grades are hidden so they do not sway your own grading.</p>'}
+    <div class="tw"><table class="grid-t"><thead>${head}</thead><tbody>${rows}</tbody></table></div>
+    <div class="toolbar"><button type="button" class="btn" data-act="clear">${S.clearArm ? `Click again to delete your ${Object.keys(S.grades[p]).length} ${esc(pipe.label.toLowerCase())} grades` : `Clear my ${esc(pipe.label.toLowerCase())} grades`}</button></div>`;
+}
+function classStats(p){
+  const pipe=D.pipes[p], people=[];
+  for(const d of classDocs){ if(d.id===UID) continue; const g=clean(p, d.data[p]); if(Object.keys(g).length) people.push(g); }
+  const mine=S.grades[p]; if(Object.keys(mine).length) people.push(mine);
+  const votes=new Map();
+  for(const g of people) for(const [oid,v] of Object.entries(g)){ const c=votes.get(oid)||[0,0]; c[v.g]++; votes.set(oid,c); }
+  let pairAgree=0, pairTotal=0;
+  for(let a=0;a<people.length;a++) for(let b=a+1;b<people.length;b++) for(const [oid,v] of Object.entries(people[a])){ const w=people[b][oid]; if(w){ pairTotal++; if(w.g===v.g) pairAgree++; } }
+  const maj=new Map(); let multi=0;
+  for(const [oid,[bad,good]] of votes){ if(bad+good>=2) multi++; if(good!==bad) maj.set(IDX[p].get(oid), good>bad?1:0); }
+  let refAgree=0, majBad=0, refBad=0; const ag=D.agents.map(() => [0,0]);
+  for(const [i,g] of maj){ const o=pipe.outputs[i]; if(o.exp===g) refAgree++; if(g===0) majBad++; if(o.exp===0) refBad++;
+    D.agents.forEach((a,k) => { const x=o.ag[a.key]; if(x===0||x===1){ ag[k][1]++; if(x===g) ag[k][0]++; } }); }
+  return {people:people.length, covered:votes.size, multi, pairAgree, pairTotal, maj, refAgree, majBad, refBad, ag};
+}
+function renderClass(){
+  const p=S.pipe, pipe=P(), set=SET(), st=classStats(p);
+  let banner='';
+  if(!DB) banner = dbStatus==='connecting' ? 'Connecting to class results…' : 'Class results need this page opened inside claude.ai while signed in. Your grades are kept in this browser.';
+  else if(dbStatus==='offline') banner = 'Class results cannot be reached right now. The numbers below may be out of date.';
+  else if(writeBlocked) banner = 'You can see the class results, but your grades are not included. Ask the page owner to give you Contributor access, then reload.';
+  const sel = st.maj.size ? EG.select(set, st.maj, S.thr[p]) : null;
+  const mc = sel ? EG.metrics(set, sel.chosen, st.maj) : null, mr = sel ? EG.metrics(set, sel.chosen, REF[p]) : null;
+  const agRows = D.agents.map((a,k) => `<tr><td>${esc(a.label)}</td><td>${st.ag[k][1] ? pc(st.ag[k][0]/st.ag[k][1]) : '–'}</td></tr>`).join('');
+  return `${banner ? `<div class="banner">${esc(banner)}</div>` : ''}
+    <div class="kpis">
+      <div class="kpi"><div class="k">People grading</div><div class="v">${st.people}</div><div class="s">${esc(pipe.label)}, you included</div></div>
+      <div class="kpi"><div class="k">Outputs graded</div><div class="v">${st.covered} / ${pipe.outputs.length}</div><div class="s">${st.multi} by two or more people</div></div>
+      <div class="kpi"><div class="k">People agree</div><div class="v">${st.pairTotal ? pc(st.pairAgree/st.pairTotal) : '–'}</div><div class="s">${st.pairTotal ? `${st.pairTotal} shared verdict pairs` : 'Needs two people on one output'}</div></div>
+      <div class="kpi"><div class="k">Class vs reference</div><div class="v">${st.maj.size ? pc(st.refAgree/st.maj.size) : '–'}</div><div class="s">${st.maj.size ? `class says ${pc(st.majBad/st.maj.size)} Bad · reference ${pc(st.refBad/st.maj.size)}` : 'No class grades yet'}</div></div>
+    </div>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr))">
+      <div class="card"><p class="eyebrow">Evaluator agents vs the class</p>
+        <table class="mini"><tbody>${agRows}</tbody></table>
+        <p class="note">Agreement with the class majority on ${st.maj.size} outputs. Ties are left out. In the study, agents shown only the prompt failed two to seven times more outputs than the reference grades.</p></div>
+      <div class="card"><p class="eyebrow">EvalGen on the class grades</p>
+        ${sel ? `<p style="font-size:14px">Using the class majority as the grades, EvalGen picks ${sel.chosen.map(id => `<b>${esc(prettyName(candById(set,id).name))}</b>`).join(', ') || 'no checks'}.</p>
+          <table class="mini"><tbody><tr><td>Alignment with the class</td><td>${pc(mc.alignment)}</td></tr><tr><td>Alignment with the reference grades, all outputs</td><td>${pc(mr.alignment)}</td></tr></tbody></table>`
+        : '<p class="mut">Appears once anyone has graded.</p>'}
+        <p class="note">Criteria: ${esc(set.label)}. Names are never stored; each person is an anonymous id.</p></div>
+    </div>`;
+}
+function renderTab(){
+  document.querySelectorAll('#tabs button').forEach(b => { const on=b.dataset.v===S.tab; b.setAttribute('aria-selected', on); b.tabIndex = on ? 0 : -1; });
+  $('#tabpanel').setAttribute('aria-labelledby', 'tab-'+S.tab);
+  $('#tabpanel').innerHTML = S.tab==='report' ? renderReport() : S.tab==='table' ? renderTable() : renderClass();
+}
+function renderAll(){ renderControls(); renderGrader(); renderLive(); renderTab(); }
+
+/* ---------- events ---------- */
+document.addEventListener('click', e => {
+  const b=e.target.closest('[data-act]'); if(!b || b.disabled) return;
+  const act=b.dataset.act, v=b.dataset.v;
+  if(act==='grade') grade(Number(v));
+  else if(act==='back') nav(-1);
+  else if(act==='fwd') nav(1);
+  else if(act==='pipe'){ if(S.pipe!==v){ S.pipe=v; S.clearArm=false; saveLocal(); renderAll(); } }
+  else if(act==='tab'){ S.tab=v; saveLocal(); renderTab(); }
+  else if(act==='open'){ S.view[S.pipe]=v; renderGrader(); $('#grader').scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block:'start'}); }
+  else if(act==='clear'){
+    if(!S.clearArm){ S.clearArm=true; renderTab(); return; }
+    S.grades[S.pipe]={}; S.view[S.pipe]=null; S.clearArm=false; saveLocal(); scheduleWrite(); renderAll();
+  }
+});
+document.addEventListener('change', e => {
+  const t=e.target;
+  if(t.id==='crit-set'){ S.set[S.pipe]=t.value; saveLocal(); renderControls(); renderGrader(); renderLive(); renderTab(); }
+  else if(t.id==='show-ref'){ S.showRef=t.checked; renderTab(); }
+  else if(t.id==='fb'){ const oid=currentOid(), g=oid && S.grades[S.pipe][oid]; if(g){ g.f=t.value.trim().slice(0,300); saveLocal(); scheduleWrite(); if(S.tab==='report') renderTab(); } }
+});
+document.addEventListener('input', e => {
+  if(e.target.id==='ffr'){ S.thr[S.pipe]=Number(e.target.value); const l=$('#ffr-v'); if(l) l.textContent=pc(S.thr[S.pipe]); renderLive(); if(S.tab!=='class' || DB) renderTab(); }
+});
+document.addEventListener('keydown', e => {
+  const tag=(e.target.tagName||'').toLowerCase();
+  if(tag==='input' || tag==='select' || tag==='textarea' || e.metaKey || e.ctrlKey || e.altKey) return;
+  if(e.key==='g' || e.key==='G'){ e.preventDefault(); grade(1); }
+  else if(e.key==='b' || e.key==='B'){ e.preventDefault(); grade(0); }
+  else if(e.key==='ArrowLeft'){ e.preventDefault(); nav(-1); }
+  else if(e.key==='ArrowRight'){ e.preventDefault(); nav(1); }
+});
+document.getElementById('tabs').addEventListener('keydown', e => {
+  if(e.key!=='ArrowLeft' && e.key!=='ArrowRight') return;
+  e.stopPropagation(); const order=['report','table','class']; const i=order.indexOf(S.tab);
+  S.tab=order[(i + (e.key==='ArrowRight'?1:2)) % 3]; saveLocal(); renderTab(); $('#tab-'+S.tab).focus();
+}, true);
+
+renderAll();
+initDb();
+})();
+</script>

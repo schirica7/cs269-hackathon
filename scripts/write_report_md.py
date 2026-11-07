@@ -64,14 +64,22 @@ doc = f"""# Who validates the validator agent? — EvalGen revibed, re-measured,
 
 {N.get('e3_finding','')}
 
-## 6. Method notes and caveats
+## 6. A live grading demo for the class
+
+{N.get('demo','')}
+
+Demo: {N.get('demo_url','')} (private until shared; saving grades to class results needs Contributor access).
+
+{N.get('demo_check','')}
+
+## 7. Method notes and caveats
 
 - {N.get('m1','')}
 - {N.get('m2','')}
 - {N.get('m3','')}
 - {N.get('m4','')}
 
-## 7. Answer to the course question: would the findings still hold?
+## 8. Answer to the course question: would the findings still hold?
 
 {N.get('conclusion','')}
 """

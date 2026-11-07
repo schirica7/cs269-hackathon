@@ -43,7 +43,8 @@ gf = L("e1_product_gradefirst.json")
 rub = (R / "REVIBE_RUBRIC.md").read_text() if (R / "REVIBE_RUBRIC.md").exists() else ""
 import re
 rub_rows = [[c.strip() for c in l.strip().strip("|").split("|")] for l in rub.splitlines() if l.startswith("| T")]
-rub_score = re.search(r"Revibeability = (\d+) / (\d+) = ([0-9.]+)", rub)
+rub_score = re.search(r"Revibeability \(unaided\) = (\d+) / (\d+) = ([0-9.]+)", rub)
+rub_fixed = re.search(r"After one aided fix \(T8\) = (\d+) / (\d+) = ([0-9.]+)", rub)
 
 NARR = json.loads((R / "narrative.json").read_text()) if (R / "narrative.json").exists() else {}
 def N(k, default=""): return NARR.get(k, default)
@@ -61,7 +62,7 @@ sec.append(f"""
   <h1>Who validates the validator agent?</h1>
   <p class="lede">{esc(N('lede', 'EvalGen rebuilt from the paper, its offline evaluation re-run with 2026 models, and then one change: the human grader is replaced by an LLM evaluator agent, the way most "programmer agent + evaluator agent" pipelines work today.'))}</p>
   <div class="tiles">
-    <div class="tile"><div class="k">Revibeability</div><div class="v">{rub_score.group(3) if rub_score else '–'}</div><div class="s">{rub_score.group(1)+'/'+rub_score.group(2)+' rubric points' if rub_score else ''}</div></div>
+    <div class="tile"><div class="k">Revibeability</div><div class="v">{rub_score.group(3) if rub_score else '–'}</div><div class="s">{(rub_score.group(1)+'/'+rub_score.group(2)+' unaided' + (' · '+rub_fixed.group(3)+' after one fix' if rub_fixed else '')) if rub_score else ''}</div></div>
     <div class="tile"><div class="k">Good outputs today</div><div class="v">{pc(e1['medical']['good_rate']) if e1['medical'] else '–'} · {pc(e1['product']['good_rate']) if e1['product'] else '–'}</div><div class="s">medical · product (paper: 68% · 51%)</div></div>
     <div class="tile"><div class="k">Evaluator-agent accuracy vs expert</div><div class="v">{(pc(agent_acc[0])+'–'+pc(agent_acc[1])) if agent_acc else 'pending'}</div><div class="s">range over 6 agent configurations</div></div>
   </div>
@@ -73,7 +74,7 @@ sec.append(f"""
 <p>{esc(N('system', 'The agent was given the paper text and asked to reimplement EvalGen as a web tool. The result is a Python package plus a single-page UI: an LLM proposes binary criteria from the prompt under test; a second LLM writes several candidate implementations per criterion (Python functions or LLM grader prompts); candidates run on every pipeline output while the user grades outputs thumbs-up / thumbs-down; a sampler picks what to grade next from selectivity-weighted confidence scores; and the most aligned candidate per criterion is selected under a false-failure-rate threshold and shown in a report card and a table view.'))}</p>
 <div class="flow"><span>Prompt under test</span><span>→ Criteria (LLM)</span><span>→ Candidate assertions (code / LLM)</span><span>→ Execute on outputs</span><span>→ Human grades (alternating sampler)</span><span>→ Select by alignment</span><span>→ Report card · Table view</span></div>
 <h3>Revibeability rubric (Adar et al., UIST 2026: 2 full / 1 partial / 0 fail per test)</h3>
-{table(["#", "Test", "Score", "Notes"], [[r[0], esc(r[1]), f'<span class="sc sc{r[2]}">{r[2]}</span>', esc(r[3])] for r in rub_rows], "rubric")}
+{table(["#", "Test", "Score", "Notes"], [[r[0], esc(r[1]), (f'<span class="sc sc{r[2]}">{r[2]}</span>' if r[2].isdigit() else ' '.join(f'<span class="sc sc{d}">{d}</span> <span class="mut">{w}</span>' for d, w in zip(re.findall(r'\d', r[2]), ['unaided', 'after fix']))), esc(r[3])] for r in rub_rows], "rubric")}
 <p class="note">{esc(N('rubric_note', 'Score: ' + (rub_score.group(0) if rub_score else '') + '. The misses are ChainForge embedding (the host system), stepping back through graded outputs, and mid-response streaming of candidates.'))}</p>
 </section>""")
 
@@ -151,8 +152,15 @@ if e3["medical"] and e3["product"]:
 <p>{esc(N('e3_finding', ''))}</p>
 </section>""")
 
+
 sec.append(f"""
-<section id="method"><h2>6 · Method notes and caveats</h2>
+<section id="demo"><h2>6 · A live grading demo for the class</h2>
+<p>{esc(N('demo'))}</p>
+<p><a href="{esc(N('demo_url'))}" target="_blank" rel="noopener">Open the grading demo</a> <span class="mut">· private until shared; saving to class results needs Contributor access</span></p>
+<p>{esc(N('demo_check'))}</p>
+</section>""")
+sec.append(f"""
+<section id="method"><h2>7 · Method notes and caveats</h2>
 <ul>
 <li>{esc(N('m1', 'Ground truth: all 184 outputs were graded by one grader (Claude Fable 5.1 working interactively in this session, not a human) under a fixed written rule set: medical bad = PII (name, age, gender incl. pronouns, DOB, MRN), more than 210 words, missing key, or no bullet list; product bad = negative statements, links, no Markdown subheadings, more than 300 words, or non-copy text addressed to the requester. The paper used two authors. Treat agreement numbers as expert-stand-in agreement, not human agreement.'))}</li>
 <li>{esc(N('m2', 'Models: generator Haiku 5.5 (the paper used GPT-3.5-Turbo), criteria and candidate synthesis Opus 5.5 (paper: GPT-4), LLM-based assertions executed with Haiku 5.5, evaluator agents Haiku / Sonnet / Opus 5.5. All calls went through Claude Code in headless mode with tools disabled; roughly 3,300 calls were made and every one is cached, so results/ is reproducible offline.'))}</li>
@@ -160,6 +168,12 @@ sec.append(f"""
 <li>{esc(N('m4', 'Datasets: ACI-Bench train + valid dialogues (84 of 87 sampled with seed 0), and Amazon Reviews 2023 All Beauty items joined to their reviews, keeping items with at least four reviews including at least one rated 2 or below, so the "no negative statements" criterion has something to catch.'))}</li>
 </ul>
 <p class="note">Repository: <code>cs269-hackathon</code> · <code>evalgen/</code> (package), <code>ui/index.html</code>, <code>results/</code>, <code>REPORT.md</code>.</p>
+</section>""")
+
+
+sec.append(f"""
+<section id="conclusion"><h2>8 · Would the findings still hold?</h2>
+<p>{esc(N('conclusion'))}</p>
 </section>""")
 
 CSS = """

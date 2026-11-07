@@ -13,16 +13,18 @@ executing each test against the running server with scripted requests and by rea
 | T5 | Implement It: one LLM call per criterion -> several candidates (code / grader prompt), executed on outputs | 2 | 3 candidates per criterion via one structured-output call; code runs in a subprocess, grader prompts via haiku; 12 candidates x 100 outputs executed. |
 | T6 | Streaming: results arrive progressively while grading | 1 | Execution results are published per candidate as each finishes; candidates within one criterion are not streamed from a partial LLM response (the paper parsed JSON markers mid-stream). |
 | T7 | Grade screen: output in focus, vars, prompt, Good/Bad, feedback, I'm tired, no fixed end point | 2 | All elements present; progress bar shown only as count, matching the paper's choice not to impose an end point. |
-| T8 | Sampler: alternating policy over selectivity-weighted confidence scores, updated live | 2 | `align.confidence_scores` + `align.sample('alternating')`; `/api/next` recomputes on every call from current results and grades. |
+| T8 | Sampler: alternating policy over selectivity-weighted confidence scores, updated live | 1 unaided, 2 after fix | First scored 2. Building the browser demo later showed that `/api/next`, which picks one output at a time, always took the highest-scoring output and never alternated. Corrected to 1 for the unaided score; fixed in one aided round by alternating on the number of outputs graded. |
 | T9 | Coverage / FFR / alignment as defined; per-criterion argmax subject to FFR threshold | 2 | `align.metrics`, `align.select_evalgen`; threshold editable in the Report Card (`/api/threshold`). |
 | T10 | Report Card: per-criterion alignment + confusion matrix, aggregate coverage/FFR, implementations visible | 2 | Confusion matrix is shown inline rather than on hover; all candidates listed with the selected one highlighted. |
 | T11 | Return to main interface: selected assertions in a Multi-Eval node runnable on all outputs | 1 | Assertions are already executed on all outputs and shown in the Table View, but there is no ChainForge node to return to. |
 | T12 | Table View: rows outputs, columns assertions, pass/fail cells, grades visible | 2 | Implemented; expands output text per row. |
-| T13 | Navigate back / revise a prior grade | 1 | `/api/ungrade` exists and grades are a map, but the UI has no arrow buttons to step back; revision requires reopening the grading screen. |
+| T13 | Navigate back / revise a prior grade | 1 | `/api/ungrade` exists and grades are a map, but the server UI has no arrow buttons to step back. The browser demo has them; it is scored separately and does not count here. |
 | T14 | Embedded in ChainForge (nodes, prompt node, LLM querying) | 0 | Not rebuilt; the revibe is a standalone app around the pipeline runner. |
 
-**Revibeability = 23 / 28 = 0.82**  (unaided protocol: one agent, paper text only; two fix rounds for launch errors, none needed).
+**Revibeability (unaided) = 22 / 28 = 0.79**. One agent, paper text only; no fixes were needed to get it to launch.
 
-Excluding T14 (ChainForge embedding, which the paper treats as the host system rather than EvalGen's contribution): 23 / 26 = 0.88.
+**After one aided fix (T8) = 23 / 28 = 0.82**.
 
-Caveats the Revibing paper itself raises apply here: agents are stochastic, and a different grader could reasonably score T6, T11 and T13 differently.
+Excluding T14 (ChainForge embedding, which the paper treats as the host system rather than EvalGen's contribution): 22 / 26 = 0.85 unaided, 23 / 26 = 0.88 after the fix.
+
+Caveats the Revibing paper itself raises apply here: agents are stochastic, and a different grader could reasonably score T6, T11 and T13 differently. The T8 correction shows the other risk: the builder grading its own revibe missed a bug that only surfaced when the logic was reimplemented.

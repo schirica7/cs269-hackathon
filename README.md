@@ -32,3 +32,10 @@ Expert (human-stand-in) grades live in `data/grades/*__expert.jsonl`; evaluator-
 All LLM calls are cached in `data/cache/` so every number in `results/` is reproducible offline.
 
 See `REPORT.md` for findings and the revibeability score.
+
+## Browser demo
+
+`demo/evalgen-live.html` is a server-free version of the grading loop for sharing: every candidate check's results are
+embedded, so selection, the report card and the output table run in the browser. Rebuild it with
+`python3 scripts/build_demo.py` after changing outputs, grades or assertions. Published copy:
+https://claude.ai/artifact/V3f3xUcF359McjCEGxSjxG
